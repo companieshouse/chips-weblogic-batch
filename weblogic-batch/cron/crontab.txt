@@ -1,0 +1,6 @@
+# check that cron is working
+* * * * * echo Cron last rang on `date` > $HOME/checkCron.log 2>&1
+
+# batch-manager
+#* * * * * $HOME/batchmanager/batchmanager.sh
+
