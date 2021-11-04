@@ -25,8 +25,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/libs-release/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar -o commons-logging.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/com/oracle/ojdbc8/12.2.1.4/ojdbc8-12.2.1.4.jar -o ojdbc8.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/com/oracle/weblogic/wlthint3client/12.2.1.4/wlthint3client-12.2.1.4.jar -o wlthint3client.jar && \
-    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/batch-manager/1.0.1/batch-manager-1.0.1.jar -o ../batchmanager/batch-manager.jar
-                   
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/batch-manager/1.0.1/batch-manager-1.0.1.jar -o ../batchmanager/batch-manager.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
 WORKDIR $ORACLE_HOME
