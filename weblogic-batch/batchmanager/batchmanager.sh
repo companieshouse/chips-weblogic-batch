@@ -2,12 +2,13 @@
 
 cd /apps/oracle/batchmanager
 
+# load variables created from setCron script
 source /apps/oracle/env.variables
-
+# create properties file and substitutes values
 envsubst < batchmanager.properties.template > chips_batchmanager.properties
 
 CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/wlthint3client.jar:/apps/oracle/libs/spring.jar:/apps/oracle/libs/log4j.jar:/apps/oracle/batchmanager/batch-manager.jar
-
+# set up logging
 LOGS_DIR=../logs/batchmanager
 mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-batchmanager-$(date +'%Y-%m-%d_%H-%M-%S').log"
