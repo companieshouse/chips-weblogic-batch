@@ -1,0 +1,13 @@
+#database properties to connect to the CHIPS database
+jdbc.deploy.url=${DB_URL_CHIPSDS}
+jdbc.deploy.username=${DB_USER_CHIPSDS}
+jdbc.deploy.password=${DB_PASSWORD_CHIPSDS}
+
+#database properties to connect to the Staffware database
+jdbc.staffware.url=${DB_URL_STAFFDS}
+jdbc.staffware.username=${DB_USER_STAFFDS}
+jdbc.staffware.password=${DB_PASSWORD_STAFFDS}
+
+#psc pursuit configuration
+psc.pursuit.ipDetect=false
+psc.pursuit.ipOverride=
