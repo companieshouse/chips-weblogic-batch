@@ -26,7 +26,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/com/oracle/ojdbc8/12.2.1.4/ojdbc8-12.2.1.4.jar -o ojdbc8.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/com/oracle/weblogic/wlthint3client/12.2.1.4/wlthint3client-12.2.1.4.jar -o wlthint3client.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/batch-manager/1.0.1/batch-manager-1.0.1.jar -o ../batchmanager/batch-manager.jar && \
-    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/psc-pursuit-trigger/1.8.0/psc-pursuit-trigger-1.9.0.jar -o ../psc-pursuit-trigger/psc-pursuit-trigger.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/psc-pursuit-trigger/1.9.0/psc-pursuit-trigger-1.9.0.jar -o ../psc-pursuit-trigger/psc-pursuit-trigger.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
 WORKDIR $ORACLE_HOME
