@@ -3,3 +3,6 @@
 
 # batch-manager
 30 23 * * 1-5 $HOME/batchmanager/batchmanager.sh
+
+# psc-pursuit-trigger
+#30 03 * * 2-6 $HOME/psc-pursuit-trigger/psc-pursuit-trigger.sh
