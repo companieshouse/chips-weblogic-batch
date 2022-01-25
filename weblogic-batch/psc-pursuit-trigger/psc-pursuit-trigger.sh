@@ -19,7 +19,7 @@ exec >> ${LOG_FILE} 2>&1
 echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 echo `date` Starting psc-pursuit-trigger
 
-/usr/java/jdk-8/bin/java -Din=psc-pursuit-trigger -Dlog4j.configuration=log4j.xml -jar psc-pursuit-trigger.jar psc-pursuit-trigger.properties
+/usr/java/jdk-8/bin/java -Din=psc-pursuit-trigger -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.psc.pursuit.trigger.PscPursuitTrigger psc-pursuit-trigger.properties
 if [ $? -gt 0 ]; then
         echo "Non-zero exit code for psc-pursuit-trigger java execution"
         exit 1
