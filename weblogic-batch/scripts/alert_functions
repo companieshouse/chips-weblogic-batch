@@ -1,0 +1,79 @@
+#######################################################
+#
+# This file contains only functions for BMC Patrol
+# and email alerts
+#
+#######################################################
+
+## returns 1 if variable EMAIL_ADDRESS_CSI is unset or a blank string, otherwise 0 
+
+check_email_address_defined_f ()
+{
+  if [ -z "${EMAIL_ADDRESS_CSI}" ]; then
+    echo `date`": Unable to send email alert - no address set in EMAIL_ADDRESS_CSI."
+    return 1
+  fi
+}
+
+
+## The function patrol_log_alert_chaps_f is used to write a particular string to a remote
+## log file so that BMC Patrol can immediately alert the Oncall officer.
+##
+## If used, the CHAPLOG variable is set by UNIX_OPS in all servers .profile and loaded by at user level login.
+##
+## The function accepts an enclosed string that MUST contain:
+## patrol_log_alert_chaps_f " [path] [script_name] [helpful_text] "
+##
+## The path is used to distinguish test and live systems so one script can be used throughout
+## helpful_text must show the on-call officer what failed and where to look
+##
+## Example:
+##   patrol_log_alert_chaps_f " `pwd`/`basename $0`: LetterProducer may be already running or connection error."
+##
+
+patrol_log_alert_chaps_f ()
+{
+  if [[ ${LIVE_ENVIRONMENT} == "true" ]]; then
+    echo `date`: alert_chaps \> $1  >> /apps/oracle/alertlog/chapspatrol.log
+    if check_email_address_defined_f; then
+      echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1 \n$1" | msmtp -t
+    fi
+  fi
+}
+
+##
+## This test script writes a non-alert string to log file for testing access permissions
+##
+
+patrol_log_testharness_f ()
+{
+  echo `date`": Lets write a test string via patrol_log_test_f to chapspatrol.log."
+  ## Write a test string that will NOT kick off Patrol alarm.
+  echo `date`: TEST \> $1  >> /apps/oracle/alertlog/chapspatrol.log
+}
+
+##
+## This function will send string via email to CHAPS group.
+## This function accepts accepts two arguments.
+##
+## First is subject as an enclosed string .
+## Second is body text as an enclosed string .
+##
+## Example:
+##  email_CHAPS_group_f "Disk Space high on chpwlo-pl3" "Please check disk space on Weblogic Servers"
+
+email_CHAPS_group_f ()
+{
+  if check_email_address_defined_f; then
+    echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1 \n$2" | msmtp -t
+    echo -e "To:${EMAIL_ADDRESS_SERVICENOW}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1 \n$2" | msmtp -t
+  fi
+}
+
+
+email_report_CHAPS_group_f ()
+{
+  if check_email_address_defined_f; then
+     echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Report: $1 \n$2" | msmtp -t
+  fi
+}

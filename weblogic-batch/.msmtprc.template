@@ -1,0 +1,3 @@
+account default
+host ${MAIL_HOST}
+from ${MAIL_DEFAULT_FROM}
