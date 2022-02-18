@@ -8,7 +8,7 @@ cd /apps/oracle/bulk-image-load
 # load variables created from setCron script
 source /apps/oracle/env.variables
 
-CLOUD_IMAGES_DIR=chipsdomain/CloudImages
+CLOUD_IMAGES_DIR=../chipsdomain/CloudImages
 STUCK_FILE_LIST=/tmp/monitor_cloud_images_msg
 
 # set up logging
