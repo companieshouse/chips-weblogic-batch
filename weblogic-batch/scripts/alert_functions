@@ -5,6 +5,16 @@
 #
 #######################################################
 
+## returns 1 if variable EMAIL_ADDRESS_CSI is unset or a blank string, otherwise 0 
+
+check_email_address_defined_f ()
+{
+  if [ -z "${EMAIL_ADDRESS_CSI}" ]; then
+    echo `date`": Unable to send email alert - no address set in EMAIL_ADDRESS_CSI."
+    return 1
+  fi
+}
+
 
 ## The function patrol_log_alert_chaps_f is used to write a particular string to a remote
 ## log file so that BMC Patrol can immediately alert the Oncall officer.
@@ -24,8 +34,10 @@
 patrol_log_alert_chaps_f ()
 {
   if [[ ${LIVE_ENVIRONMENT} == "true" ]]; then
-    echo `date`: alert_chaps \> $1  >> /apps/oracle/chaplive/log/chapspatrol.log
-    echo -e "To:CSI@companieshouse.gov.uk\nFrom:CSI@companieshouse.gov.uk\nSubject:CHAPS Alert: $1 \n$1" | msmtp -t
+    echo `date`: alert_chaps \> $1  >> /apps/oracle/alertlog/chapspatrol.log
+    if check_email_address_defined_f; then
+      echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1 \n$1" | msmtp -t
+    fi
   fi
 }
 
@@ -37,7 +49,7 @@ patrol_log_testharness_f ()
 {
   echo `date`": Lets write a test string via patrol_log_test_f to chapspatrol.log."
   ## Write a test string that will NOT kick off Patrol alarm.
-  echo `date`: TEST \> $1  >> /apps/oracle/chaplive/log/chapspatrol.log
+  echo `date`: TEST \> $1  >> /apps/oracle/alertlog/chapspatrol.log
 }
 
 ##
@@ -52,16 +64,16 @@ patrol_log_testharness_f ()
 
 email_CHAPS_group_f ()
 {
-  alertemails=csi@companieshouse.gov.uk
-  echo -e "To:$alertemails\nFrom:CSI@companieshouse.gov.uk\nSubject:CHAPS Alert: $1 \n$2" | msmtp -t
-  echo -e "To:companieshouse@service-now.com\nFrom:CSI@companieshouse.gov.uk\nSubject:CHAPS Alert: $1 \n$2" | msmtp -t
-
+  if check_email_address_defined_f; then
+    echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1 \n$2" | msmtp -t
+    echo -e "To:${EMAIL_ADDRESS_SERVICENOW}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1 \n$2" | msmtp -t
+  fi
 }
 
 
 email_report_CHAPS_group_f ()
 {
-  alertemails=csi@companieshouse.gov.uk
-  echo -e "To:$alertemails\nFrom:CSI@companieshouse.gov.uk\nSubject:CHAPS Report: $1 \n$2" | msmtp -t
-
+  if check_email_address_defined_f; then
+     echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Report: $1 \n$2" | msmtp -t
+  fi
 }
