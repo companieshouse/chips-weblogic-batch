@@ -25,9 +25,11 @@ COPY --chown=weblogic weblogic-batch ${ORACLE_HOME}/
 # Download the batch libs and set permission on scripts
 RUN mkdir -p ${ORACLE_HOME}/libs && \
     cd ${ORACLE_HOME}/libs && \
-    curl ${ARTIFACTORY_BASE_URL}/libs-release/log4j/log4j/1.2.14/log4j-1.2.14.jar -o log4j.jar && \
-    curl ${ARTIFACTORY_BASE_URL}/libs-release/org/springframework/spring/2.0.7/spring-2.0.7.jar -o spring.jar && \
-    curl ${ARTIFACTORY_BASE_URL}/libs-release/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar -o commons-logging.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/virtual-release/log4j/log4j/1.2.14/log4j-1.2.14.jar -o log4j.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/virtual-release/org/apache/logging/log4j/log4j-api/2.17.1/log4j-api-2.17.1.jar -o log4j-api.jar && \    
+    curl ${ARTIFACTORY_BASE_URL}/virtual-release/org/apache/logging/log4j/log4j-core/2.17.1/log4j-core-2.17.1.jar -o log4j-core.jar && \        
+    curl ${ARTIFACTORY_BASE_URL}/virtual-release/org/springframework/spring/2.0.7/spring-2.0.7.jar -o spring.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/virtual-release/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar -o commons-logging.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/com/oracle/ojdbc8/12.2.1.4/ojdbc8-12.2.1.4.jar -o ojdbc8.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/com/oracle/weblogic/wlfullclient/12.2.1.4/wlfullclient-12.2.1.4.jar -o wlfullclient.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/chaps/jms/jmstool/0.0.1/jmstool-0.0.1.jar -o jmstool.jar && \
