@@ -2,8 +2,11 @@
 
 cd /apps/oracle/bulk-image-load
 
-# load variables created from setCron script
+# load variables created from setCron script - being careful not to overwrite HOME as msmtp mail process uses it to find config
+KEEP_HOME=${HOME}
 source /apps/oracle/env.variables
+HOME=${KEEP_HOME}
+
 # create properties file and substitutes values
 envsubst < bulk-image-load.properties.template > bulk-image-load.properties
 
