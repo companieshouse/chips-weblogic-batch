@@ -23,7 +23,7 @@ echo `date` Starting clear-cloud-images-dir
 
 find $CLOUD_IMAGES_DIR/ -type f -mtime +0.5 > $STUCK_FILE_LIST
 
-echo "\n\nThe following docs are stuck in CloudImages on $HOSTNAME `date +%d/%m/%y`  please investigate" >> $LOG_FILE
+echo "Deleting the following docs that are stuck in CloudImages on $HOSTNAME `date +%d/%m/%y`" >> $LOG_FILE
 
 if [ -s $STUCK_FILE_LIST ]
 then
