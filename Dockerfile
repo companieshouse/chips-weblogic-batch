@@ -17,7 +17,7 @@ RUN mkdir -p /apps && \
     chmod a+xr /apps && \
     useradd -d ${ORACLE_HOME} -m -s /bin/bash weblogic
 
-USER weblogic 
+USER weblogic
 
 # Copy all batch jobs to ORACLE_HOME
 COPY --chown=weblogic weblogic-batch ${ORACLE_HOME}/
