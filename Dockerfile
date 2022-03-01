@@ -17,7 +17,7 @@ RUN mkdir -p /apps && \
     chmod a+xr /apps && \
     useradd -d ${ORACLE_HOME} -m -s /bin/bash weblogic
 
-USER weblogic
+USER weblogic 
 
 # Copy all batch jobs to ORACLE_HOME
 COPY --chown=weblogic weblogic-batch ${ORACLE_HOME}/
@@ -35,6 +35,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/chaps/jms/jmstool/0.0.1/jmstool-0.0.1.jar -o jmstool.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/batch-manager/1.0.1/batch-manager-1.0.1.jar -o ../batchmanager/batch-manager.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/psc-pursuit-trigger/1.9.0/psc-pursuit-trigger-1.9.0.jar -o ../psc-pursuit-trigger/psc-pursuit-trigger.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/image-regeneration/1.2.3/image-regeneration-1.2.3.jar -o ../image-regeneration/image-regeneration.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/bulk-image-load/1.0.2/bulk-image-load-1.0.2.jar -o ../bulk-image-load/bulk-image-load.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
