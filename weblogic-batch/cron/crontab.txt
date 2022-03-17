@@ -8,7 +8,7 @@
 30 03 * * 2-6 $HOME/psc-pursuit-trigger/psc-pursuit-trigger.sh
 
 ## Overnight job to clear any images stuck in CloudImages
-#15 03 * * * $HOME/bulk-image-load/clear-cloud-images-dir.sh
+15 03 * * * $HOME/bulk-image-load/clear-cloud-images-dir.sh
 ## Daily bulk-image-load job to run after dps_in
-#30 05 * * * $HOME/bulk-image-load/bulk-image-load.sh
-#45 14 * * * $HOME/bulk-image-load/bulk-image-load.sh
+30 05 * * * $HOME/bulk-image-load/bulk-image-load.sh
+45 14 * * * $HOME/bulk-image-load/bulk-image-load.sh
