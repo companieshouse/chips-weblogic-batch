@@ -23,7 +23,7 @@
 transactionIdsFile=transaction_ids
 scriptLogFile=${transactionIdsFile}.log
 
-./image-regeneration.sh standard_image_regen ${transactionIdsFile} >  ${scriptLogFile} 2>&1
+./image-regeneration.sh fes_image_regen ${transactionIdsFile} >  ${scriptLogFile} 2>&1
 status=$?
 
 if [ $status -gt 0 ]; then
