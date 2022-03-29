@@ -1,0 +1,5 @@
+running-servers/
+
+# Eclipse files
+.project
+.settings
