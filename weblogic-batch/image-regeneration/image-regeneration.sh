@@ -66,7 +66,7 @@ LOG_FILE="${LOGS_DIR}/${HOSTNAME}-image-regeneration-$(date +'%Y-%m-%d_%H-%M-%S'
 
 # Enable std Cloud batch logging via stdout whilst also supporting ability for invoking scripts to capture it too
 # so that calling script can redirect stdout too thus be able to log independently.
-# exec > chages stdout to refer to what comes next
+# exec > changes stdout to refer to what comes next
 # being process substitution of >(tee "${LOG_FILE}") to feed std program input 
 # 2>&1 to redirect stderr to same place as stdout
 # Net impact is to changes current process std output so output from following commands goto the tee process
@@ -96,7 +96,7 @@ then
   f_logInfo "Selected image regeneraton of STANDARD image/s"
 elif [ "$imageRegenerationType" = "fes_image_regen" ]
 then
-  IMAGE_REGENERATE_CLIENT_NAME=uk.gov.companieshouse.imaging.FESImagingRegenerateClient
+  IMAGE_REGENERATE_CLIENT_NAME="uk.gov.companieshouse.imaging.FESImagingRegenerateClient"
   f_logInfo "Selected image regeneraton of FES image/s"
 else
   f_logError "Invalid value for imageRegenerationType was supplied. Value supplied was: %s" "${imageRegenerationType}"
