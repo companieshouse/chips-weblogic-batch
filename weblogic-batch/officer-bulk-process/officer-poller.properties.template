@@ -1,0 +1,15 @@
+-- **********************************************************
+-- JMS configuration for the anticipated live environment
+
+-- **********************************************************
+
+jms.jndiContextFactory=${JMS_JNDICONTEXTFACTORY}
+
+jms.queueConnectionFactoryName=${JMS_QUEUECONNECTIONFACTORYNAME}
+jms.queueName=${JMS_OFFICEREVENTQUEUE}
+
+-- should ALWAYS be false for the live environment
+officer.contextProxyEnabled=false
+
+-- database jndi name
+db.datasource=chipsBulkDS
