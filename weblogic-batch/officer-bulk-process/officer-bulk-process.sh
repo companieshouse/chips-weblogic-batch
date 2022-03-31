@@ -121,6 +121,17 @@ if [[ ${RUN_STAGE_ONE} == "true" ]]; then
                 exit 1
         fi
 
+        ## Check that BPP timestamp order is as expected for EVENT stage
+        ./check-bpp-timestamps-order.command "BULK_EVENT_TMSP BULK_MERGE_TMSP BULK_PUB_TMSP"
+
+        if [ $? -gt 0 ]; then
+                echo "Non-zero exit code for check-bpp-timestamps-order.command - BPP timestamp order not as expected "
+                remove_running_lock_file
+                set_error_lock_file
+                email_CHAPS_group_f " $(pwd)/$(basename $0): Non-zero exit code for check-bpp-timestamps-order.command - BPP timestamp order not as expected "
+                exit 1
+        fi
+
         ## Run FIRST stage of Officer job - EVENT
         echo "Run FIRST stage of Officer job - EVENT  - normal mode"
 
@@ -150,6 +161,17 @@ fi
 
 if [[ ${RUN_STAGE_TWO} == "true" ]]; then
 
+        ## Check that BPP timestamp order is as expected for MERGE stage
+        ./check-bpp-timestamps-order.command "BULK_MERGE_TMSP BULK_PUB_TMSP BULK_EVENT_TMSP"
+
+        if [ $? -gt 0 ]; then
+                echo "Non-zero exit code for check-bpp-timestamps-order.command - BPP timestamp order not as expected "
+                remove_running_lock_file
+                set_error_lock_file
+                email_CHAPS_group_f " $(pwd)/$(basename $0): Non-zero exit code for check-bpp-timestamps-order.command - BPP timestamp order not as expected "
+                exit 1
+        fi
+
         ## Run SECOND stage of Officer job - MERGE
         echo "Run SECOND stage of Officer job - MERGE - catchup mode"
         /usr/java/jdk-8/bin/java -Din=officer-bulk-process -cp $CLASSPATH -Dlog4j.configurationFile=log4j2.xml \
@@ -177,6 +199,17 @@ if [[ ${RUN_STAGE_TWO} == "true" ]]; then
 fi
 
 if [[ ${RUN_STAGE_THREE} == "true" ]]; then
+
+        ## Check that BPP timestamp order is as expected for PUBLISH stage
+        ./check-bpp-timestamps-order.command "BULK_PUB_TMSP BULK_EVENT_TMSP BULK_MERGE_TMSP"
+
+        if [ $? -gt 0 ]; then
+                echo "Non-zero exit code for check-bpp-timestamps-order.command - BPP timestamp order not as expected "
+                remove_running_lock_file
+                set_error_lock_file
+                email_CHAPS_group_f " $(pwd)/$(basename $0): Non-zero exit code for check-bpp-timestamps-order.command - BPP timestamp order not as expected "
+                exit 1
+        fi
 
         ## Check to make sure we cleared OFFICER_EVENT_MATCH on previous MERGE stage i.e. are there any rows left in OFFICER_EVENT_MATCH
         echo Running check to make sure we did finish MERGE stage
