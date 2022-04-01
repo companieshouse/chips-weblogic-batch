@@ -66,7 +66,7 @@ email_CHAPS_group_f ()
 {
   if check_email_address_defined_f; then
     echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1\n\n$2" | msmtp -t
-    echo -e "To:${EMAIL_ADDRESS_SERVICENOW}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1\n\n$2" | msmtp -t
+    echo -e "To:${EMAIL_ADDRESS_SERVICE_NOW}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1\n\n$2" | msmtp -t
   fi
 }
 

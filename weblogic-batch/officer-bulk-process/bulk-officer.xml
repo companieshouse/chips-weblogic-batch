@@ -1,0 +1,40 @@
+<officer-bulk-configuration>
+    <mergeThreshold>100</mergeThreshold>
+    <workItemSize>19</workItemSize>
+    <workItemGroupThreshold>15</workItemGroupThreshold>
+    <firstTimeLetterSuppressed>true</firstTimeLetterSuppressed>
+    <deduplicationSuppressed>false</deduplicationSuppressed>
+    <username>weblogic</username>
+
+    <bulkCriterias>
+        <bulkCriteria>
+            <exactCriteriaName>uk.gov.ch.chips.server.director.search.bulk.FullDuplicateCriteria</exactCriteriaName>
+            <exactEnabled>true</exactEnabled>
+            <aliasCriteriaName>uk.gov.ch.chips.server.director.search.bulk.FullDuplicateAliasCriteria</aliasCriteriaName>
+            <aliasEnabled>false</aliasEnabled>
+        </bulkCriteria>
+        <bulkCriteria>
+            <exactCriteriaName>uk.gov.ch.chips.server.director.search.bulk.MissingStreetDuplicateCriteria</exactCriteriaName>
+            <exactEnabled>true</exactEnabled>
+            <aliasCriteriaName>uk.gov.ch.chips.server.director.search.bulk.MissingStreetDuplicateAliasCriteria</aliasCriteriaName>
+            <aliasEnabled>false</aliasEnabled>
+        </bulkCriteria>
+        <bulkCriteria>
+            <exactCriteriaName>uk.gov.ch.chips.server.director.search.bulk.MissingPostcodeDuplicateCriteria</exactCriteriaName>
+            <exactEnabled>true</exactEnabled>
+            <aliasCriteriaName>uk.gov.ch.chips.server.director.search.bulk.MissingPostcodeDuplicateAliasCriteria</aliasCriteriaName>
+            <aliasEnabled>false</aliasEnabled>
+        </bulkCriteria>
+        <bulkCriteria>
+            <exactCriteriaName>uk.gov.ch.chips.server.director.search.bulk.MissingBirthDateDuplicateCriteria</exactCriteriaName>
+            <exactEnabled>true</exactEnabled>
+            <aliasCriteriaName>uk.gov.ch.chips.server.director.search.bulk.MissingBirthDateDuplicateAliasCriteria</aliasCriteriaName>
+            <aliasEnabled>false</aliasEnabled>
+        </bulkCriteria>
+        <bulkCriteria>
+            <exactCriteriaName>uk.gov.ch.chips.server.director.search.bulk.FuzzyNameAndStreetDuplicateCriteria</exactCriteriaName>
+            <exactEnabled>true</exactEnabled>
+            <aliasEnabled>false</aliasEnabled>
+        </bulkCriteria>
+    </bulkCriterias>
+</officer-bulk-configuration>
