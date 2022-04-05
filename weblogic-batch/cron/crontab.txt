@@ -14,7 +14,7 @@
 45 14 * * * $HOME/bulk-image-load/bulk-image-load.sh
 
 # officer-bulk-process
-# 00 04 * * 0-6 $HOME/officer-bulk-process/officer-bulk-process./sh
+# 00 04 * * 0-6 $HOME/officer-bulk-process/officer-bulk-process.sh
 
 ## Officer Lock file reminder
 # 30 15 * * * $HOME/officer-bulk-process/check-lock-file-reminder.sh
