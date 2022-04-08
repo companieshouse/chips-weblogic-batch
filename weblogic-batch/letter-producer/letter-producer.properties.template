@@ -1,0 +1,3 @@
+letterProducer.provider.url=${JMS_JNDIPROVIDERURL}
+letterProducer.security.principal=${WEBLOGIC_ADMIN_USERNAME}
+letterProducer.security.credentials=${ADMIN_PASSWORD}
