@@ -29,9 +29,11 @@ source /apps/oracle/scripts/logging_functions
 ./image-regeneration.sh standard_image_regen ${transactionIdsFile} >  ${scriptLogFile} 2>&1
 status=$?
 
-if [ $status -gt 0 ]; then
-    f_logError "Non-zero exit code of %s for imageRegenerateClient.sh execution. Check the script log file for error details: %s" $status ${scriptLogFile}
+if [ $status -gt 0 ]
+then
+    f_logError "Non-zero exit code of %s for imageRegenerateClient.sh execution. Check the script log file for error details: %s" ${status} ${scriptLogFile}
     exit 1
 else 
     f_logInfo "Successfully completed imageRegenerateClient.sh execution. Check the script log file for results: %s" ${scriptLogFile}
 fi
+
