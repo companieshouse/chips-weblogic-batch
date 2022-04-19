@@ -5,14 +5,11 @@ KEEP_HOME=${HOME}
 source /apps/oracle/env.variables
 HOME=${KEEP_HOME}
 
-# create properties file and substitutes values
-envsubst < psc-pursuit-trigger.properties.template > psc-pursuit-trigger.properties
-
 LIBS_DIR=/apps/oracle/libs
 CLASSPATH=${CLASSPATH}:.:${LIBS_DIR}/log4j-api.jar:${LIBS_DIR}/log4j-core.jar:${LIBS_DIR}/ojdbc8.jar:/apps/oracle/psc-pursuit-trigger/psc-pursuit-trigger.jar
 
 # Set up mail config for msmtp & load alerting functions
-envsubst < ../.msmtprc.template > ../.msmtprc
+envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
 source /apps/oracle/scripts/alert_functions
 source /apps/oracle/scripts/logging_functions
 
@@ -24,6 +21,9 @@ LOG_FILE="${LOGS_DIR}/${HOSTNAME}-psc-pursuit-trigger-$(date +'%Y-%m-%d_%H-%M-%S
 exec >> "${LOG_FILE}" 2>&1
 
 cd /apps/oracle/psc-pursuit-trigger || { f_logError "psc-pursuit-trigger directory error" ; exit 1 ; }
+
+# create properties file and substitutes values
+envsubst < psc-pursuit-trigger.properties.template > psc-pursuit-trigger.properties
 
 f_logInfo  "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting psc-pursuit-trigger"
