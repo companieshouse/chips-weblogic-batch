@@ -95,21 +95,22 @@ check_running_lock_file
 ## Set running file to prevent duplicate running
 set_running_lock_file
 
-## Check to make sure we did not time out on previous PUBLISH stage i.e. are there any -10000 WORK_ITEM_REFERENCE
-echo Running check to make sure we did not time out on previous PUBLISH stage
-./check-officer-publish-finished.command
-
-if [ $? -gt 0 ]; then
-        echo "Non-zero exit code for check-officer-publish-finished.command"
-        remove_running_lock_file
-        set_error_lock_file
-        email_CHAPS_group_f " $(pwd)/$(basename $0): Non-zero exit code for check-officer-publish-finished.command. "
-        exit 1
-fi
-
 ## REAL WORK BEGINS
 
 if [[ ${RUN_STAGE_ONE} == "true" ]]; then
+
+        ## Check to make sure we did not time out on previous PUBLISH stage i.e. are there any -10000 WORK_ITEM_REFERENCE
+        echo Running check to make sure we did not time out on previous PUBLISH stage
+        ./check-officer-publish-finished.command
+
+        if [ $? -gt 0 ]; then
+                echo "Non-zero exit code for check-officer-publish-finished.command"
+                remove_running_lock_file
+                set_error_lock_file
+                email_CHAPS_group_f " $(pwd)/$(basename $0): Non-zero exit code for check-officer-publish-finished.command. "
+                exit 1
+        fi
+
         echo Running reset Batch process parameters
         ./reset-director-bpp.command
 
