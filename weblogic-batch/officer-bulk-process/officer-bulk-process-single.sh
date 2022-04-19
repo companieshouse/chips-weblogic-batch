@@ -9,7 +9,7 @@
 #   update OFFICER_EVENT_MATCH o set o.EVENT_TMSP=to_date('28-MAR-2008','DD-MON-YYYY')  -- this is Catchup date
 #   where o.EVENT_TMSP = to_date('04-DEC-2008 13:31:26','DD-MON-YYYY HH24:MI:SS')       -- this is runtime (Today) date
 #
-#   After this run, then you just run normal Officer Catchup, which will pick these up.
+#   After this run, then you just run normal Officer Catchup (stages 2 & 3), which will pick these up.
 
 function check_error_lock_file {
   if [ -f /apps/oracle/officer-bulk-process/OFFICER_LOCK_FILE_ALERT ]; then
