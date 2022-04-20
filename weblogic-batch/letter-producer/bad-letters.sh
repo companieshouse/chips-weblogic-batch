@@ -15,16 +15,14 @@ source ../scripts/alert_functions
 LOGS_DIR=../logs/letter-producer
 mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-bad-letters-$(date +'%Y-%m-%d_%H-%M-%S').log"
+source /apps/oracle/scripts/logging_functions
 
 exec >> ${LOG_FILE} 2>&1
 
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo `date` Starting bad-letters
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+f_logInfo "Starting bad-letters"
 
-# TODO: below here needs to be re-worked for cloud migration:
-#   - considering directory / mount availablity
-
-cd $HOME/wlenvp1domain/batch/letterProducerOutput
+cd /apps/oracle/chipsdomain/batch/letterProducerOutput
 
 find . -name '*.xml' -type f -print | grep -v large_font | grep -v schedule |  grep -v DissCerts | grep '_'>/tmp/bad_letters
 
@@ -32,7 +30,7 @@ cut -c30-39 /tmp/bad_letters>/tmp/bad_letter_id
 
 cat /tmp/bad_letter_id
 
-email_report_CHAPS_group_f ("Weekly Bad Letter Ids","`cat /tmp/bad_letter_id`")
+email_report_CHAPS_group_f "Weekly Bad Letter Ids" "`cat /tmp/bad_letter_id`"
 
-echo `date` Ending bad-letters
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+f_logInfo "Ending bad-letters"
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

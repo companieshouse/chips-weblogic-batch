@@ -15,17 +15,15 @@ source ../scripts/alert_functions
 LOGS_DIR=../logs/letter-producer
 mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-letter-counts-$(date +'%Y-%m-%d_%H-%M-%S').log"
+source /apps/oracle/scripts/logging_functions
 
 exec >> ${LOG_FILE} 2>&1
 
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo `date` Starting letter-counts
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+f_logInfo "Starting letter-counts"
 DATE=`date +%Y-%m-%d`
 
-# TODO: below here needs to be re-worked for cloud migration:
-#   - considering directory / mount availablity
-
-DIR=`ls -d $HOME/wlenvp1domain/batch/doc1ProducerOutput/$DATE*`
+DIR=`ls -d /apps/oracle/chipsdomain/batch/doc1ProducerOutput/$DATE*`
 
 #Non zero exit code
 if [ ! $? -eq 0 ] ; then
@@ -33,7 +31,7 @@ if [ ! $? -eq 0 ] ; then
   exit 1
 fi
 
-echo "$DIR"
+f_logInfo "$DIR"
 cd "$DIR"
 
 #Clear letter_tots file
@@ -53,7 +51,7 @@ done
 #Sort file, and strip out leading dot slash (./)
 sort /tmp/letter_tots | sed 's/.\///' > /tmp/letter_no_tots
 
-email_report_CHAPS_group_f ("Daily Letters File Sent to APS","`cat /tmp/letter_no_tots`")
+email_report_CHAPS_group_f "Daily Letters File Sent to APS" "`cat /tmp/letter_no_tots`"
 
-echo `date` Ending letter-counts
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+f_logInfo "Ending letter-counts"
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
