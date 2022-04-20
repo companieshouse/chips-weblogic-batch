@@ -20,17 +20,20 @@
 #  A log file, called <filename>.log will be created.
 #
 # =============================================================================
+
 transactionIdsFile=transaction_ids
 scriptLogFile=${transactionIdsFile}.log
+
+source /apps/oracle/scripts/logging_functions
 
 ./image-regeneration.sh fes_image_regen ${transactionIdsFile} >  ${scriptLogFile} 2>&1
 status=$?
 
-if [ $status -gt 0 ]; then
-    echo "Non-zero exit code for fesImageRegenerateClient.sh execution. Check the script log file for error details: ${scriptLogFile}"
+if [ $status -gt 0 ]
+then
+    f_logError "Non-zero exit code of %s for fesImageRegenerateClient.sh execution. Check the script log file for error details: %s" ${status} ${scriptLogFile}
     exit 1
 else 
-    echo "Successfully completed fesImageRegenerateClient.sh execution. Check the script log file for results: ${scriptLogFile}"
+    f_logInfo "Successfully completed fesImageRegenerateClient.sh execution. Check the script log file for results: %s" ${scriptLogFile}
 fi
-
 
