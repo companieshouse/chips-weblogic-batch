@@ -1,0 +1,9 @@
+jdbc.deploy.url=${DB_URL_CHIPSDS}
+jdbc.deploy.username=${DB_USER_CHIPSDS}
+jdbc.deploy.password=${DB_PASSWORD_CHIPSDS}
+
+#Flag to allow certain letters to be directed to another file to bypass the AFP production
+conditional.redirect=false
+#If conditional redirect is true, flag for whether company details are preloaded into collection to improve performance
+# may need to be turned off if too many companies cause memory issues
+preload.redirected.companies=true
