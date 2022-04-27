@@ -1,0 +1,24 @@
+#database properties to connect to the CHIPS database
+jdbc.deploy.url=${DB_URL_CHIPSDS}
+jdbc.deploy.username=${DB_USER_CHIPSDS}
+jdbc.deploy.password=${DB_PASSWORD_CHIPSDS}
+
+#database properties used for junit testing
+jdbc.test.url=jdbc:oracle:thin:@${jdbc.test.host}:${jdbc.test.port}:${jdbc.test.SID}
+jdbc.test.username=${jdbc.test.username}
+jdbc.test.password=${jdbc.test.password}
+
+#database properties to connect to the Staffware database
+jdbc.staffware.url=${DB_URL_STAFFDS}
+jdbc.staffware.username=${DB_USER_STAFFDS}
+jdbc.staffware.password=${DB_PASSWORD_STAFFDS}
+
+#compliance trigger configuration
+compliance.trigger.delay=${COMPLIANCE_TRIGGER_DELAY}
+compliance.trigger.ipdetect=${COMPLIANCE_TRIGGER_IPDETECT}
+compliance.trigger.pause=${COMPLIANCE_TRIGGER_PAUSE}
+compliance.trigger.eventlimit=${COMPLIANCE_TRIGGER_EVENTLIMIT}
+compliance.trigger.casesatonce=${COMPLIANCE_TRIGGER_CASESATONCE}
+
+#log4jConfig file location
+log4j.config=log4jconfig.xml

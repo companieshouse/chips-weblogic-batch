@@ -21,6 +21,10 @@
 ## Check Zombie Officer in chipstab.officer_detail_match
 30 15 * * * $HOME/officer-bulk-process/check--10000-exists.sh 2>&1 >/dev/null
 
+## Compliance Only run on Sat-Sun
+## DONT CHANGE THIS - COMMENT IT OUT IF THERE IS A WEEKEND IR - IT DOESNT HAVE TO RUN
+# 01 00 * * 0,1 $HOME/compliance-trigger/compliance-trigger.sh
+
 ## letter-counts that follow letter-producer
 # 00 06 * * 1 $HOME/letter-producer/bad-letters.sh
 # 15 04 * * 2-6 $HOME/letter-producer/letter-counts.sh
