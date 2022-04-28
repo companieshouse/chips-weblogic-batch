@@ -63,5 +63,5 @@ function f_logWarn {
 function f_log {
   typeset logLevel=$1; shift
   typeset logTemplate=$1; shift
-  printf "%-24s %-5s $logTemplate\n" "$(date --iso-8601=seconds)" "$logLevel"  "$@"  
+  printf "%-23s %s %-5s $logTemplate\n" "$(date +%FT%T,%3N)" "[${0##*/}]" "$logLevel"  "$@"
 }

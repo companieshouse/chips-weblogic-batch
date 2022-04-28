@@ -1,0 +1,1380 @@
+<!-- ***************************************************************************************************
+doc1-producer-config.xml - This is the configuration file used by the Doc1Producer Utility program,
+                          to generate DOC1 letters.(Logica-Bridgend)
+
+    Version     Author                Description
+    ######      #######               ############
+    1.0         PBC, nelias, mwood,   09/03/06-created
+    1.1         vkumba, dbateman,
+                pfrancis               18/07/06-changed the field startpositions,
+                                       Added this comment, removed housename, street, area etc...
+                                       added the new addr fields(addr_line_1 to addr_line_5)
+    1.2         vkumba                 changed the corporate body occurrence to 1.
+    1.3         vkumba                 removed the default attributes for compliance letters
+    1.4         vkumba                 01/08/06-changed the corporate_body_name length to 160,
+                                                removed DESP_DATE_TEXT field,
+                                                changed the start position for issue date to
+                                                use the desp_date_text field start date
+    1.5         dbateman               02/08/06	-added CES21A configuration type.
+    1.6         dbateman               02/08/06-added 652AB configuration type to Dissolution Config.
+    1.7         dbateman               02/08/06-added 652AC Configuration type to Dissolution Config.
+    1.8         vkumba                 02/08/06-added the includePostCodeInAddress attribute to category,
+                                                 removed the optional attributes for the dissolution letters
+    1.9         vkumba                 03/08/06-changed the foldername/filenames
+    2.0         vkumba                 04/08/06-Added missing dissolution entries
+    2.1         vkumba                 07/08/06-Added some more dissolution entries
+	2.2         vkumba                 08/08/06-Removed Diss16 from Compliance
+	2.3         vkumba                 09/08/06-Changed ARD,DEF3,DEF3R,DEF3S entries based
+	                                            on logica's feedback.
+    2.4         vkumba                 09/08/06-Moved the RECORDED_DELIVERY field to the last in Compliance
+												Category, startPos=1018(10 chars)
+    2.5         vkumba                 10/08/06-Reverted the RECORDED_DELIVERY field's startpos(8 chars)
+	                                            Added the SECTION_ID(2 chars). The total length to be 1017 again.
+    2.6         vkumba                 14/08/06-Made the dissolution changes as per logica's feedback
+	2.7         vkumba                 15/08/06-Refactored prosecution field mappings
+	2.8         vkumba                 17/08/06-Added the PF Letter entries with Lyn.
+	2.9         vkumba                 17/08/06-Added the barcode field to dissolution letters.
+	3.0         vkumba                 18/08/06-Added the RECEIPIENT_NAME for 652AF, 652AB, DEF6, DEF6A, DEF6 REISSSUE,
+	                                            WITH letters.
+	3.1         vkumba				   18/08/06-Moved the RECIPIENT_NAME to the common section in dissolution
+	                                            and moved the FORENAME, SURNAME fields only to 652AISS, 652CISS letters.
+												Added address elements to CES3.
+    3.2         vkumba                 21/08/06-Added the lay_date1, lay_date2 fields also to prosecution.
+	3.3         vkumba                 21/08/06-Added telephone_no field to prosecution.
+	3.4         vkumba                 21/08/06-Merged Dean's changes for HSOL34, HSOL8 and PF Letter for prosecution.
+	3.5         vkumba                 22/08/06-Fixed a few prosecution missing fields.
+	3.6         vkumba                 22/08/06-Inserted a space USER_FIRST_NAME, USER_LAST_NAME for DEB79
+	3.7         vkumba                 29/08/06-Added ISSUE_DATE for DEF6 letter
+	3.8         vkumba                 05/09/06-Merged Dean's changes for dissolution.
+	3.9         vkumba                 13/09/06-Merged Dean's Liquidation changes,
+	                                            Added CHIPS_COMP_TYPE for RES02 letter.
+    4.0         vkumba                 14/09/06-Added C25C for dissolution.
+	                                            Note: C25A, C25B, C25(Liq) are decommissioned now.
+    4.1         vkumba                 14/09/06-Added shuttle letter.
+	4.2         vkumba                 14/09/06-Refactored lay_date(prosecution) fields and RES02 - comp_type field.
+	4.3         vkumba                 19/09/06-Modified the shuttle letter to the correct layout.
+    4.4         vkumba                 19/09/06-Modified CES3 letter mappings.
+	4.5         vkumba                 22/09/06-Added comments about REMAA.
+	4.6         vkumba                 27/09/06-Added the file names
+	4.7         vkumba                 28/09/06-Changed the startpos for ACCOUNTING_PERIOD_DATE in DEB79 letter,
+	                                            removed ACCOUNTS_END_DATE field, corrected the typo in
+												ACCOUNT_PERIOD_START
+    4.8         vkumba                 28/09/06-Corrected the line length for DEB79 and removed the
+												old unused field mappings
+    4.9         vkumba                 02/10/06-Fixed DEB79 issues and the line length for PF letter
+	5.0         vkumba                 04/10/06-Fixed DEB79 issues, Added the PREV_ISSUED_DATE field for
+	                                            liquidation letters,
+    5.1         vkumba                 04/10/06-Added WSO letter
+	5.2         vkumba                 05/10/06-Added filenames for WSO letter
+	5.3         vkumba                 06/10/06-Added fields to RES01, RES02, SHUREP letters
+	5.4         vkumba                 10/10/06-Added filenames for CES3 letter
+	5.5         vkumba                 11/10/06-Sorted some missing filenames with Lyn.
+	5.6         vkumba                 12/10/06-Sorted the DEF49 filenames
+	5.7         vkumba                 23/10/06-Reduced the address elements length to 32 chars,
+	                                            so that it fits into the window envelope of the letter.
+	5.8         vkumba                 23/10/06-Converted a few dissolution letters to certificates
+	5.9         vkumba                 24/10/06-Renamed all lowercase scottish filenames to uppercase
+	6.0         vkumba                 27/10/06-Reverted the filenames for CES3
+	6.1         vkumba                 30/10/06-Set the Justification to 'R' for NumberOfDocs field in BH letter
+	6.2         vkumba                 10/11/06-Modified the Offence1, Offence2 fields for HSOL1 letter.
+	6.3         vkumba                 11/12/06-Changed the Issue date for DEF6A
+	6.4			nelias				   12/09/2007 USER_FIRST_NAME + USER_LAST_NAME could be more than 25 characters
+	                                   allocated, the logic of concatination and the rule if it is more than 25 character
+	                                   is done in LetterProducer.AbstractLetterGeneratorImpl.addUserDetailsToXML()
+	                                   the field produced is USER_NAME.
+        6.5         scockram               17/03/2008-Changed WCOMPLET to WCOMPLETT
+        6.6         scockram               Brought in line with live config
+        6.7         jmetherell             Merged in Tim Jones changes for R56260 Chips.6.5.0.034\patches\192
+        6.8         wpletcher              For pfrancis changed welshfile="SHUTTLES/CHSHUREP"        
+   		    slogan	 	   For Scottish printing in Bridgend
+	  	    slogan	     	   R108720 - To direct Scottish PF file to Bridgend
+	  	    slogan 18/06/2012      To put the double pen flag back in, looks like it was removed due to a regression issue
+	  	    slogan 20/05/2014      To write Welsh NOINSERT data to WNOINSRT                                               
+            mpitten 08/02/2016    Added COMPLY_CONFIRM_STAT_EFF_DATE for compliance category letters and increased line length to include these new dates.
+            rgarcia 18/11/2016    New letter types STATEMENT IN DEFAULT and MISSING PSC INFORMATION
+            cmorgan 13/12/2016    Added welsh SHUREPs to WSHUREP file and renamed REMAR2 variables to confirmation statement appropriate names
+******************************************************************************************************* -->
+<!-- Notes:
+1. padChar, justification, occurrence, multiJoin, findfirst attributes are optional atributes for the
+   map elements in the fieldsMaps.
+   default values are padChar="", justification="L", occurrence="1", multijoin="",
+                      findFirst="N"
+   Similarly attributes padChar, justification are optional to fixedMap elements.
+
+2. Attributes values for ewfile, scfile, welshfile, fofile should be valid filepathnames.
+   eg: foldername/filename (only use a forward slash '/', so that creation of folders
+       by JRE works fine on both windows & unix envs.
+
+3. The foll. input fields:
+      CAREOF, SUPPLIED_COMPANY_NAME, PO_BOX, STREET, HOUSE_NAME_NUMBER, AREA, POST_TOWN,
+	  REGION, COUNTRY_NAME, POST_CODE
+   map to the foll. output fields:
+      ADDR_LINE_1, ADDR_LINE_2, ADDR_LINE_3, ADDR_LINE_4
+
+   The includePostCodeInAddress="Y" attribute denotes that the 4 output address lines include
+   the postcode also.If this flag is set to N, then post code is excluded.
+   Usually for all doc1 letters, post code is included, so set to Y.(default)
+
+4. The attribute findFirst="Y", denotes that the element occuring multiple times,
+   be read only once if it's value is non-empty. The element can occur multiple times, but only the
+   first non-empty value is read. (used only in Compliance to fix the ACCOUNTS_FLAG, RETURNS_FLAG problem)
+
+5. Keep this config file simple and tidy.
+    -->
+<letters>
+	<!-- ***************************************************************************************************
+	     COMPLIANCE LETTERS
+	     *************************************************************************************************** -->
+	<letter types="default-compliance" category="compliance" 
+	                                   ewfile="CHLETTER/COMPLETT"
+			                           welshfile="CHLETTER/WCOMPLETT" 
+			                           scfile="SCOTLAND/DOC1DATA/SCOTDOC1" 
+			                           nifile="NICOMP/DOC1DATA/NICOMP" 
+									   fofile="CHLETTER/FO_COMP_ERROR" 
+									   lineLength="1335"
+									   startSeq="1" 
+									   seqPos="856" 
+									   includePostCodeInAddress="Y" >
+		<fixedMaps>
+			<fixedMap start="1" length="6" value="107000"/>
+		</fixedMaps>
+		<fieldMaps>
+            <!-- padChar, justification, occurrence, multiJoin attributes are optional atributes now -->
+            <!-- if not defined, they their default values are used -->
+            <map srcElement="CORPORATE_BODY_NAME" start="175" length="160"/>
+            <map srcElement="LETTER_CODE" start="484" length="3"/>
+
+            <!-- when is letter_date used? -->
+			<map srcElement="LETTER_DATE" start="487" length="10"/>
+			<map srcElement="LETTER_ACCDEF" start="497" length="10"/>
+			<map srcElement="COMPLY_ACCOUNTS_EFF_DATE" start="527" length="10" occurrence="10"/>
+			<!-- 5 * 10, only max 5 fields is supported, if more annual accounts dates are needed,
+                         then we need to change the template with logica team -->
+			<map srcElement="COMPLY_ANNUAL_RETURN_EFF_DATE" start="577" length="10" occurrence="10"/>			
+			<!-- 5 * 10 -->
+			<map srcElement="USER_NAME" start="631" length="25" />
+			<map srcElement="RECORDED_DELIVERY" start="656" length="8"/>
+			<map srcElement="ARD" start="704" length="5"/>
+			<map srcElement="SECTION_ID" start="726" length="2"/>
+            <!-- seqPos, lett_no, !letter_number! all three fields use the same start position? -->
+			<map srcElement="LETT_NO" start="856" length="4"/>
+			<map srcElement="ISSUE_DATE" start="860" length="20"/>
+			<map srcElement="WELSH_FLAG" start="880" length="1"/>
+			<map srcElement="ACCOUNTS_FLAG" start="881" length="1" findFirst="Y"/>
+			<map srcElement="RETURNS_FLAG" start="882" length="1" findFirst="Y"/>
+			<map srcElement="INCORPORATION_NUMBER" start="995" length="10"/>
+			<map srcElement="USER_TEL_EXT" start="1005" length="11"/>
+            <map srcElement="COMP_TYPE" start="1016" length="2"/>
+            <map srcElement="COMPLY_CONFIRM_STAT_EFF_DATE" start="1018" length="10" occurrence="10"/>
+            
+            <map srcElement="ADDR_LINE_1" start="1076" length="50"/>
+            <map srcElement="ADDR_LINE_2" start="1126" length="50"/>
+            <map srcElement="ADDR_LINE_3" start="1176" length="50"/>
+            <map srcElement="ADDR_LINE_4" start="1226" length="50"/>
+            <map srcElement="ADDR_LINE_5" start="1276" length="50"/>
+            <map srcElement="TRANSACTION_ID" start="1326" length="10"/>
+          
+		</fieldMaps>
+	</letter>
+
+    <!-- ARD letter - printing happens on the front page and there is some static text on the back page -->
+    <letter types="ARD" category="compliance" scfile="SCOTLAND/REMDATA/REMAR.TXT">
+        <fieldMaps>
+            <map srcElement="ACCTS_DUE_DATE" start="497" length="10"/>
+            <map srcElement="INCORPORATION_DATE" start="517" length="10"/>
+			<map srcElement="MUD" start="527" length="10"/>
+        </fieldMaps>
+    </letter>
+
+
+<!-- MORTGAGE - USING COMPLIANCE FUNCTIONALITY - SROWE -->
+<letter types="MORT(RO)" category="compliance" 
+                                      ewfile="CHMORT/MORTEW"
+                                      welshfile="CHMORT/MORTBI"
+                                      scfile="CHMORT/MORTSC"
+                                      nifile="CHMORT/MORTNI">
+</letter>
+
+
+    <letter types="DEFSTATS, DEFSTATAC, DEFSTATAR, DEFSTATB" category="compliance">
+		<fieldMaps>
+			<map srcElement="DAYS_TO_FILE" start="897" length="2" justification="R"/>			
+		</fieldMaps>
+    </letter>
+
+
+    <letter types="DEF2B, DEF2AR, PAC Letter, PAR Letter" category="compliance"/>
+
+	<letter types="DEF3" category="compliance" ewfile="CHLETTER/DEF3"  
+	                                           welshfile="CHLETTER/WDEF3" 
+	                                           scfile="SCOTLAND/DOC1DATA/SCDEF3"
+	                                           nifile="NICOMP/DOC1DATA/NIDEF3">
+		<fieldMaps>
+			<map srcElement="DEF2_DATE" start="694" length="10"/>
+			<!-- 895 is defined as FILLER(100) so we'll us ethe start of that for new months/days values -->
+			<map srcElement="MONTHS_TO_DISSOLUTION" start="895" length="2" justification="R"/>
+			<map srcElement="DAYS_TO_FILE" start="897" length="2" justification="R"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="DEF3R" category="compliance" ewfile="CHLETTER/DEF3R" 
+	                                            welshfile="CHLETTER/WDEF3R" 
+	                                            scfile="SCOTLAND/DOC1DATA/SCOTDOC1"
+	                                            nifile="NICOMP/DOC1DATA/NIDEF3R">
+		<fieldMaps>
+			<!-- after testing with Logica, this letter's field posn set to 7 on 09/08/2006 -->
+			<map srcElement="TITLE, OFFICER_FORENAME_1, OFFICER_FORENAME_2, OFFICER_SURNAME" start="7"
+                                        length="160" multiJoin=" "/>
+			<map srcElement="DEF2_DATE" start="694" length="10"/>
+			<map srcElement="MONTHS_TO_DISSOLUTION" start="895" length="2" justification="R"/>
+			<map srcElement="DAYS_TO_FILE" start="897" length="2" justification="R"/>
+			<map srcElement="DEF3R_FLAG" start="1068" length="1"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="DEF3S" category="compliance" ewfile="CHLETTER/DEF3S" 
+	                                            welshfile="CHLETTER/WDEF3S" 
+	                                            scfile="SCOTLAND/DOC1DATA/SCOTDOC1"
+	                                            nifile="NICOMP/DOC1DATA/NIDEF3S">
+		<fieldMaps>
+			<map srcElement="DEF2S_DATE" start="694" length="10"/>
+			<map srcElement="MONTHS_TO_DISSOLUTION" start="895" length="2" justification="R"/>
+			<map srcElement="DAYS_TO_FILE" start="897" length="2" justification="R"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="DEF16A, DEF16B" category="compliance">
+		<fieldMaps>
+			<map srcElement="GAZ1_DATE" start="674" length="10"/>
+			<map srcElement="DELIVERY_DUE_DATE" start="684" length="10"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- DEF18 is not being used currently, but might be resurrected in the future -->
+	<letter types="DEF18" category="compliance">
+		<fieldMaps>
+			<map srcElement="DEF2_DATE" start="674" length="10"/>
+			<map srcElement="DEF3_DATE" start="684" length="10"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="DEF20, DEF21, DEF22, DEF23, DEF24" category="compliance">
+		<fieldMaps>
+			<map srcElement="TITLE, FORENAME, SURNAME" start="10" length="160" multiJoin=" "/>
+			<map srcElement="DATE_OF_CORRESPONDENCE" start="664" length="10"/>
+		</fieldMaps>
+	</letter>
+
+   <letter types="DEF49AC, DEF49AR, DEF49B" category="compliance" 
+                                            ewfile="CHLETTER/DEF49EW"
+                                            welshfile="CHLETTER/WDEF49EW" 
+                                            fofile="CHLETTER/DEF49FOR"
+                                            nifile="NICOMP/DOC1DATA/NIDEF49">
+		<fieldMaps>
+			<map srcElement="TITLE, OFFICER_FORENAME_1, OFFICER_FORENAME_2, OFFICER_SURNAME" start="10" length="160" multiJoin=" "/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="DEF50AC, DEF50AR, DEF50B" category="compliance">
+		<fieldMaps>
+			<map srcElement="TITLE, OFFICER_FORENAME_1, OFFICER_FORENAME_2, OFFICER_SURNAME" start="10" length="160" multiJoin=" "/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="REMAR" category="compliance" ewfile="REDTITAN/REMLETTS" 
+	                                            welshfile="REDTITAN/WREMLETT"
+                                                scfile="SCOTLAND/REMDATA/SCREM"
+                                                nifile="NICOMP/DOC1DATA/NIREMLETTS">
+		<fieldMaps>
+			<map srcElement="OFFICER_FORENAME_1, OFFICER_FORENAME_2, OFFICER_SURNAME" start="10" length="160" multiJoin=" "/>
+			<map srcElement="ANNUAL_RETURN_DATE" start="507" length="10"/>
+		</fieldMaps>
+	</letter>
+
+    <!-- Is there a spec for REMAA, REMAR2? -->
+	<!-- There is no spec for REMAA, as it is just a letter with either REM2 A, B, C letter code -->
+	<letter types="REMAA, REM2A, REM2B, REM2C" category="compliance" 
+	                                           ewfile="REDTITAN/REMLETTS"
+                                               welshfile="REDTITAN/WREMLETT" 
+                                               scfile="SCOTLAND/REMDATA/SCREM"
+                                               nifile="NICOMP/DOC1DATA/NIREMLETTS">
+		<fieldMaps>
+			<map srcElement="OFFICER_FORENAME_1, OFFICER_FORENAME_2, OFFICER_SURNAME" start="10" length="160" multiJoin=" "/>
+			<map srcElement="ANNUAL_RETURN_DATE" start="507" length="10"/>
+			<map srcElement="ACCOUNTING_PERIOD_DUE_DATE" start="497" length="10"/>
+			<map srcElement="ACCOUNTING_PERIOD_START_DATE" start="517" length="10"/>
+			<map srcElement="ACCOUNTING_PERIOD_DATE" start="527" length="10"/>
+			<map srcElement="DOUBLE_PEN_FLAG" start="725" length="1"/>
+			<map srcElement="PREV_DSEP_ACC_IND" start="726" length="1"/>
+		</fieldMaps>
+	</letter>
+
+    <letter types="REMAR2" category="compliance" ewfile="REDTITAN/REMLETTS"
+                                                 welshfile="REDTITAN/WREMLETT" 
+                                                 scfile="SCOTLAND/REMDATA/SCREM"
+                                                 nifile="NICOMP/DOC1DATA/NIREMLETTS">
+            <fieldMaps>
+                <map srcElement="OFFICER_FORENAME_1, OFFICER_FORENAME_2, OFFICER_SURNAME" start="10" length="160" multiJoin=" "/>
+                <map srcElement="CONFIRM_STATEMENT_DUE_DATE" start="507" length="10"/>
+                <map srcElement="CONFIRM_STATEMENT_DATE" start="497" length="10"/>
+            </fieldMaps>
+    </letter>
+
+	<!-- Currently REMCSSLP and REMCSSQP have conflicting position elements, and have been excluded from 
+	     the LetterTest unit test - ideally, the conflicting elements should be relocated -->
+    <letter types="REMCSSLP" category="compliance" ewfile="REDTITAN/REMLETTS"
+                                                 welshfile="REDTITAN/WREMLETT" 
+                                                 scfile="SCOTLAND/REMDATA/SCREM"
+                                                 nifile="NICOMP/DOC1DATA/NIREMLETTS">
+            <fieldMaps>
+                <map srcElement="CORPORATE_BODY_NAME" start="10" length="160" multiJoin=" "/>
+                <map srcElement="CONFIRM_STATEMENT_DUE_DATE" start="507" length="10"/>
+                <map srcElement="CONFIRM_STATEMENT_DATE" start="497" length="10"/>
+            </fieldMaps>
+    </letter>
+
+    <letter types="REMCSSQP" category="compliance" ewfile="REDTITAN/REMLETTS"
+                                                 welshfile="REDTITAN/WREMLETT" 
+                                                 scfile="SCOTLAND/REMDATA/SCREM"
+                                                 nifile="NICOMP/DOC1DATA/NIREMLETTS">
+            <fieldMaps>
+                <map srcElement="CORPORATE_BODY_NAME" start="10" length="160" multiJoin=" "/>
+                <map srcElement="CONFIRM_STATEMENT_DUE_DATE" start="507" length="10"/>
+                <map srcElement="CONFIRM_STATEMENT_DATE" start="497" length="10"/>
+            </fieldMaps>
+    </letter>
+
+	<!-- this is a  dissolution LETTER with compliance layout -->
+	<!-- lettercode = 'DG', subtype = '', is a letter! -->
+	<letter types="DISS16" category="compliance">
+		<fieldMaps>
+			<map srcElement="DATE_OF_CORRESPONDENCE" start="664" length="10"/>
+		</fieldMaps>
+	</letter>
+	
+    <!-- *************************************************************************************************** 
+	     COMPLIANCE LETTER - Added by Shadab - 12th Aug'08 - for new category Doc1 configuration
+	     *************************************************************************************************** -->
+	     
+	<letter types="CHOCAUTO A1" category="compliance">
+		<fieldMaps>
+            <map srcElement="ORG_UNIT_DESC" start="7" length="32"/>
+			<map srcElement="TRANSIENT_GENERIC_DATE1" start="664" length="10"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="CHOCAUTO B1" category="compliance">
+        <fieldMaps>
+            <map srcElement="ORG_UNIT_DESC" start="7" length="32"/>
+        </fieldMaps>
+	</letter>	
+	
+    <!-- *************************************************************************************************** 
+         PSC PURSUITS LETTER
+         *************************************************************************************************** -->
+         
+    <letter types="MISSING PSC INFORMATION" category="compliance">
+        <fieldMaps>
+            <map srcElement="DAYS_TO_ACT" start="897" length="2" justification="R"/>
+        </fieldMaps>
+	</letter>
+
+    <letter types="STATEMENT IN DEFAULT" category="compliance">
+        <fieldMaps>
+            <map srcElement="DAYS_TO_ACT" start="897" length="2" justification="R"/>
+            <map srcElement="STMT_2_EXISTS" start="1069" length="1"/>
+            <map srcElement="STMT_3_EXISTS" start="1070" length="1"/>
+            <map srcElement="STMT_4_EXISTS" start="1071" length="1"/>
+            <map srcElement="STMT_5_EXISTS" start="1072" length="1"/>
+            <map srcElement="STMT_6_EXISTS" start="1073" length="1"/>
+            <map srcElement="STMT_7_EXISTS" start="1074" length="1"/>
+        </fieldMaps>
+    </letter>
+
+	<!-- ***************************************************************************************************
+	     DISSOLUTION LETTERS
+	     *************************************************************************************************** -->
+	<letter types="default-dissolution" category="dissolution" 
+	                                    ewfile="CHVOLDIS/NOINSERT"
+		                                welshfile="CHVOLDIS/WNOINSRT" 
+		                                scfile="SVOLDISS/DOC1DATA/SCVOLDISS"
+		                                nifile="NIVOLDISS/DOC1DATA/NIDISS"
+								        fofile="CHVOLDISS/FO_DISS_ERROR" 
+								        lineLength="1672" 
+										includePostCodeInAddress="Y">
+		<fixedMaps>
+			<fixedMap start="1" length="6" value="107000"/>
+		</fixedMaps>
+		<fieldMaps>
+            <map srcElement="LETTER_CODE" start="7" length="2" />
+			<map srcElement="WELSH_FLAG" start="9" length="1" />
+
+			<map srcElement="RECIPIENT_NAME" start="10" length="60"/>
+
+            <!-- letter date is the same as issue_date -->
+            <map srcElement="ISSUE_DATE" start="370" length="8"/>
+            <map srcElement="CORPORATE_BODY_NAME" start="386" length="180"/>
+            <map srcElement="USER_TEL_EXT" start="566" length="13"/>
+			<!-- barcode is applicable for def6, def6a, def6w, def-reissue,diss40(soad), c25b, diss6a(soas),diss16(soas) -->
+			<map srcElement="BARCODE" start="617" length="10"/>
+            <map srcElement="LETTER_SUBTYPE" start="647" length="1"/>
+            <map srcElement="GAZ1_DATE" start="712" length="8"/>
+			<map srcElement="INCORPORATION_NUMBER" start="1380" length="10"/>
+			<map srcElement="COMP_TYPE" start="1410" length="2"/>
+
+			<!-- specs allow a length of 60 for dissolution letters, but reduced it to 50 chars, so that
+				 the address elements fit into the window envelope of the letter -->
+			<map srcElement="ADDR_LINE_1" start="1413" length="50"/>
+			<map srcElement="ADDR_LINE_2" start="1463" length="50"/>
+			<map srcElement="ADDR_LINE_3" start="1513" length="50"/>
+			<map srcElement="ADDR_LINE_4" start="1563" length="50"/>
+            <map srcElement="ADDR_LINE_5" start="1613" length="50"/>
+            <map srcElement="TRANSACTION_ID" start="1663" length="10"/>
+
+		</fieldMaps>
+	</letter>
+
+	<letter types="652CA, 652CB" category="dissolution"/>
+
+	<letter types="652AK" category="dissolution"/>
+
+	<letter types="652AB" category="dissolution">
+			<fieldMaps>
+				<map srcElement="MONTHS_TO_DISSOLUTION" start="595" length="2" justification="R"/>
+		</fieldMaps>
+    </letter>
+
+	<letter types="652AC" category="dissolution"/>
+
+	<!-- certificates don't have a welsh version -->
+	<!-- both english & scottish files are sent to the same address, Inland Revenue -->
+	<letter types="CES21, CES21A" category="dissolution" ewfile="CHVOLCER/RETCERT"
+							                             welshfile="CHVOLCER/NO_WELSH_ERROR"
+                                                         nifile="NIVOLDISS/DOC1DATA/NIRETCERT"							                             
+														 scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT"/>
+
+	<letter types="652AF" category="dissolution">
+		<fieldMaps>
+			<map srcElement="DISSOLUTION_DATE" start="579" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- C25A, C25B, C25(LIQ) have been decommissioned as of 14/09/2006, but might be resurrected in the future -->
+	<!-- so just leaving the mappings as they are for the time-being -->
+	<!-- C25C replaces C25B (old) -->
+    <!-- These certificate transactions are no longer processed by this DOC1 processor as of Jan 2011
+    They are now directly created by the Chips Letter Producer via the DissolutionCertificateService
+    mapping left in place for now to be refactored at a later date when testing resource is available.-->
+	<letter types="C25B, C25C" category="dissolution" ewfile="CHVOLCER/CERTSEW"
+								                      welshfile="CHVOLCER/CERTSEW"
+								                      nifile="NIVOLDISS/DOC1DATA/NICERTS" 
+								                      scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT">
+		<fieldMaps>
+				<map srcElement="DISSOLUTION_DATE" start="579" length="8"/>
+				<map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+		</fieldMaps>
+    </letter>
+
+	<!-- CES2 is not a certificate, both english & scottish filenames are the same -->
+	<!-- As it is being sent to Inland Revenue, there is no welsh version -->
+	<letter types="CES2" category="dissolution" ewfile="CHVOLCER/DOC1CES" 
+	                                            welshfile="CHVOLDIS/NO_WELSH_ERROR"
+	                                            nifile="NIVOLDISS/DOC1DATA/NIDOC1CES" 
+											    scfile="SVOLCERT/DOC1DATA/SCDOC1CES">
+		<fieldMaps>
+			<!-- logica's full date format -->
+			<map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+			<map srcElement="DISSOLUTION_DATE" start="648" length="20"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- TODO: to find out about 652AI -->
+	<letter types="652AI" category="dissolution" ewfile="CHVOLDIS/NOINSERT"
+	                                             welshfile="CHVOLDIS/WNOINSRT"
+ 	                                             nifile="NIVOLDISS/DOC1DATA/NIDISS" 
+	                                             scfile="SVOLDISS/DOC1DATA/SCVOLDISS">
+		<fieldMaps>
+				<map srcElement="FORENAME, SURNAME" start="10" length="60" multiJoin=" "/>
+		</fieldMaps>
+	</letter>
+
+	<!-- 652AISS is the same as 652A -->
+    <letter types="652AISS" category="dissolution" ewfile="CHVOLDIS/VOL652A" 
+                                                   welshfile="CHVOLDIS/WVOL652A"
+ 	                                               nifile="NIVOLDISS/DOC1DATA/NIVOL652A" 
+							                       scfile="SVOLDISS/DOC1DATA/VOLDISS.TXT">
+		<fieldMaps>
+			<map srcElement="FORENAME, SURNAME" start="10" length="60" multiJoin=" "/>
+		</fieldMaps>
+	</letter>
+
+    <letter types="652AJ, 652AM" category="dissolution">
+		<fieldMaps>
+			<map srcElement="DISSOLUTION_OBJECTION_END_DATE" start="579" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="652CISS" category="dissolution" ewfile="CHVOLDIS/VOL652C" 
+	                                               welshfile="CHVOLDIS/WVOL652C"
+                                                   nifile="NIVOLDISS/DOC1DATA/NIVOL652C" 	                                               
+							                       scfile="SVOLDISS/DOC1DATA/VOLDISS.TXT">
+		<fieldMaps>
+			<map srcElement="FORENAME, SURNAME" start="10" length="60" multiJoin=" "/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="WITH" category="dissolution"/>
+
+	<!-- This DEF6A certificate transactions are no longer processed by this DOC1 processor as of Jan 2011
+    They are now directly created by the Chips Letter Producer via the DissolutionCertificateService
+    mapping left in place for now to be refactored at a later date when testing resource is available.-->
+	<letter types="DEF6A" category="dissolution" ewfile="CHVOLCER/CERTSEW" 
+	                                             welshfile="CHVOLCER/CERTSEW"
+							                     nifile="NIVOLDISS/DOC1DATA/NICERTS" 
+							                     scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT" > 
+	<fieldMaps>
+			<map srcElement="ISSUE_DATE" start="648" length="20"/>
+			<map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+			<map srcElement="MONTHS_TO_DISSOLUTION" start="595" length="2" justification="R"/>
+			
+		</fieldMaps>
+	</letter>
+
+    <!-- This DEF6 certificate transactions are no longer processed by this DOC1 processor as of Jan 2011
+    They are now directly created by the Chips Letter Producer via the DissolutionCertificateService
+    mapping left in place for now to be refactored at a later date when testing resource is available.-->
+    <letter types="DEF6" category="dissolution" ewfile="CHVOLCER/CERTSEW" 
+                                                welshfile="CHVOLCER/CERTSEW"
+                                                nifile="NIVOLDISS/DOC1DATA/NICERTS"         
+                                                scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT" > 
+        <fieldMaps>
+            <map srcElement="ISSUE_DATE" start="648" length="20"/>
+            <map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+            <map srcElement="MONTHS_TO_DISSOLUTION" start="595" length="2" justification="R"/>
+            
+        </fieldMaps>
+    </letter>
+
+    <letter types="DEF6W" category="dissolution" ewfile="CHVOLCER/CERTSEW" 
+                                                 welshfile="CHVOLCER/CERTSEW"
+                                                 nifile="NIVOLDISS/DOC1DATA/NICERTS"         
+                                                 scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT" > 
+        <fieldMaps>
+            <map srcElement="ISSUE_DATE" start="648" length="20"/>
+            <map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+            <map srcElement="MONTHS_TO_DISSOLUTION" start="595" length="2" justification="R"/>
+            
+        </fieldMaps>
+    </letter>
+
+    <letter types="DEF6 RE-ISSUE" category="dissolution" ewfile="CHVOLCER/NOINCERT" 
+                                                         welshfile="CHVOLCER/NOINCERT"
+                                                         nifile="NIVOLDISS/DOC1DATA/NICERTSDEF6"
+                                                         scfile="SVOLCERT/DOC1DATA/CERTSSCDEF6" > 
+        <fieldMaps>
+			<map srcElement="ISSUE_DATE" start="648" length="20"/>
+			<map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+			<map srcElement="MONTHS_TO_DISSOLUTION" start="595" length="2" justification="R"/>
+			
+		</fieldMaps>
+    </letter>
+
+    <!-- Note: DISS16 is a letter,(lettercode='DG', sutype='') moved to Compliance category -->
+	<!-- DISS16(SOAS) is a certificate, lettercode = 'DH', subtype = '' -->
+    <!-- These certificate transactions are no longer processed by this DOC1 processor as of Jan 2011
+    They are now directly created by the Chips Letter Producer via the DissolutionCertificateService
+    mapping left in place for now to be refactored at a later date when testing resource is available.-->
+    <letter types="DISS6A(SOAS), DISS16(SOAS), DISS40, DISS40(SOAD), SOAS(A)" 
+            category="dissolution" 
+            ewfile="CHVOLCER/CERTSEW"
+			welshfile="CHVOLCER/CERTSEW" 
+			nifile="NIVOLDISS/DOC1DATA/NICERTS"
+			scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT">
+		<fieldMaps>
+			<map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+		</fieldMaps>
+    </letter>
+
+	<!-- CES3 is not added to the batch header as it is not a certificate -->
+	<letter types="CES3" category="dissolution" ewfile="CHVOLCER/DOC1CES" 
+	                                            welshfile="CHVOLDIS/NO_WELSH_ERROR"
+	                                            nifile="NIVOLDISS/DOC1DATA/NIDOC1CES"
+											    scfile="CHVOLCER/NO_SCOTTISH_ERROR">
+		<fieldMaps>
+			<map srcElement="OLD_NAME_1" start="10" length="60"/>
+			<map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+			<map srcElement="NAME_CHANGE_DATE" start="648" length="20"/>
+		</fieldMaps>
+    </letter>
+
+    <letter types="BATCH HEADER" category="dissolution" ewfile="CHVOLCER/CERTSEW"
+							                            welshfile="CHVOLCER/NO_WELSH_BATCH_HEADER"
+	                                                    nifile="NIVOLDISS/DOC1DATA/NICERTS"
+							                            scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT">
+		<fieldMaps>
+			<map srcElement="DOCS_IN_BATCH" start="597" length="4" justification="R"/>
+			<map srcElement="FIRST_COMP_NO" start="601" length="8"/>
+			<map srcElement="LAST_COMP_NO" start="609" length="8"/>
+			<map srcElement="BARCODE" start="617" length="20"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="RES01" category="dissolution" ewfile="CHVOLCER/NOINCERT"
+						                         welshfile="CHVOLCER/NO_RES01_WELSH_ERROR"
+						                         nifile="NIVOLDISS/DOC1DATA/NINOINCERT" 
+						                         scfile="SVOLDISS/DOC1DATA/SCNOINCERT">
+		<fieldMaps>
+			<map srcElement="CONTACT_EXTERNAL_REFERENCE" start="310" length="60"/>
+			<map srcElement="DATE_OF_CORRESPONDENCE" start="579" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- RES02 is a new letter, so the filenames are brand new -->
+    <letter types="RES02" category="dissolution" ewfile="CHVOLCER/NOINCERT"
+		                                         welshfile="CHVOLCER/NO_RES02_WELSH_ERROR" 
+						                         nifile="NIVOLDISS/DOC1DATA/NINOINCERT" 
+		                                         scfile="SVOLDISS/DOC1DATA/SCNOINCERT">
+		<fieldMaps>
+			<map srcElement="PRESENTER_REF" start="780" length="60"/>
+            <map srcElement="CH_REF" start="1080" length="60"/>
+			<map srcElement="UNDERTAKINGS_FLAG" start="587" length="1"/>
+			<map srcElement="CNREQUIRED" start="588" length="1"/>
+			<map srcElement="APPLICATION_METHOD" start="589" length="1"/>
+			<map srcElement="RESTORATION_DATE" start="579" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- ***************************************************************************************************
+	     PROSECUTION LETTERS
+	     *************************************************************************************************** -->
+	<letter types="default-prosecution" category="prosecution" 
+	                                    ewfile="CHSOL/SUMMONS"
+							            welshfile="CHSOL/SUMMONSW" 
+                                        nifile="CHSOL/NO_NI_ERROR" 							            
+							            scfile="CHSOL/NO_SCOT_ERROR"
+ 		                                fofile="CHSOL/FO_PROS_ERROR" 
+ 		                                lineLength="1959" 
+ 		                                includePostCodeInAddress="Y">							
+		<fixedMaps>
+			<fixedMap start="1" length="6" value="107000"/>
+		</fixedMaps>
+		<fieldMaps>
+			<map srcElement="DEFENDANT_NAME" start="7" length="75"/>
+
+			<map srcElement="CONTACT_NAME" start="282" length="32"/>
+			<map srcElement="WITNESS_NAME" start="282" length="32"/>
+			<map srcElement="PC_REF" start="314" length="13"/>
+
+			<!--  prosecution letters do not use the letter_date on the letter templates -->
+			<!-- Certain letters like HSOL1 uses the summons date as the letter date -->
+			<map srcElement="ISSUE_DATE" start="327" length="10"/>
+			<map srcElement="COMP_NAME_1" start="345" length="80"/>
+			<map srcElement="COMP_NAME_2" start="425" length="80"/>
+
+			<!-- offence1, offence2 fields are divided into 3 parts -->
+			<!-- pos 505 = 5 blank bytes, pos 510 = start of narrative text, pos 535 start of dates -->
+			<!-- pos 585 = 5 blank bytes, pos 590 = start of narrative text, pos 615 start of dates -->
+			<!-- the start dates are of the format dd/mm/yy and the delimiter is 2 blank spaces. -->
+			<map srcElement="AR_TEXT" start="510" length="25"/>
+			<map srcElement="OFFENCE_1" start="535" length="50"/>
+			<map srcElement="AA_TEXT" start="590" length="25"/>
+			<map srcElement="OFFENCE_2" start="615" length="50"/>
+
+			<map srcElement="LAY_DATE1" start="665" length="17"/>
+			<map srcElement="LAY_DATE2" start="682" length="17"/>
+
+			<map srcElement="LETTER_CODE" start="1443" length="2"/>
+			<map srcElement="LETTER_SUBCODE" start="1445" length="2"/>
+			<map srcElement="E_W_IND" start="1447" length="1"/>
+			<map srcElement="PRIV_OR_PUB" start="1448" length="1"/>
+			<!-- to do: to remove telephone_extension field and just retain telephone_no -->
+			<map srcElement="TELEPHONE_EXTENSION" start="1457" length="3"/>
+			<map srcElement="CHIPS_COMP_NO" start="1460" length="10"/>
+			<map srcElement="USER_TEL_EXT" start="1470" length="11"/>
+			<map srcElement="CHIPS_COMP_TYPE" start="1481" length="2"/>
+
+			<!-- using only 4 address lines -->
+			<map srcElement="ADDR_LINE_1" start="1684"  length="50"/>
+			<map srcElement="ADDR_LINE_2" start="1734" length="50"/>
+			<map srcElement="ADDR_LINE_3" start="1784" length="50"/>
+			<map srcElement="ADDR_LINE_4" start="1834" length="50"/>
+            <map srcElement="ADDR_LINE_5" start="1884" length="50"/>
+            <map srcElement="TRANSACTION_ID" start="1950" length="10"/>
+			<!-- Not using address line5, so that it is consistent with compliance,dissolution letters -->
+			
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL1" category="prosecution" ewfile="CHSOL/HSOL1" welshfile="CHSOL/HSOL1W">
+	    <fieldMaps>
+	    	<map srcElement="CS_TEXT" start="1483" length="27"/>
+			<map srcElement="OFFENCE_3" start="1510" length="50"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- HSOL2 has only a few fields -->
+	<letter types="HSOL2, HSOL4, HSOL5" category="prosecution">
+	</letter>
+
+	<!-- HSOL7 has more of annual accounts information -->
+	<letter types="HSOL7" category="prosecution">
+		<fieldMaps>
+			<map srcElement="CONV_HEAR_DATE" start="699" length="8"/>
+			<map srcElement="COURT_HEARING_DAY" start="775" length="2"/>
+			<map srcElement="COURT_HEARING_DAY_ORD" start="777" length="2"/>
+			<map srcElement="COURT_HEARING_MONTH_YEAR" start="779" length="14"/>
+
+			<map srcElement="AA_DATE_1" start="793" length="17"/>
+			<map srcElement="AA_FINE1" start="810" length="8"/>
+			<map srcElement="AA_DATE_2" start="818" length="17"/>
+			<map srcElement="AA_FINE2" start="835" length="8"/>
+			<map srcElement="AA_DATE_3" start="843" length="17"/>
+			<map srcElement="AA_FINE3" start="860" length="8"/>
+			<map srcElement="AAC_ACT_TEXT" start="904" length="21"/>
+			<map srcElement="COSTS_2" start="954" length="8"/>
+						
+		</fieldMaps>
+	</letter>
+
+	<!-- HSOL8 has more of annual returns information -->
+	<letter types="HSOL8" category="prosecution">
+		<fieldMaps>
+			<map srcElement="CONV_HEAR_DATE" start="699" length="8"/>
+			<map srcElement="COURT_HEARING_DAY" start="775" length="2"/>
+			<map srcElement="COURT_HEARING_DAY_ORD" start="777" length="2"/>
+			<map srcElement="COURT_HEARING_MONTH_YEAR" start="779" length="14"/>
+
+			<map srcElement="AR_YEAR_1" start="868" length="4"/>
+			<map srcElement="AR_FINE1" start="872" length="8"/>
+			<map srcElement="AR_YEAR_2" start="880" length="4"/>
+			<map srcElement="AR_FINE2" start="884" length="8"/>
+			<map srcElement="AR_YEAR_3" start="892" length="4"/>
+			<map srcElement="AR_FINE3" start="896" length="8"/>
+			<map srcElement="AR_ACT_TEXT" start="904" length="21"/>
+			<map srcElement="COSTS_1" start="925" length="8"/>
+			
+			<map srcElement="CS_YEAR_1" start="1584" length="8"/>
+			<map srcElement="CS_YEAR_2" start="1592" length="8"/>
+			<map srcElement="CS_YEAR_3" start="1600" length="8"/>
+			<map srcElement="CS_FINE_1" start="1608" length="8"/>
+			<map srcElement="CS_FINE_2" start="1616" length="8"/>
+			<map srcElement="CS_FINE_3" start="1624" length="8"/>			
+		</fieldMaps>
+	</letter>
+
+	<!-- HSOL9 has both annual accounts and annual returns information -->
+    <letter types="HSOL9" category="prosecution">
+		<fieldMaps>
+			<map srcElement="CONV_HEAR_DATE" start="699" length="8"/>
+			<map srcElement="COURT_HEARING_DAY" start="775" length="2"/>
+			<map srcElement="COURT_HEARING_DAY_ORD" start="777" length="2"/>
+			<map srcElement="COURT_HEARING_MONTH_YEAR" start="779" length="14"/>
+
+			<map srcElement="AA_DATE_1" start="793" length="17"/>
+			<map srcElement="AA_FINE1" start="810" length="8"/>
+			<map srcElement="AA_DATE_2" start="818" length="17"/>
+			<map srcElement="AA_FINE2" start="835" length="8"/>
+			<map srcElement="AA_DATE_3" start="843" length="17"/>
+			<map srcElement="AA_FINE3" start="860" length="8"/>
+			<map srcElement="AR_YEAR_1" start="868" length="4"/>
+			<map srcElement="AR_FINE1" start="872" length="8"/>
+			<map srcElement="AR_YEAR_2" start="880" length="4"/>
+			<map srcElement="AR_FINE2" start="884" length="8"/>
+			<map srcElement="AR_YEAR_3" start="892" length="4"/>
+			<map srcElement="AR_FINE3" start="896" length="8"/>
+			<map srcElement="ar_act_text" start="904" length="21"/>
+			<map srcElement="AAC_ACT_TEXT" start="933" length="21"/>
+			<map srcElement="COURT_COSTS_1" start="925" length="8"/>
+			
+			<map srcElement="CS_FINE_1" start="1608" length="8"/>
+			<map srcElement="CS_FINE_2" start="1616" length="8"/>
+			<map srcElement="CS_FINE_3" start="1624" length="8"/>		
+			<map srcElement="CS_FMDD_DATE_1" start="1632" length="17"/>
+			<map srcElement="CS_FMDD_DATE_2" start="1649" length="17"/>
+			<map srcElement="CS_FMDD_DATE_3" start="1666" length="17"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL10" category="prosecution">
+		<fieldMaps>
+			<map srcElement="HEARING_DATE" start="665" length="17"/>
+			<map srcElement="HEARING_DATE2" start="682" length="17"/>
+			<map srcElement="HEARING_DATE3" start="793" length="17"/>
+			<map srcElement="TOTAL_OFFENCES" start="983" length="5"/>
+			<map srcElement="DIRECTOR_DOB" start="1449" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL11" category="prosecution">
+		<fieldMaps>
+			<map srcElement="RD_NO" start="699" length="8"/>
+			<map srcElement="TEL_EXT" start="1457" length="3"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- couldn't find file name for HSOL12, TODO://to talk to Lyn & Jim about this -->
+	<letter types="HSOL12" category="prosecution">
+		<fieldMaps>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL31, HSOL32" category="prosecution">
+		<fieldMaps>
+			<map srcElement="AR_DATE" start="699" length="8"/>
+			<map srcElement="ACC_PER" start="711" length="8"/>
+			<map srcElement="ACC_DUE" start="719" length="8"/>
+			<map srcElement="AS_AT" start="727" length="8"/>
+			<map srcElement="OLD_AS_AT" start="735" length="8"/>
+			<map srcElement="HEAR_DATE" start="743" length="8"/>
+			<map srcElement="AR_YEAR_1" start="868" length="4"/>
+			<map srcElement="AR_YEAR_2" start="880" length="4"/>
+			<map srcElement="AR_YEAR_3" start="892" length="4"/>
+			
+			<map srcElement="CS_DATE" start="1560" length="8"/>
+			<map srcElement="CS_ACC_PER" start="1568" length="8"/>
+			<map srcElement="CS_OLD_AS_AT" start="1576" length="8"/>
+			<map srcElement="CS_YEAR_1" start="1584" length="8"/>
+			<map srcElement="CS_YEAR_2" start="1592" length="8"/>
+			<map srcElement="CS_YEAR_3" start="1600" length="8"/>
+			
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL33" category="prosecution">
+		<fieldMaps>
+			<map srcElement="AR_DATE" start="699" length="8"/>
+			<map srcElement="ACC_PER" start="711" length="8"/>
+			<map srcElement="ACC_DUE" start="719" length="8"/>
+			<map srcElement="AS_AT" start="727" length="8"/>
+			<map srcElement="OLD_AS_AT" start="735" length="8"/>
+			<map srcElement="HEAR_DATE" start="743" length="8"/>
+
+			<map srcElement="DAY_AFTER_HEAR" start="751" length="8"/>
+			<map srcElement="OLD_DAY_AFTER" start="759" length="8"/>
+			<map srcElement="OLD_HEAR_DATE" start="767" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL34" category="prosecution">
+		<fieldMaps>
+			<map srcElement="AR_YEAR" start="707" length="4"/>
+			<map srcElement="AS_AT" start="727" length="8"/>
+			<map srcElement="HEARING_DATE" start="743" length="8"/>
+			<map srcElement="HEARING_DATE_ADD_ONE" start="751" length="8"/>
+			<map srcElement="CS_DATE" start="1560" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL35" category="prosecution">
+		<fieldMaps>
+			<map srcElement="AR_YEAR" start="707" length="4"/>
+			<map srcElement="AS_AT" start="727" length="8"/>
+			<map srcElement="PREV_AS_AT" start="735" length="8"/>
+
+			<map srcElement="HEARING_DATE" start="743" length="8"/>
+			<map srcElement="HEARING_DATE_ADD_ONE" start="751" length="8"/>
+			<map srcElement="DAY_AFTER_HEAR" start="759" length="8"/>
+			<map srcElement="OLD_HEAR_DATE" start="767" length="8"/>
+			<map srcElement="CS_DATE" start="1560" length="8"/>
+			<map srcElement="DATE_FIRST_CONVICTION" start="1934" length="8"/>
+			<map srcElement="DAY_AFTER_FIRST_CONV" start="1942" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL36" category="prosecution">
+		<fieldMaps>
+			<map srcElement="AC_PER" start="711" length="8"/>
+			<map srcElement="AS_AT" start="727" length="8"/>
+			<map srcElement="HEARING_DATE" start="743" length="8"/>
+			<map srcElement="DAY_AFTER_HEAR" start="751" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL37" category="prosecution">
+		<fieldMaps>
+			<map srcElement="AC_PER" start="711" length="8"/>
+			<map srcElement="AS_AT" start="727" length="8"/>
+			<map srcElement="HEARING_DATE" start="743" length="8"/>
+			<map srcElement="DAY_AFTER_HEAR" start="751" length="8"/>
+			<map srcElement="OLD_HEAR_DATE" start="767" length="8"/>
+			<map srcElement="DATE_FIRST_CONVICTION" start="1934" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL61A" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="AS_AT" start="665" length="17"/>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="APPOINT_DATE" start="1390" length="17"/>
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+
+			<map srcElement="AA_DATE_1" start="1419" length="8"/>
+			<map srcElement="AA_DATE_2" start="1427" length="8"/>
+			<map srcElement="AA_DATE_3" start="1435" length="8"/>
+			
+			<map srcElement="CS_YEAR_1" start="1584" length="8"/>
+			<map srcElement="CS_YEAR_2" start="1592" length="8"/>
+			<map srcElement="CS_YEAR_3" start="1600" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL61B" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="AS_AT" start="665" length="17"/>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="APPOINT_DATE" start="1390" length="17"/>
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+			
+			<map srcElement="CS_YEAR_1" start="1584" length="8"/>
+			<map srcElement="CS_YEAR_2" start="1592" length="8"/>
+			<map srcElement="CS_YEAR_3" start="1600" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL62A, HSOL63A" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="AS_AT" start="665" length="17"/>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="APPOINT_DATE" start="1390" length="17"/>
+
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+
+			<map srcElement="AA_DATE_1" start="1419" length="8"/>
+			<map srcElement="AA_DATE_2" start="1427" length="8"/>
+			<map srcElement="AA_DATE_3" start="1435" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL64A" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="NAME_CHANGE_DATE2" start="682" length="17"/>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="NAME_CHANGE_DATE" start="818" length="17"/>
+			<map srcElement="NAME_CHANGE_DATE1" start="818" length="17"/>
+
+			<map srcElement="OLD_NAME_1" start="1210" length="60"/>
+			<map srcElement="OLD_NAME_2" start="1270" length="60"/>
+			<map srcElement="OLD_NAME_3" start="1330" length="60"/>
+			<map srcElement="OLDER_NAME_1" start="1030" length="60"/>
+			<map srcElement="OLDER_NAME_2" start="1090" length="60"/>
+			<map srcElement="OLDER_NAME_3" start="1150" length="60"/>
+
+			<map srcElement="APPOINT_DATE" start="1390" length="17"/>
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+			<map srcElement="AA_DATE_1" start="1419" length="8"/>
+			<map srcElement="AA_DATE_2" start="1427" length="8"/>
+			<map srcElement="AA_DATE_3" start="1435" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL65A" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="REREG_DATE" start="988" length="17"/>
+			<map srcElement="APPOINT_DATE" start="1390" length="17"/>
+			<map srcElement="OLD_TYPE" start="1005" length="25"/>
+
+			<map srcElement="OLD_NAME_1" start="1210" length="60"/>
+			<map srcElement="OLD_NAME_2" start="1270" length="60"/>
+			<map srcElement="OLD_NAME_3" start="1330" length="60"/>
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+			<map srcElement="AA_DATE_1" start="1419" length="8"/>
+			<map srcElement="AA_DATE_2" start="1427" length="8"/>
+			<map srcElement="AA_DATE_3" start="1435" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL66A" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="REREG_DATE" start="988" length="17"/>
+			<map srcElement="OLD_TYPE" start="1005" length="25"/>
+
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+			<map srcElement="AA_DATE_1" start="1419" length="8"/>
+			<map srcElement="AA_DATE_2" start="1427" length="8"/>
+			<map srcElement="AA_DATE_3" start="1435" length="8"/>
+
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL67A" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="NAME_CHANGE_DATE" start="682" length="17"/>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="OLD_NAME_1" start="1210" length="60"/>
+			<map srcElement="OLD_NAME_2" start="1270" length="60"/>
+			<map srcElement="OLD_NAME_3" start="1330" length="60"/>
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+			<map srcElement="AA_DATE_1" start="1419" length="8"/>
+			<map srcElement="AA_DATE_2" start="1427" length="8"/>
+			<map srcElement="AA_DATE_3" start="1435" length="8"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL68A" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="NAME_CHANGE_DATE2" start="682" length="17"/>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="NAME_CHANGE_DATE1" start="818" length="17"/>
+
+			<map srcElement="OLDER_NAME_1" start="1030" length="60"/>
+			<map srcElement="OLDER_NAME_2" start="1090" length="60"/>
+			<map srcElement="OLDER_NAME_3" start="1150" length="60"/>
+			<map srcElement="OLD_NAME_1" start="1210" length="60"/>
+			<map srcElement="OLD_NAME_2" start="1270" length="60"/>
+			<map srcElement="OLD_NAME_3" start="1330" length="60"/>
+
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="HSOL69A" category="prosecution" ewfile="CHSOL/WITNESS" welshfile="CHSOL/WITNESSW">
+		<fieldMaps>
+			<map srcElement="NAME_CHANGE_DATE" start="682" length="17"/>
+			<map srcElement="INCORP_DATE" start="793" length="17"/>
+			<map srcElement="REREG_DATE" start="988" length="17"/>
+			<map srcElement="OLD_TYPE" start="1005" length="25"/>
+			<map srcElement="OLD_NAME_1" start="1210" length="60"/>
+			<map srcElement="OLD_NAME_2" start="1270" length="60"/>
+			<map srcElement="OLD_NAME_3" start="1330" length="60"/>
+			<map srcElement="AR_YEAR_1" start="1407" length="4"/>
+			<map srcElement="AR_YEAR_2" start="1411" length="4"/>
+			<map srcElement="AR_YEAR_3" start="1415" length="4"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- PF letter is one of the 3 scottish letters for prosecution -->
+	<letter types="PF" category="prosecution" 
+	                   ewfile="CHSOL/NA_EW_ERROR" 
+	                   scfile="SCOTLAND/DOC1DATA/SCOTDOC1PF"
+		               welshfile="CHSOL/NO_WELSH_ERROR" 
+                       nifile="CHSOL/NO_NI_ERROR"       		               
+		               startSeq="1" 
+		               seqPos="856" 
+		               lineLength="1884">
+		<fieldMaps>
+<!--			<map srcElement="DEFENDANT_NAME" start="7" length="160"/>	-->
+<!--			<map srcElement="COMP_NAME_1" start="175" length="60"/>		-->
+			<map srcElement="DEFENDANT_NAME" start="175" length="60"/>
+			<map srcElement="COMP_NAME_1" start="7" length="160"/>
+
+			<map srcElement="LETTER_CODE" start="484" length="2"/>
+			<map srcElement="ISSUE_DATE" start="487" length="10"/>
+			<map srcElement="ISSUE_DATE_28" start="497" length="10"/>
+
+			<map srcElement="LETTER_ACCEND_1" start="527" length="10"/>
+			<map srcElement="LETTER_ACCEND_2" start="537" length="10"/>
+			<map srcElement="LETTER_ACCEND_3" start="547" length="10"/>
+			<map srcElement="LETTER_ACCEND_4" start="557" length="10"/>
+			<map srcElement="LETTER_ACCEND_5" start="567" length="10"/>
+			<map srcElement="LETTER_AR_1" start="577" length="10"/>
+			<map srcElement="LETTER_AR_2" start="587" length="10"/>
+			<map srcElement="LETTER_AR_3" start="597" length="10"/>
+			<map srcElement="LETTER_AR_4" start="607" length="10"/>
+			<map srcElement="LETTER_AR_5" start="617" length="10"/>
+
+			<map srcElement="TEL_EXT" start="628" length="3"/>
+			<map srcElement="REC_DEL_1" start="656" length="4"/>
+			<map srcElement="REC_DEL_2" start="660" length="4"/>
+			<map srcElement="NAME_CHANGE_DATE" start="682" length="17"/>
+			<map srcElement="ARD" start="709" length="5"/>
+
+			<!-- this is the letter count  -->
+			<map srcElement="LETT_NO" start="856" length="4"/>
+
+			<map srcElement="ACCOUNTS_FLAG" start="881" length="1"/>
+			<map srcElement="RETURNS_FLAG" start="882" length="1"/>
+			<map srcElement="CHIPS_COMP_NO" start="995" length="10"/>
+			<!-- At some point in the future, all letters will use the full telephone number
+				 USER_TEL_EXT instead of TEL_EXT -->
+			<map srcElement="USER_TEL_EXT" start="1005" length="11"/>
+			<map srcElement="CHIPS_COMP_TYPE" start="1016" length="2"/>
+			
+			<map srcElement="LETTER_CS_1" start="1018" length="10"/>
+			<map srcElement="LETTER_CS_2" start="1028" length="10"/>
+			<map srcElement="LETTER_CS_3" start="1038" length="10"/>
+			<map srcElement="LETTER_CS_4" start="1048" length="10"/>
+			<map srcElement="LETTER_CS_5" start="1058" length="10"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- SOL1A is one of the 3 scottish letters for prosecution -->
+	<!-- this uses a diff. layout, hence the line length is different -->
+	<letter types="SOL1A" category="prosecution" 
+	                      ewfile="CHSOL/NA_EW_ERROR"
+		                  welshfile="CHSOL/NO_WELSH_ERROR" 
+		                  scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT"
+						  linelength="1934">
+		<fieldMaps>
+			<map srcElement="LETTER_CODE" start="7" length="2"/>
+			<map srcElement="WELSH_FLAG" start="9" length="1"/>
+
+			<map srcElement="INCORPORATION_DATE" start="370" length="8"/>
+			<map srcElement="COMP_NAME_1" start="386" length="60"/>
+			<map srcElement="COMP_NAME_2" start="446" length="60"/>
+			<map srcElement="COMP_NAME_3" start="506" length="60"/>
+
+			<map srcElement="LAST_RETURN_MUD" start="579" length="8"/>
+			<map srcElement="ANNUAL_RETURN_DATE" start="597" length="4"/>
+			<map srcElement="PRIV_OR_PUB" start="587" length="1"/>
+			<map srcElement="LETTER_SUBTYPE" start="647" length="1"/>
+			<map srcElement="OUT_AR1" start="720" length="4"/>
+			<map srcElement="OUT_AR2" start="724" length="4"/>
+			<map srcElement="OUT_AR3" start="728" length="4"/>
+			<map srcElement="OUT_AR4" start="732" length="4"/>
+			<map srcElement="OUT_AR5" start="736" length="4"/>
+			<map srcElement="OUT_ACC1" start="740" length="8"/>
+			<map srcElement="OUT_ACC2" start="748" length="8"/>
+			<map srcElement="OUT_ACC3" start="756" length="8"/>
+			<map srcElement="OUT_ACC4" start="764" length="8"/>
+			<map srcElement="OUT_ACC5" start="772" length="8"/>
+			<map srcElement="CHIPS_COMP_NO" start="1390" length="10"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- SOL1B is one of the 3 scottish letters for prosecution -->
+	<!-- this uses a diff. layout, hence the line length is different -->
+	<letter types="SOL1B" category="prosecution" 
+	                      ewfile="CHSOL/NA_EW_ERROR"
+		                  welshfile="CHSOL/NO_WELSH_ERROR" 
+		                  scfile="SVOLCERT/DOC1DATA/CERTSSC.TXT"
+						  lineLength="1409">
+		<fieldMaps>
+			<map srcElement="LETTER_CODE" start="7" length="2"/>
+			<map srcElement="WELSH_FLAG" start="9" length="1" />
+
+			<!-- not sure which address goes into the window envelope, so don't know
+				which address elements to be reduced to length 32-->
+			<map srcElement="DEF1_ADDR_LINE_1" start="70" length="60"/>
+			<map srcElement="DEF1_ADDR_LINE_2" start="130" length="60"/>
+			<map srcElement="DEF1_ADDR_LINE_3" start="190" length="60"/>
+			<map srcElement="DEF1_ADDR_LINE_4" start="250" length="60"/>
+			<map srcElement="DEFENDANT_NAME1" start="386" length="60"/>
+			<map srcElement="LETTER_SUBTYPE" start="647" length="1"/>
+			<map srcElement="DEFENDANT_NAME2" start="780" length="60"/>
+			<map srcElement="DEF2_ADDR_LINE_1" start="840" length="60"/>
+			<map srcElement="DEF2_ADDR_LINE_2" start="900" length="60"/>
+			<map srcElement="DEF2_ADDR_LINE_3" start="960" length="60"/>
+			<map srcElement="DEF2_ADDR_LINE_4" start="1020" length="60"/>
+			<map srcElement="DEFENDANT_NAME3" start="1080" length="60"/>
+			<map srcElement="DEF3_ADDR_LINE_1" start="1140" length="60"/>
+			<map srcElement="DEF3_ADDR_LINE_2" start="1200" length="60"/>
+			<map srcElement="DEF3_ADDR_LINE_3" start="1260" length="60"/>
+			<map srcElement="DEF3_ADDR_LINE_4" start="1320" length="60"/>
+			<map srcElement="INCORPORATION_NUMBER" start="1380" length="10"/>
+		</fieldMaps>
+	</letter>
+
+	<!-- ***************************************************************************************************
+	      LIQUIDATION LETTERS
+	      *************************************************************************************************** -->
+	 <letter types="default-liquidation" category="liquidation" 
+	                                     ewfile="CHLIQUID/LIQLETTS" 
+						                 welshfile="CHLIQUID/NO_LIQ_WELSH_ERROR" 
+						                 scfile="CHLIQUID/SCLIQ"  				
+						                 nifile="NILIQ/DOC1DATA/NILIQ"
+										 fofile="CHLIQUID/FO_LIQ_ERROR" 
+										 lineLength="620" 
+										 includePostCodeInAddress="Y">
+	  <fixedMaps>
+	       <fixedMap start="1" length="6" value="107000"/>
+	  </fixedMaps>
+	  <fieldMaps>
+	      <map srcElement="IP_NAME" start="7" length="48"/>
+	      <map srcElement="INCORPORATION_NUMBER" start="215" length="8"/>
+	      <map srcElement="ISSUE_DATE" start="223" length="8"/>
+	      <map srcElement="CORPORATE_BODY_NAME" start="231" length="60"/>
+		  <map srcElement="PREV_ISSUED_DATE" start="291" length="8"/>
+	      <map srcElement="BROUGHT_DOWN_DATE" start="299" length="8"/>
+	      <map srcElement="BILINGUAL" start="307" length="1"/>
+	      <map srcElement="LETTER_TYPE" start="308" length="3"/>
+	      <!-- Note: the following line equates to SIX dates of length 8 -->
+	      <map srcElement="MISSING_STATEMENT_DATES" start="321" length="48"/>
+	      
+	      <map srcElement="ADDR_LINE_1" start="370"  length="50"/>
+	      <map srcElement="ADDR_LINE_2" start="420"  length="50"/>
+	      <map srcElement="ADDR_LINE_3" start="470" length="50"/>
+	      <map srcElement="ADDR_LINE_4" start="520" length="50"/>
+	      <map srcElement="ADDR_LINE_5" start="570" length="50"/>
+	  </fieldMaps>
+	 </letter>
+
+	 <letter types="L1, L2, Insolvency Pursuit Letter 1, Insolvency Pursuit Letter 2" category="liquidation"/>
+
+    <!-- ***************************************************************************************************
+	     DEB LETTERS
+	     *************************************************************************************************** -->
+	<letter types="default-deb" category="deb" 
+	                            ewfile="CHLETTER/COMPLETT" 
+	                            welshfile="CHLETTER/WCOMPLETT" 
+		                        scfile="SCOTLAND/DOC1DATA/SCOTDOC1" 
+		                        nifile="NICOMP/DOC1DATA/NICOMP"
+		                        fofile="CHLETTER/FO_DEB_ERROR"
+                                lineLength="1335" 
+                                startSeq="1" 
+                                seqPos="856" 
+                                includePostCodeInAddress="Y">
+		<fixedMaps>
+			<fixedMap start="1" length="6" value="107000"/>
+		</fixedMaps>
+		<fieldMaps>
+			<map srcElement="CORPORATE_BODY_NAME" start="175" length="60"/>
+			<map srcElement="LETTER_CODE" start="484" length="2"/>
+			<map srcElement="LETTER_SUBTYPE" start="486" length="1"/>
+			<map srcElement="USER_TEL_EXT" start="628" length="3"/>
+			<!-- Logica's 20 chars date format -->
+			<map srcElement="ISSUE_DATE" start="860" length="20"/>
+			<map srcElement="WELSH_FLAG" start="880" length="1"/>
+			<map srcElement="INCORPORATION_NUMBER" start="995" length="10"/>
+			<map srcElement="USER_TEL_EXT" start="1005" length="11"/>
+			<map srcElement="COMP_TYPE" start="1016" length="2"/>
+			<map srcElement="ADDR_LINE_1" start="1076" length="50"/>
+			<map srcElement="ADDR_LINE_2" start="1126" length="50"/>
+			<map srcElement="ADDR_LINE_3" start="1176" length="50"/>
+			<map srcElement="ADDR_LINE_4" start="1226" length="50"/>
+            <map srcElement="ADDR_LINE_5" start="1276" length="50"/>
+            <map srcElement="TRANSACTION_ID" start="1326" length="10"/>
+		</fieldMaps>
+	</letter>
+
+	<letter types="DEB79" category="deb">
+		<fieldMaps>
+			<map srcElement="DATE_225" start="497" length="10"/>
+			<!-- changed the accounting_period_date from 507 to 517 -->
+			<map srcElement="ACCOUNTING_PERIOD_DATE" start="517" length="10"/>
+			<map srcElement="ACCOUNT_PERIOD_END" start="527" length="10"/>
+			<map srcElement="ACCOUNTING_PERIOD_DUE_DATE" start="577" length="10"/>
+			<map srcElement="ACCOUNT_PERIOD_START" start="664" length="10"/>
+			<map srcElement="ARD" start="704" length="5"/>
+		</fieldMaps>
+
+		<!-- HDIR01, HDIR02, HSEC01, HSEC02 has been decommissioned as of 14/09/2006,
+		but might be resurrected in the future(04/2007?) -->
+	 <letter types="HDIR01, HDIR02, HSEC01, HSEC02" category="deb"/>
+	</letter>
+
+   <!-- ***************************************************************************************************
+	     NEW DIRECTOR LETTERS
+	     N.B. Existing values should match compliance template
+	     *************************************************************************************************** -->
+	<letter types="default-nd" category="nd" 
+	                            ewfile="CHLETTER/NewDirCOMPLETT.txt" 
+	                            welshfile="CHLETTER/NewDirCOMPLETT.txt" 
+		                        scfile="SCOTLAND/DOC1DATA/NewDirSCOTDOC1.txt" 
+		                        nifile="NICOMP/DOC1DATA/NewDirNICOMP.txt"
+		                        fofile="CHLETTER/FO_ND_ERROR"
+                                lineLength="1335" 
+                                startSeq="1" 
+                                seqPos="856" 
+                                includePostCodeInAddress="Y">
+		<fixedMaps>
+			<fixedMap start="1" length="6" value="107000"/>
+		</fixedMaps>
+		<fieldMaps>
+			<map srcElement="CORPORATE_BODY_NAME" start="175" length="60"/>
+			<map srcElement="LETTER_CODE" start="484" length="2"/>
+			<map srcElement="LETTER_SUBTYPE" start="486" length="1"/>
+			<map srcElement="USER_TEL_EXT" start="628" length="3"/>
+			<!-- Logica's 20 chars date format -->
+			<map srcElement="ISSUE_DATE" start="860" length="20"/>
+			<map srcElement="WELSH_FLAG" start="880" length="1"/>
+			<map srcElement="INCORPORATION_NUMBER" start="995" length="10"/>
+			<map srcElement="USER_TEL_EXT" start="1005" length="11"/>
+			<map srcElement="COMP_TYPE" start="1016" length="2"/>
+			<map srcElement="ADDR_LINE_1" start="1076" length="50"/>
+			<map srcElement="ADDR_LINE_2" start="1126" length="50"/>
+			<map srcElement="ADDR_LINE_3" start="1176" length="50"/>
+			<map srcElement="ADDR_LINE_4" start="1226" length="50"/>
+            <map srcElement="ADDR_LINE_5" start="1276" length="50"/>
+            <map srcElement="TRANSACTION_ID" start="1326" length="10"/>
+		</fieldMaps>
+	</letter>
+	
+		<!--  New Director Letter -->
+	<letter types="ND" category="nd">
+		<fieldMaps>
+			<!-- COMPANY_NAME is a copy of CORPORATE_BODY_NAME, copied to COMP-NAME field at 7 (160 chars) as DOC1 address uses this -->
+			<map srcElement="COMPANY_NAME" start="7" length="160"/>
+			<!-- Director Name is added to COMP-NAME3 field at 295 -->
+			<map srcElement="FORENAME, SURNAME" start="295" length="60" multiJoin=" "/>
+		</fieldMaps>
+	</letter>
+
+	<!-- ***************************************************************************************************
+	     OTHER LETTERS(SHUTTLE, WSO)
+	     *************************************************************************************************** -->
+	<letter types="default-newchipslayout" category="newchipslayout" lineLength="781" includePostCodeInAddress="Y" checkForeignAddress="N">
+		<fixedMaps>
+			<fixedMap start="1" length="6" value="107000"/>
+		</fixedMaps>
+		<fieldMaps>
+            <map srcElement="LETTER_TYPE" start="7" length="2" />
+			<map srcElement="WELSH_FLAG" start="9" length="1" />
+			<map srcElement="COMP_NAME_1" start="10" length="60"/>
+			<map srcElement="COMP_NAME_2" start="70" length="60"/>
+			<map srcElement="COMP_NAME_3" start="130" length="60"/>
+
+		    <map srcElement="ISSUE_DATE" start="438" length="8"/>
+
+			<map srcElement="CHIPS_COMP_NO" start="468" length="10"/>
+			<map srcElement="USER_TEL_EXT" start="478" length="11"/>
+			<map srcElement="CHIPS_COMP_TYPE" start="489" length="2"/>
+			
+			<!-- specs allow a length of 60 for this letter, but reduced it to 50 chars, so that
+				 the address elements fit into the window envelope of the letter -->
+			<map srcElement="ADDR_LINE_1" start="522" length="50"/>
+			<map srcElement="ADDR_LINE_2" start="572" length="50"/>
+			<map srcElement="ADDR_LINE_3" start="622" length="50"/>
+			<map srcElement="ADDR_LINE_4" start="672" length="50"/>
+            <map srcElement="ADDR_LINE_5" start="722" length="50"/>
+            <map srcElement="TRANSACTION_ID" start="772" length="10"/>
+		</fieldMaps>
+	</letter>
+
+    <!-- Shuttle replacement letter has only english & scottish version, no welsh or LLP version, as of 27/09/06 -->
+    <!-- SMC Changed scfile from SHUTTLES/SC_CHSHUREP to SHUTTLES/CHSHUREP - both SC and EW are printed at Logica -->
+	<letter types="SHUREP,SHUREPSC" category="newchipslayout" 
+	                                ewfile="SHUTTLES/CHSHUREP" 
+	                                welshfile="SHUTTLES/WSHUREP"
+		                            scfile="SHUTTLES/CHSHUREP" 
+		                            nifile="SHUTTLES/CHSHUREP" 
+		                            fofile="SHUTTLES/FO_SHUTTLE_ERROR">
+        <fieldMaps>
+			<map srcElement="AS_AT_DATE" start="446" length="8"/>
+			<map srcElement="LATEST_DATE" start="454" length="8"/>
+			<map srcElement="AUTH_CODE" start="462" length="6"/>
+			<map srcElement="SUB_CODE" start="491" length="1" />
+			<map srcElement="PAPER_FEE" start="492" length="2" />
+			<map srcElement="EF_FEE" start="494" length="2" />
+        </fieldMaps>
+    </letter>
+
+	<!-- WSO letter has only english/welsh versions, no scottish version or LLP -->
+	<letter types="Welsh Service (DEB)" category="newchipslayout" 
+	                                    ewfile="SHUTTLES/WSOLE" 
+	                                    welshfile="SHUTTLES/WSOLW"
+		                                scfile="SHUTTLES/NO_SCOT_WSO_ERROR" 
+		                                nifile ="SHUTTLES/NO_NI_WSO_ERROR" 
+		                                fofile="SHUTTLES/FO_WSO_ERROR">
+        <fieldMaps>
+			<map srcElement="SIG_NAME" start="491" length="30"/>
+        </fieldMaps>
+    </letter>
+</letters>
