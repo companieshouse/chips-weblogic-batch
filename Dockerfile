@@ -1,4 +1,4 @@
-FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre:1.2.0
+FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre:1.2.1
 
 ENV ORACLE_HOME=/apps/oracle \
     ARTIFACTORY_BASE_URL=http://repository.aws.chdev.org:8081/artifactory
