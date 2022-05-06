@@ -19,11 +19,14 @@ source /apps/oracle/scripts/logging_functions
 
 exec >> ${LOG_FILE} 2>&1
 
+DOC1_GATEWAY_LOCATION_EW="/apps/oracle/input-output/gateway/doc1/ew"
+DOC1_PRODUCER_OUTPUT_LOCATION="/apps/oracle/input-output/doc1ProducerOutput"
+
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting letter-counts"
 DATE=`date +%Y-%m-%d`
 
-DIR=`ls -d /apps/oracle/chipsdomain/batch/doc1ProducerOutput/$DATE*`
+DIR=`ls -d ${DOC1_PRODUCER_OUTPUT_LOCATION}/$DATE*`
 
 #Non zero exit code
 if [ ! $? -eq 0 ] ; then
@@ -50,6 +53,9 @@ done
 
 #Sort file, and strip out leading dot slash (./)
 sort /tmp/letter_tots | sed 's/.\///' > /tmp/letter_no_tots
+
+#Copy file to Gateway before emailing contents to recipients - for APS purposes
+cp -rp /tmp/letter_no_tots ${DOC1_GATEWAY_LOCATION_EW}/APS_letter_count
 
 email_report_CHAPS_group_f "Daily Letters File Sent to APS" "`cat /tmp/letter_no_tots`"
 
