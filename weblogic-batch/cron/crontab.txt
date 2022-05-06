@@ -23,7 +23,16 @@
 
 ## Compliance Only run on Sat-Sun
 ## DONT CHANGE THIS - COMMENT IT OUT IF THERE IS A WEEKEND IR - IT DOESNT HAVE TO RUN
-# 01 00 * * 0,1 $HOME/compliance-trigger/compliance-trigger.sh
+# 01 00 * * 0,1 $HOME/compliance-trigger/compliance-trigger.sh 2>&1 >/dev/null
+
+## Compliance Suite. Use this if you want to chain the Comp, Lett and Doc jobs together
+## IF THIS RUNS ON WEEKEND YOU MUST COMMENT OUT Compliance Only run on Sat-Sun
+# 01 00 * * 2-6 $HOME/process-compliance/process-compliance.sh
+# Send the files containing the CH Default Address through doc1 so that they end up in Smartview
+# 00 14 * * 2-6 $HOME/process-compliance/process-ch-address-files.sh
+
+# AuthCode job
+# 35 04 * * 0-6 $HOME/doc1-producer/call_authcode-doc1.sh
 
 ## letter-counts that follow letter-producer
 # 00 06 * * 1 $HOME/letter-producer/bad-letters.sh

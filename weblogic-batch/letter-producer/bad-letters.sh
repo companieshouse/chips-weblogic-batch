@@ -22,7 +22,7 @@ exec >> ${LOG_FILE} 2>&1
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting bad-letters"
 
-cd /apps/oracle/chipsdomain/batch/letterProducerOutput
+cd /apps/oracle/input-output/letterProducerOutput
 
 find . -name '*.xml' -type f -print | grep -v large_font | grep -v schedule |  grep -v DissCerts | grep '_'>/tmp/bad_letters
 

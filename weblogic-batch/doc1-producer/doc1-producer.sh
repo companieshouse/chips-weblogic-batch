@@ -17,14 +17,19 @@ CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-lang.jar:/apps/oracle/libs/ojdb
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
 source /apps/oracle/scripts/alert_functions
 
-#TODO as part of process compliance script: consider how logging will be handled - here or process compliance or both? (tee like image regen?)
 # set up logging
 LOGS_DIR=../logs/doc1-producer
 mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-doc1-producer-$(date +'%Y-%m-%d_%H-%M-%S').log"
 source /apps/oracle/scripts/logging_functions
 
-exec >> ${LOG_FILE} 2>&1
+# Enable std Cloud batch logging via stdout whilst also supporting ability for invoking scripts to capture it too
+# so that calling script can redirect stdout too thus be able to log independently.
+# exec > changes stdout to refer to what comes next
+# being process substitution of >(tee "${LOG_FILE}") to feed std program input 
+# 2>&1 to redirect stderr to same place as stdout
+# Net impact is to changes current process std output so output from following commands goto the tee process
+exec > >(tee "${LOG_FILE}") 2>&1
 
 PROPERTIES=$1   # Doc1 Properties File
 CONFIG=$2       # Doc1 Config File
