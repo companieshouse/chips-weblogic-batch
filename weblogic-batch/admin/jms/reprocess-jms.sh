@@ -14,7 +14,7 @@
 #  In addition to the parameters, it also expects one or more environment
 #  variables that list the connection details for the JMS Servers on which to 
 #  perform the move operation. These variables must be called JMS_SERVER_#
-#  (where # is a unique idetifier such as a number).  E.g.
+#  (where # is a unique identifier such as a number).  E.g.
 #
 #  JMS_SERVER_1=t3s://chips-ef-batch0.heritage.aws.internal:21031|JMSServer1
 #  JMS_SERVER_2=t3s://chips-ef-batch1.heritage.aws.internal:21031|JMSServer1
