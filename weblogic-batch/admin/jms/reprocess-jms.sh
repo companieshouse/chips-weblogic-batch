@@ -57,8 +57,5 @@ do
   do
     f_logInfo "Processing ${JMS_SERVER} moving messages from ${SOURCE_QUEUE} to ${DESTINATION_QUEUE}"
     ./move-jms.sh ${JMS_SERVER_NAME}@${SOURCE_QUEUE} ${JMS_SERVER_NAME}@${DESTINATION_QUEUE} ${JMS_SERVER_URL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} ${NUMBER_OF_MESSAGES}
-    if [ $? -gt 0 ]; then
-      f_logError "Non-zero exit code for move-jms execution"
-    fi
   done < <(echo ${JMS_SERVER##*=})
 done
