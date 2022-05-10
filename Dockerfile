@@ -38,7 +38,8 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/com/oracle/ojdbc8/12.2.1.4/ojdbc8-12.2.1.4.jar -o ojdbc8.jar && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/com/oracle/weblogic/wlfullclient/12.2.1.4/wlfullclient-12.2.1.4.jar -o wlfullclient.jar && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/org/jdom/jdom/1.1/jdom-1.1.jar -o jdom.jar && \
-    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/chaps/jms/jmstool/0.0.1/jmstool-0.0.1.jar -o jmstool.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/libs-release/javax/jms/jms-api/1.1-rev-1/jms-api-1.1-rev-1.jar -o jms-api.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/chaps/jms/jmstool/0.0.2/jmstool-0.0.2.jar -o jmstool.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/batch-manager/1.0.1/batch-manager-1.0.1.jar -o ../batchmanager/batch-manager.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/bulk-image-load/1.0.2/bulk-image-load-1.0.2.jar -o ../bulk-image-load/bulk-image-load.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/compliance-trigger/1.1.2/compliance-trigger-1.1.2.jar -o ../compliance-trigger/compliance-trigger.jar && \
