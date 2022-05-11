@@ -30,6 +30,9 @@ cd /apps/oracle/admin/jms
 # load variables created from setCron script
 source /apps/oracle/env.variables
 
+# remove unrelated JMS_SERVER_NAME env var
+unset JMS_SERVER_NAME
+
 # set up logging
 LOGS_DIR=../../logs/jms
 mkdir -p ${LOGS_DIR}
