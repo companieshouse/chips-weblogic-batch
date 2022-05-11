@@ -14,7 +14,7 @@
 #  In addition to the parameters, it also expects one or more environment
 #  variables that list the connection details for the JMS Servers on which to 
 #  perform the move operation. These variables must be called JMS_SERVER_URL_#
-#  (where # is a unique idetifier such as a number).  E.g.
+#  (where # is a unique identifier such as a number).  E.g.
 #
 #  JMS_SERVER_URL_1=t3s://chips-ef-batch0.heritage.aws.internal:21031|JMSServer1
 #  JMS_SERVER_URL_2=t3s://chips-ef-batch1.heritage.aws.internal:21031|JMSServer1
@@ -57,8 +57,5 @@ do
   do
     f_logInfo "Processing ${JMS_SERVER} moving messages from ${SOURCE_QUEUE} to ${DESTINATION_QUEUE}"
     ./move-jms.sh ${JMS_SERVER_NAME}@${SOURCE_QUEUE} ${JMS_SERVER_NAME}@${DESTINATION_QUEUE} ${JMS_SERVER_URL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} ${NUMBER_OF_MESSAGES}
-    if [ $? -gt 0 ]; then
-      f_logError "Non-zero exit code for move-jms execution"
-    fi
   done < <(echo ${JMS_SERVER##*=})
 done
