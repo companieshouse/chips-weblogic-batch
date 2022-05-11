@@ -13,13 +13,13 @@
 #
 #  In addition to the parameters, it also expects one or more environment
 #  variables that list the connection details for the JMS Servers on which to 
-#  perform the move operation. These variables must be called JMS_SERVER_#
+#  perform the move operation. These variables must be called JMS_SERVER_URL_#
 #  (where # is a unique identifier such as a number).  E.g.
 #
-#  JMS_SERVER_1=t3s://chips-ef-batch0.heritage.aws.internal:21031|JMSServer1
-#  JMS_SERVER_2=t3s://chips-ef-batch1.heritage.aws.internal:21031|JMSServer1
-#  JMS_SERVER_3=t3s://chips-users-rest0.heritage.aws.internal:21031|JMSServer1
-#  JMS_SERVER_4=t3s://chips-users-rest1.heritage.aws.internal:21031|JMSServer1
+#  JMS_SERVER_URL_1=t3s://chips-ef-batch0.heritage.aws.internal:21031|JMSServer1
+#  JMS_SERVER_URL_2=t3s://chips-ef-batch1.heritage.aws.internal:21031|JMSServer1
+#  JMS_SERVER_URL_3=t3s://chips-users-rest0.heritage.aws.internal:21031|JMSServer1
+#  JMS_SERVER_URL_4=t3s://chips-users-rest1.heritage.aws.internal:21031|JMSServer1
 #
 #  This script is intended to be called directly - either manually or via the cron.
 #  
@@ -50,7 +50,7 @@ SOURCE_QUEUE=$1
 DESTINATION_QUEUE=$2
 NUMBER_OF_MESSAGES=$3
 
-JMS_SERVERS=$(env | sort | grep "^JMS_SERVER_")
+JMS_SERVERS=$(env | sort | grep "^JMS_SERVER_URL_")
 for JMS_SERVER in ${JMS_SERVERS};
 do
   while IFS='|' read -r JMS_SERVER_URL JMS_SERVER_NAME;

@@ -18,11 +18,11 @@ The following parameters are required, in this order:
 For example:
 ./reprocess-jms.sh uk.gov.ch.chips.jms.EfilingRequestErrorQueue uk.gov.ch.chips.jms.EfilingRequestQueue 500
 
-The script moves messages on every one of the servers that are listed in environment variables that start with the prefix `JMS_SERVER_`
+The script moves messages on every one of the servers that are listed in environment variables that start with the prefix `JMS_SERVER_URL_`
 
 For example, if the following environment variables were defined, the script would move messages on both these servers:
 
-    JMS_SERVER_1=t3s://chips-ef-batch0.heritage.aws.internal:21031|JMSServer1
-    JMS_SERVER_2=t3s://chips-ef-batch1.heritage.aws.internal:21031|JMSServer1
+    JMS_SERVER_URL_1=t3s://chips-ef-batch0.heritage.aws.internal:21031|JMSServer1
+    JMS_SERVER_URL_2=t3s://chips-ef-batch1.heritage.aws.internal:21031|JMSServer1
 
 
