@@ -518,7 +518,7 @@ if [ $RUN_AFP = "YES" ] ; then
   
      AFP_OUT_FOLDER_COUNT=0;
      AFP_CHECK_COUNT=0;
-     SLEEP_SECS=60;
+     SLEEP_SECS=120;
 
      while [ $AFP_OUT_FOLDER_COUNT -lt $AFP_FILE_COUNT ] && [ $AFP_CHECK_COUNT -lt 10 ] 
      do
