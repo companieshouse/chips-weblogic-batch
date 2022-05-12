@@ -198,7 +198,8 @@ doc1-producer-config.xml - This is the configuration file used by the Doc1Produc
 
     <letter types="DEFSTATS, DEFSTATAC, DEFSTATAR, DEFSTATB" category="compliance">
 		<fieldMaps>
-			<map srcElement="DAYS_TO_FILE" start="897" length="2" justification="R"/>			
+			<map srcElement="DAYS_TO_FILE" start="897" length="2" justification="R"/>
+			<map srcElement="DEF3_DATE" start="899" length="10" justification="R"/>
 		</fieldMaps>
     </letter>
 
@@ -254,7 +255,6 @@ doc1-producer-config.xml - This is the configuration file used by the Doc1Produc
 	<letter types="DEF18" category="compliance">
 		<fieldMaps>
 			<map srcElement="DEF2_DATE" start="674" length="10"/>
-			<map srcElement="DEF3_DATE" start="684" length="10"/>
 		</fieldMaps>
 	</letter>
 

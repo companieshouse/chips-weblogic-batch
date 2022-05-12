@@ -93,5 +93,3 @@ mv $AUTHCODE_SOURCE/AUTHCODE*.txt $HOME/doc1-producer/authcode_backup
 
 f_logInfo "Finished Auth Code Process."
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-
-email_report_CHAPS_group_f "Auth Code process completed." "Auth Code process completed ok."
