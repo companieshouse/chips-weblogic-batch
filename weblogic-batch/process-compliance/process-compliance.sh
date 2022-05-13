@@ -230,15 +230,16 @@ fi
 ## Make sure the LATESTLETTEROUTPUTLOCATION is set & check for errors
 LATESTLETTEROUTPUTLOCATION=$(./check-for-stat.sh)
 
-f_logInfo "LATEST LETTER OUTPUT LOCATION IS $LATESTLETTEROUTPUTLOCATION"
 if [ $? -gt 0 ]; then
-  f_logError "check-for-stat.sh  exit code getting LATESTLETTEROUTPUTLOCATION indicates failure.  Please investigate."
+  f_logError "check-for-stat.sh exit code getting LATESTLETTEROUTPUTLOCATION indicates failure.  Please investigate."
+  f_logError "check-for-stat.sh output was: $LATESTLETTEROUTPUTLOCATION"
   patrol_log_alert_chaps_f " `pwd`/`basename $0`: check-for-stat.sh  exit code getting LATESTLETTEROUTPUTLOCATION indicates failure.  Please investigate."
   exit 1
 fi
+f_logInfo "LATEST LETTER OUTPUT LOCATION IS $LATESTLETTEROUTPUTLOCATION"
 
 ## check dir exists
-if [ ! -d ${LATESTLETTEROUTPUTLOCATION} ]; then
+if [[ ! -d ${LATESTLETTEROUTPUTLOCATION} ]]; then
   f_logError "Doc1Producer LATESTLETTEROUTPUTLOCATION not a directory.  Please investigate."
   patrol_log_alert_chaps_f " `pwd`/`basename $0`:  Doc1Producer LATESTLETTEROUTPUTLOCATION not a directory.  Please investigate."
   exit 1
@@ -305,7 +306,7 @@ if [ $RUN_DOC1 = "YES" ] ; then
   done
 
   ## check dir exists
-  if [ ! -d ${DOC1OUTPUTLOCATION} ]; then
+  if [[ ! -d ${DOC1OUTPUTLOCATION} ]]; then
     f_logError "Doc1Producer DOC1OUTPUTLOCATION not a directory. Do we have any letters? Please investigate."
     f_logError "DOC1OUTPUTLOCATION is ${DOC1OUTPUTLOCATION}"
     patrol_log_alert_chaps_f " `pwd`/`basename $0`:  Doc1Producer DOC1OUTPUTLOCATION not a directory.  Do we have any letters? Please investigate."
@@ -314,7 +315,7 @@ if [ $RUN_DOC1 = "YES" ] ; then
   fi
 
   ## check AFP input dir exists 
-  if [ ! -d ${AFP_INPUT_LOCATION} ]; then
+  if [[ ! -d ${AFP_INPUT_LOCATION} ]]; then
     f_logError "Doc1Producer AFP_INPUT_LOCATION not a directory. Is folder mapped correctly? Please investigate."
     f_logError "AFP_INPUT_LOCATION is ${AFP_INPUT_LOCATION}"
     patrol_log_alert_chaps_f " `pwd`/`basename $0`:  Doc1Producer APF_INPUT_LOCATION not a directory.  Do we have any letters? Please investigate."
@@ -323,7 +324,7 @@ if [ $RUN_DOC1 = "YES" ] ; then
   fi
 
   ## check AFP output dir exists
-  if [ ! -d ${AFP_OUTPUT_LOCATION} ]; then
+  if [[ ! -d ${AFP_OUTPUT_LOCATION} ]]; then
     f_logError "Doc1Producer AFP_OUTPUT_LOCATION not a directory. Is folder mapped correctly? Please investigate."
     f_logError "AFP_OUTPUT_LOCATION is ${AFP_OUTPUT_LOCATION}"
     patrol_log_alert_chaps_f " `pwd`/`basename $0`:  Doc1Producer APF_OUTPUT_LOCATION not a directory.  Do we have any letters? Please investigate."
