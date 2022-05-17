@@ -9,10 +9,6 @@ KEEP_HOME=${HOME}
 source /apps/oracle/env.variables
 HOME=${KEEP_HOME}
 
-# create properties file and substitutes values
-envsubst < doc1-producer.properties.template > doc1-producer.properties
-source doc1-producer.properties
-
 # Set up mail config for msmtp & load alerting functions
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
 source /apps/oracle/scripts/alert_functions
