@@ -45,3 +45,6 @@
 00 6,9,12,14,16,18 * * * $HOME/admin/jms/reprocess-jms.sh uk.gov.ch.chips.jms.EfilingErrorQueue uk.gov.ch.chips.jms.EfilingQueue 500
 00 23 * * 1-5  $HOME/admin/jms/reprocess-jms.sh uk.gov.ch.chips.jms.FesMessageProducerErrorQueue uk.gov.ch.chips.jms.FesMessageProducerQueue 500
 
+## JMS queue monitoring
+05 9,15 * * 1,2,3,4,5 $HOME/admin/jms/report-stuck-ef-submissions.sh
+
