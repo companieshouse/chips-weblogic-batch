@@ -79,3 +79,20 @@ email_report_CHAPS_group_f ()
      echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Report: $1\n\n${LOCATION_STRING}\n\n$2" | msmtp -t
   fi
 }
+
+##
+## This function will send an email to a list of recipients
+## This function expects three arguments.
+##
+## First is one or more email addresses, separated by commas.
+## Second is the subject as an enclosed string.
+## Third is the body text as an enclosed string.
+##
+## Example:
+##  email_report_f storage@companieshouse.gov.uk,csi@companieshouse.gov.uk "Disk Space high on chpwlo-pl3" "Please check disk space on Weblogic Servers"
+email_report_f ()
+{
+  if check_email_address_defined_f; then
+     echo -e "To:$1\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:$2\n\n${LOCATION_STRING}\n\n$3" | msmtp -t
+  fi
+}

@@ -4,6 +4,12 @@
 #
 #  This script is used to report on JMS messages in the EfilingRequestErrorQueue    
 #  across all WebLogic servers.
+# 
+#  The script uses an optional STUCK_DOCS_REPORT_EMAIL_ADDRESSES environment variable
+#  to determine which email addresses to send the report to.  This should be a comma
+#  separated list of email recipients with no spaces.
+#  If the STUCK_DOCS_REPORT_EMAIL_ADDRESSES environment variable is not set, the report
+#  will be sent to just the email address in the EMAIL_ADDRESS_CSI environment variable.
 #
 # =============================================================================
 
@@ -39,6 +45,7 @@ HOME=${KEEP_HOME}
 
 # Set up mail config for msmtp & load alerting functions
 envsubst <../../.msmtprc.template >../../.msmtprc
+source ../../scripts/alert_functions
 
 # set up logging
 LOGS_DIR=../../logs/jms
@@ -86,7 +93,8 @@ parseAndWriteMetaData ${TMP_XML_FILE} ${TMP_METADATA_FILE}
 # Now we have our metadata, we need to generate a report
 
 TMP_REPORT_FILE=report.tmp
-rm -f  ${TMP_REPORT_FILE}
+DATE=$(date)
+echo "Snapshot of docs in EfilingRequestErrorQueue at ${DATE}. CSI will fix these and push these to QH queues ASAP.\n" > ${TMP_REPORT_FILE}
 
 COUNT=$(grep -c -v scan ${TMP_METADATA_FILE})
 if [[ ${COUNT} -gt 0 ]]
@@ -130,18 +138,11 @@ then
 fi
 
 # Now we need to email out the report
-
-LOCATION_STRING="Sent from: ${ENVIRONMENT_LABEL} - ${T3_HOST_FQDN} - EC2 instance ID ${EC2_INSTANCE_ID} (${APP_INSTANCE_NAME})"
-DATE=$(date)
-SUBJECT="Following CLOUD EF or FES/Scanned docs currently stuck ${DATE}"
-HEADING="Snapshot of docs in EfilingRequestErrorQueue at ${DATE}. CSI will fix these and push these to QH queues ASAP."
-
-TMP_EMAIL_FILE=email.tmp
-echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:${SUBJECT}\n\n${LOCATION_STRING}\n\n${HEADING}" > ${TMP_EMAIL_FILE}
-cat ${TMP_REPORT_FILE} >> ${TMP_EMAIL_FILE}
-cat ${TMP_EMAIL_FILE} | msmtp -t
+EMAIL_ADDRESSES=${STUCK_DOCS_REPORT_EMAIL_ADDRESSES:-${EMAIL_ADDRESS_CSI}}
+email_report_f ${EMAIL_ADDRESSES} "Following CLOUD EF or FES/Scanned docs currently stuck ${DATE}" "$(cat ${TMP_REPORT_FILE})"
 
 # Clean up
 rm -f ${TMP_EMAIL_FILE}
 rm -f ${TMP_REPORT_FILE}
+
 
