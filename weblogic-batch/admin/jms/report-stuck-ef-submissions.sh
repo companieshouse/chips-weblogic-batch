@@ -62,8 +62,9 @@ TMP_XML_FILE=xml.tmp
 # Extract a list of submission xml from all jms servers
 ./list-all-jms.sh uk.gov.ch.chips.jms.EfilingRequestErrorQueue > ${TMP_LIST_FILE}
 
-# Tidy up the extracted list so that it just contains xml
+# Tidy up the extracted list so that it just contains xml without any attachment data
 sed -i -n '/^<?xml/,/<\/form>/p' ${TMP_LIST_FILE}
+sed -i '/<data>/,/<\/data>/d' ${TMP_LIST_FILE}
 
 # Check if there is any xml in TMP_LIST_FILE - if not then we can exit as no stuck docs
 grep -q xml ${TMP_LIST_FILE}
