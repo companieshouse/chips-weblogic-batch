@@ -93,6 +93,6 @@ email_report_CHAPS_group_f ()
 email_report_f ()
 {
   if check_email_address_defined_f; then
-     echo -e "To:$1\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:$2\n\n${LOCATION_STRING}\n\n$3" | msmtp -t
+     echo -e "To:$1\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:$2\n\n${LOCATION_STRING}\n\n$3\n\n" | msmtp -t
   fi
 }

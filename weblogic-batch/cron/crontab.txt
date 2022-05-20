@@ -46,5 +46,8 @@
 00 23 * * 1-5  $HOME/admin/jms/reprocess-jms.sh uk.gov.ch.chips.jms.FesMessageProducerErrorQueue uk.gov.ch.chips.jms.FesMessageProducerQueue 500
 
 ## JMS queue monitoring
-05 9,15 * * 1,2,3,4,5 $HOME/admin/jms/report-stuck-ef-submissions.sh
+# Send report to csi and servicenow (emails in STUCK_DOCS_REPORT_EMAIL_ADDRESSES env var)
+05 9 * * 1,2,3,4,5 $HOME/admin/jms/report-stuck-ef-submissions.sh
+# Send report to just csi
+05 15 * * 1,2,3,4,5 source $HOME/env.variables; /apps/oracle/admin/jms/report-stuck-ef-submissions.sh ${EMAIL_ADDRESS_CSI}
 
