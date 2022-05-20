@@ -4,10 +4,14 @@
 #
 #  This script is used to report on JMS messages in the EfilingRequestErrorQueue    
 #  across all WebLogic servers.
+#
+#  An optional parameter may be supplied which sets the email address(es) to send
+#  the report to.  This should be a comma separated list of email recipients without spaces.
 # 
-#  The script uses an optional STUCK_DOCS_REPORT_EMAIL_ADDRESSES environment variable
-#  to determine which email addresses to send the report to.  This should be a comma
-#  separated list of email recipients with no spaces.
+#  If no parameter is supplied, the script uses an optional STUCK_DOCS_REPORT_EMAIL_ADDRESSES
+#  environment variable to determine which email addresses to send the report to.
+#  This should be a comma separated list of email recipients without spaces.
+#
 #  If the STUCK_DOCS_REPORT_EMAIL_ADDRESSES environment variable is not set, the report
 #  will be sent to just the email address in the EMAIL_ADDRESS_CSI environment variable.
 #
@@ -139,11 +143,11 @@ then
 fi
 
 # Now we need to email out the report
+STUCK_DOCS_REPORT_EMAIL_ADDRESSES=${1:-${STUCK_DOCS_REPORT_EMAIL_ADDRESSES}}
 EMAIL_ADDRESSES=${STUCK_DOCS_REPORT_EMAIL_ADDRESSES:-${EMAIL_ADDRESS_CSI}}
 email_report_f ${EMAIL_ADDRESSES} "Following CLOUD EF or FES/Scanned docs currently stuck ${DATE}" "$(cat ${TMP_REPORT_FILE})"
 
 # Clean up
 rm -f ${TMP_EMAIL_FILE}
 rm -f ${TMP_REPORT_FILE}
-
 
