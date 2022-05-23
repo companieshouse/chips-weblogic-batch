@@ -31,9 +31,6 @@
 # Send the files containing the CH Default Address through doc1 so that they end up in Smartview
 # 00 14 * * 2-6 $HOME/process-compliance/process-ch-address-files.sh
 
-# AuthCode job
-# 35 04 * * 0-6 $HOME/doc1-producer/call_authcode-doc1.sh
-
 ## letter-counts that follow letter-producer
 # 00 06 * * 1 $HOME/letter-producer/bad-letters.sh
 # 15 04 * * 2-6 $HOME/letter-producer/letter-counts.sh
