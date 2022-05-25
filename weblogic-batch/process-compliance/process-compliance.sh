@@ -42,7 +42,7 @@ if [ -z ${INTERACTIVE} ]; then        # variable for auditing in logs
   INTERACTIVE="NO"
 fi
 
-#CHECK: If run_menu_interactive.sh  did not set the control variables, then set them now to YES. This default is to run everything.
+#CHECK: If interactive script  did not set the control variables, then set them now to YES. This default is to run everything.
 
 if [ -z ${RUN_COMPLIANCE} ]; then
   RUN_COMPLIANCE="YES"
@@ -275,7 +275,7 @@ if [ $RUN_DOC1 = "YES" ] ; then
      f_logInfo "Doc1 file: $DOC1FILE"
   done
 
-  #  DOC1FILE_CH_ADDRESS_DIR set in process.properties
+  #  DOC1FILE_CH_ADDRESS_DIR set in process-compliance.properties
   f_logInfo "DOC1FILE_CH_ADDRESS_DIR is ${DOC1FILE_CH_ADDRESS_DIR}"
   rm -rf $DOC1FILE_CH_ADDRESS_DIR
   for DOC1FILE in ${DOC1FILELIST}

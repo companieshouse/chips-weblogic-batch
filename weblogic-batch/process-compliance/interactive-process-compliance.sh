@@ -6,7 +6,7 @@
 # Functions
 ################################################################################
 Help() {
-  clear && echo "Process Compliance Interactive help. "
+  clear && echo "Interactive Process Compliance help. "
   echo ""
   echo "This is an interactive menu for running the following jobs - along with process completion checks and file transfers."
   echo ""

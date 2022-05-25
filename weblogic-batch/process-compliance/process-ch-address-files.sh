@@ -79,14 +79,19 @@ if [ -d "${DOC1FILE_CH_ADDRESS_DIR}" ]; then
      f_logInfo "Moving processed afp files to archive"
      f_logInfo "List of files in ${AFP_OUTPUT_LOCATION} is"
      ls -l ${AFP_OUTPUT_LOCATION} | while IFS= read -r line; do f_logInfo "$line"; done
-     mv ${AFP_OUTPUT_LOCATION}/* ${BATCH_FOLDER}/afp_ch_address_archive
+     mv ${AFP_OUTPUT_LOCATION}/* ${BATCH_FOLDER}/afp_ch_address_archive/
   fi
 
   date >> ${SUMMARY_FILE}
   find ${DOC1FILE_CH_ADDRESS_DIR} -name "*" -type f -exec wc -l {} + >> ${SUMMARY_FILE}
   echo ---------------------------------- >> ${SUMMARY_FILE}
-  f_logInfo "Moving ${DOC1FILE_CH_ADDRESS_DIR} to ${DOC1FILE_CH_ADDRESS_DIR}.$(date +%F_%R)"
-  mv ${DOC1FILE_CH_ADDRESS_DIR} ${DOC1FILE_CH_ADDRESS_DIR}.$(date +%F_%R)
+
+  # DOC1FILE_CH_ADDRESS_DIR is docker mount dir so can't move - moving contents instead
+  DATED_DIR=${DOC1FILE_CH_ADDRESS_DIR_ARCHIVE}/$(basename ${DOC1FILE_CH_ADDRESS_DIR}).$(date +'%Y-%m-%d_%H-%M-%S')
+  echo "Moving ${DOC1FILE_CH_ADDRESS_DIR} contents to ${DATED_DIR}"
+  mkdir ${DATED_DIR}
+  mv ${DOC1FILE_CH_ADDRESS_DIR}/* ${DATED_DIR}/
+
 fi
 f_logInfo "process-ch-address-files ends"
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
