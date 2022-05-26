@@ -187,6 +187,7 @@ if [ $RUN_LETTERPRODUCER = "YES" ] ; then
     # capture output to keep log tidy (not using log functions as eventually returning directory via echo)
     LATESTLETTEROUTPUTLOCATION=$(./check-for-stat.sh)
     CHECKFORSTATS=$?
+    f_logInfo "check-for-stat.sh output was: $LATESTLETTEROUTPUTLOCATION"
 
     if [ ${CHECKCOUNT} -eq 0 ]; then
       ## We should never get here but alert if we loop after x hours
@@ -277,7 +278,10 @@ if [ $RUN_DOC1 = "YES" ] ; then
 
   #  DOC1FILE_CH_ADDRESS_DIR set in process-compliance.properties
   f_logInfo "DOC1FILE_CH_ADDRESS_DIR is ${DOC1FILE_CH_ADDRESS_DIR}"
-  rm -rf $DOC1FILE_CH_ADDRESS_DIR
+  # remove contents, as directory itself is defined as a docker volume
+  if [[ -d ${DOC1FILE_CH_ADDRESS_DIR} ]] ; then
+    rm -rf ${DOC1FILE_CH_ADDRESS_DIR}/*
+  fi
   for DOC1FILE in ${DOC1FILELIST}
     do
        DOC1FILE_CH_ADDRESS=`echo ${DOC1FILE} | sed -e 's?doc1ProducerOutput?doc1ProducerOutput_ch_address?g'`

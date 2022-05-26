@@ -38,8 +38,6 @@ if [ -z ${DOC1FILE_CH_ADDRESS_DIR} ]; then
   f_logError "DOC1FILE_CH_ADDRESS_DIR not set - please edit properties"  ; exit 1
 fi
 
-SUMMARY_FILE="/apps/oracle/input-output/letters_to_default_address_count"
-f_logInfo "Summary file is ${SUMMARY_FILE}"
 # Copy the files in DOC1FILE_CH_ADDRESS_DIR to the AFP_INPUT_LOCATION.  This  will ensure that the afp files are
 # generated and moved into Smartview.  The files are not sent to APS, so won't be printed and mailed back to us.
 
@@ -76,15 +74,16 @@ if [ -d "${DOC1FILE_CH_ADDRESS_DIR}" ]; then
         NUMBER_OF_FILES_IN_AFP_OUTPUT_FOLDER=`ls -1 ${AFP_OUTPUT_LOCATION}/*CH_ADDRESS* | wc -l`
         f_logInfo "NUMBER_OF_FILES_IN_AFP_OUTPUT_FOLDER is ${NUMBER_OF_FILES_IN_AFP_OUTPUT_FOLDER}"
      done
-     f_logInfo "Moving processed afp files to archive"
+     f_logInfo "Removing processed afp files - available in SmartView or Doc1 server archives if needed"
      f_logInfo "List of files in ${AFP_OUTPUT_LOCATION} is"
      ls -l ${AFP_OUTPUT_LOCATION} | while IFS= read -r line; do f_logInfo "$line"; done
-     mv ${AFP_OUTPUT_LOCATION}/* ${BATCH_FOLDER}/afp_ch_address_archive/
+     if [[ -d ${AFP_OUTPUT_LOCATION} ]] ; then
+       rm -rf ${AFP_OUTPUT_LOCATION}/*
+     fi
   fi
 
-  date >> ${SUMMARY_FILE}
-  find ${DOC1FILE_CH_ADDRESS_DIR} -name "*" -type f -exec wc -l {} + >> ${SUMMARY_FILE}
-  echo ---------------------------------- >> ${SUMMARY_FILE}
+  f_logInfo "CH address letters stats for current run:"
+  find ${DOC1FILE_CH_ADDRESS_DIR} -name "*" -type f -exec wc -l {} + >> ${SUMMARY_FILE} | while IFS= read -r line; do f_logInfo "$line"; done
 
   # DOC1FILE_CH_ADDRESS_DIR is docker mount dir so can't move - moving contents instead
   DATED_DIR=${DOC1FILE_CH_ADDRESS_DIR_ARCHIVE}/$(basename ${DOC1FILE_CH_ADDRESS_DIR}).$(date +'%Y-%m-%d_%H-%M-%S')
