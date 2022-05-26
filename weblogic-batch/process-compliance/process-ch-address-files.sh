@@ -83,7 +83,7 @@ if [ -d "${DOC1FILE_CH_ADDRESS_DIR}" ]; then
   fi
 
   f_logInfo "CH address letters stats for current run:"
-  find ${DOC1FILE_CH_ADDRESS_DIR} -name "*" -type f -exec wc -l {} + >> ${SUMMARY_FILE} | while IFS= read -r line; do f_logInfo "$line"; done
+  find ${DOC1FILE_CH_ADDRESS_DIR} -name "*" -type f -exec wc -l {} + | while IFS= read -r line; do f_logInfo "$line"; done
 
   # DOC1FILE_CH_ADDRESS_DIR is docker mount dir so can't move - moving contents instead
   DATED_DIR=${DOC1FILE_CH_ADDRESS_DIR_ARCHIVE}/$(basename ${DOC1FILE_CH_ADDRESS_DIR}).$(date +'%Y-%m-%d_%H-%M-%S')
