@@ -1,0 +1,4 @@
+dissolutionCertsProducer.provider.url=${JMS_JNDIPROVIDERURL}
+dissolutionCertsProducer.security.principal=${WEBLOGIC_ADMIN_USERNAME}
+dissolutionCertsProducer.security.credentials=${ADMIN_PASSWORD}
+dissolutionCertsProducer.defaultBatchSize=100

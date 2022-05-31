@@ -87,7 +87,7 @@ if [ -d "${DOC1FILE_CH_ADDRESS_DIR}" ]; then
 
   # DOC1FILE_CH_ADDRESS_DIR is docker mount dir so can't move - moving contents instead
   DATED_DIR=${DOC1FILE_CH_ADDRESS_DIR_ARCHIVE}/$(basename ${DOC1FILE_CH_ADDRESS_DIR}).$(date +'%Y-%m-%d_%H-%M-%S')
-  echo "Moving ${DOC1FILE_CH_ADDRESS_DIR} contents to ${DATED_DIR}"
+  f_logInfo "Moving ${DOC1FILE_CH_ADDRESS_DIR} contents to ${DATED_DIR}"
   mkdir ${DATED_DIR}
   mv ${DOC1FILE_CH_ADDRESS_DIR}/* ${DATED_DIR}/
 
