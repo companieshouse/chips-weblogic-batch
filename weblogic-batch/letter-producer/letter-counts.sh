@@ -17,7 +17,8 @@ mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-letter-counts-$(date +'%Y-%m-%d_%H-%M-%S').log"
 source /apps/oracle/scripts/logging_functions
 
-exec >> ${LOG_FILE} 2>&1
+# Use tee to direct output to log file while also keeping it available to calling script
+exec > >(tee "${LOG_FILE}") 2>&1
 
 DOC1_GATEWAY_LOCATION_EW="/apps/oracle/input-output/gateway/doc1/ew"
 DOC1_PRODUCER_OUTPUT_LOCATION="/apps/oracle/input-output/doc1ProducerOutput"
