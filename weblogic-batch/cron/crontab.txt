@@ -31,9 +31,8 @@
 # Send the files containing the CH Default Address through doc1 so that they end up in Smartview
 # 00 14 * * 2-6 $HOME/process-compliance/process-ch-address-files.sh
 
-## letter-counts that follow letter-producer
+## weekly bad-letters report
 # 00 06 * * 1 $HOME/letter-producer/bad-letters.sh
-# 15 04 * * 2-6 $HOME/letter-producer/letter-counts.sh
 
 ## JMS queue resubmission
 00 5,8,14 * * * $HOME/admin/jms/reprocess-jms.sh uk.gov.ch.chips.jms.EfilingRequestErrorQueue uk.gov.ch.chips.jms.EfilingRequestQueue 500
@@ -47,4 +46,3 @@
 05 9 * * 1,2,3,4,5 $HOME/admin/jms/report-stuck-ef-submissions.sh
 # Send report to just csi
 05 15 * * 1,2,3,4,5 source $HOME/env.variables; /apps/oracle/admin/jms/report-stuck-ef-submissions.sh ${EMAIL_ADDRESS_CSI}
-

@@ -24,6 +24,39 @@ source /apps/oracle/scripts/logging_functions
 
 exec >> "${LOG_FILE}" 2>&1
 
+GATEWAY_FAILURES=0;
+GATEWAY_RETRY_SECONDS=60;
+
+## Retry functions
+f_copyWithRetry() {
+  cp $1 $2
+  if [ $? -gt 0 ]; then
+    f_logWarn "Failed to copy file to $2 - will retry after ${GATEWAY_RETRY_SECONDS}s"
+    sleep ${GATEWAY_RETRY_SECONDS}
+    f_logInfo "(Retry) Writing $2."
+    cp $1 $2
+    if [ $? -gt 0 ]; then
+      f_logError "Failed to copy file to $2 on 2nd attempt - needs manual intervention"
+      GATEWAY_FAILURES=$((GATEWAY_FAILURES+1))
+    fi
+  fi
+}
+
+f_moveWithRetry() {
+  mv $1 $2
+  if [ $? -gt 0 ]; then
+    f_logWarn "Failed to move file to $2 - will retry after ${GATEWAY_RETRY_SECONDS}s"
+    sleep ${GATEWAY_RETRY_SECONDS}
+    f_logInfo "(Retry) Writing $2."
+    mv $1 $2
+    if [ $? -gt 0 ]; then
+      f_logError "Failed to move file to $2 on 2nd attempt - needs manual intervention"
+      GATEWAY_FAILURES=$((GATEWAY_FAILURES+1))
+    fi
+  fi
+}
+## End of retry functions
+
 PrintVar() {
   f_logInfo "RUN_COMPLIANCE=$RUN_COMPLIANCE"
   f_logInfo "RUN_LETTERPRODUCER=$RUN_LETTERPRODUCER"
@@ -452,19 +485,19 @@ if [ $RUN_DOC1 = "YES" ] ; then
            if [ ${OUTPUTFILENAME} = "HSOL1" ]; then
                  f_logInfo "Creating HS1COPY file from HSOL1 file"
                  f_logInfo "Writing ${DOC1_GATEWAY_LOCATION}/HS1COPY."
-                 cp ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/HS1COPY 
+                 f_copyWithRetry ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/HS1COPY
            fi
 
            #SL  HSOL1W must be duplicated as HS1CPYW file before copying to the gateway
            if [ ${OUTPUTFILENAME} = "HSOL1W" ]; then
                  f_logInfo "Creating HS1CPYW file from HSOL1W file"
                  f_logInfo "Writing ${DOC1_GATEWAY_LOCATION}/HS1CPYW."
-                 cp ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/HS1CPYW
+                 f_copyWithRetry ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/HS1CPYW
            fi
 
            f_logInfo "Writing ${DOC1_GATEWAY_LOCATION}/${OUTPUTFILENAMEDESTINATION}."  
 
-           cp ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/${OUTPUTFILENAMEDESTINATION} 
+           f_copyWithRetry ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/${OUTPUTFILENAMEDESTINATION}
         else
            #Process AFP files...
            f_logInfo "Processing ${OUTPUTFILENAME} as AFP file."  
@@ -574,7 +607,7 @@ if [ $RUN_AFP = "YES" ] ; then
               COPYFILE=`echo ${OUTPUTFILENAME} | sed 's/HSOL1/HS1COPY/g'`
               f_logInfo "COPYFILE is $COPYFILE"
               f_logInfo "Writing ${DOC1_GATEWAY_LOCATION}/${COPYFILE}"
-              cp ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/${COPYFILE}
+              f_copyWithRetry ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/${COPYFILE}
            fi
 
            #SL  HSOL1W must be duplicated as HS1CPYW file before copying to the gateway
@@ -583,15 +616,21 @@ if [ $RUN_AFP = "YES" ] ; then
               COPYFILE=`echo ${OUTPUTFILENAME} | sed 's/HSOL1W/HS1CPYW/g'`
               f_logInfo "COPYFILE is $COPYFILE"
               f_logInfo "Writing ${DOC1_GATEWAY_LOCATION}/${COPYFILE}"
-              cp ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/${COPYFILE}
+              f_copyWithRetry ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/${COPYFILE}
            fi
 
            f_logInfo "Writing ${DOC1_GATEWAY_LOCATION}/${OUTPUTFILENAME}."
+           f_moveWithRetry ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/${OUTPUTFILENAME}
 
-           mv ${OUTPUTFILE} ${DOC1_GATEWAY_LOCATION}/${OUTPUTFILENAME}
         done
-     fi 
+     fi
+     /apps/oracle/letter-producer/letter-counts.sh
   fi
+fi
+
+if [[ ${GATEWAY_FAILURES} -gt 0 ]]; then
+  email_CHAPS_group_f "`basename $0` failed to write ${GATEWAY_FAILURES} file(s) to ${DOC1_GATEWAY_LOCATION} - needs manual intervention"
+  exit 1
 fi
 
 f_logInfo "Finished Compliance Process." 
