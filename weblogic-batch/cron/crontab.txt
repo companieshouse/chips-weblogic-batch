@@ -27,12 +27,12 @@
 
 ## Compliance Suite. Use this if you want to chain the Comp, Lett and Doc jobs together
 ## IF THIS RUNS ON WEEKEND YOU MUST COMMENT OUT Compliance Only run on Sat-Sun
-01 00 * * 2-6 $HOME/process-compliance/process-compliance.sh
+# 01 00 * * 2-6 $HOME/process-compliance/process-compliance.sh
 # Send the files containing the CH Default Address through doc1 so that they end up in Smartview
-00 14 * * 2-6 $HOME/process-compliance/process-ch-address-files.sh
+# 00 14 * * 2-6 $HOME/process-compliance/process-ch-address-files.sh
 
 ## weekly bad-letters report
-00 06 * * 1 $HOME/letter-producer/bad-letters.sh
+# 00 06 * * 1 $HOME/letter-producer/bad-letters.sh
 
 ## JMS queue resubmission
 00 5,8,14 * * * $HOME/admin/jms/reprocess-jms.sh uk.gov.ch.chips.jms.EfilingRequestErrorQueue uk.gov.ch.chips.jms.EfilingRequestQueue 500
