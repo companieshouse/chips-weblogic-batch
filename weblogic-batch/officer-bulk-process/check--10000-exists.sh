@@ -18,7 +18,6 @@ source ../scripts/alert_functions
 ./check-officer-publish-finished.command
 
 if [ $? -gt 0 ]; then
-    echo "Non-zero exit code for check-officer-publish-finished.command"
     email_CHAPS_group_f " $(basename $0): Fix Zombie Officer in chipstab.officer_detail_match- Bulk Officer Job."
     exit 1
 fi

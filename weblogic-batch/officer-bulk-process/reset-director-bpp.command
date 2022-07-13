@@ -1,4 +1,5 @@
 #!/bin/bash
+source /apps/oracle/scripts/logging_functions
 
 sqlplus -s -L ${CHIPS_SQLPLUS_CONN_STRING} <<EOF
   alter session set current_schema=chipstab;
@@ -33,7 +34,7 @@ EOF
 
 exit_code=$?
 if [ $exit_code -ne 0 ]; then
-  echo "Failed to reset director batch process parameters: SQLERROR with SQL.SQLCODE $exit_code"
+  f_logError "Failed to reset director batch process parameters: SQLERROR with SQL.SQLCODE $exit_code"
   exit 1
 fi
 

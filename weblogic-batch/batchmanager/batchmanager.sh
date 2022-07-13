@@ -12,17 +12,18 @@ CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/w
 LOGS_DIR=../logs/batchmanager
 mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-batchmanager-$(date +'%Y-%m-%d_%H-%M-%S').log"
+source /apps/oracle/scripts/logging_functions
 
 exec >> ${LOG_FILE} 2>&1
 
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo `date` Starting BatchManager
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+f_logInfo "Starting BatchManager"
 
 /usr/java/jdk-8/bin/java -Din=Batchmanager -cp $CLASSPATH uk.gov.companieshouse.chips.standalone.batch.SpringBatchManager
 if [ $? -gt 0 ]; then
-        echo "Non-zero exit code for batchmanager java execution"
+        f_logError "Non-zero exit code for batchmanager java execution"
         exit 1
 fi
 
-echo `date` Ending BatchManager
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+f_logInfo "Ending BatchManager"
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

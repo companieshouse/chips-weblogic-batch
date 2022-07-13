@@ -13,7 +13,7 @@
 
 function check_error_lock_file {
   if [ -f /apps/oracle/officer-bulk-process/OFFICER_LOCK_FILE_ALERT ]; then
-    echo "OFFICER_LOCK_FILE_ALERT exists. Previous run failed."
+    f_logError "OFFICER_LOCK_FILE_ALERT exists. Previous run failed."
     email_CHAPS_group_f " $(pwd)/$(basename $0): OFFICER_LOCK_FILE_ALERT exists. Previous run failed."
     exit 1
   fi
@@ -33,7 +33,7 @@ function set_running_lock_file {
 
 function check_running_lock_file {
   if [ -f /apps/oracle/officer-bulk-process/OFFICER_RUNNING ]; then
-    echo "OFFICER_RUNNING lock file exists. Officer already running."
+    f_logError "OFFICER_RUNNING lock file exists. Officer already running."
     email_CHAPS_group_f " $(pwd)/$(basename $0): OFFICER_RUNNING lock file exists. Officer already running."
     exit 1
   fi
@@ -59,11 +59,12 @@ source ../scripts/alert_functions
 LOGS_DIR=../logs/officer-bulk-process
 mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-officer-bulk-process-single-$(date +'%Y-%m-%d_%H-%M-%S').log"
+source /apps/oracle/scripts/logging_functions
 
 exec >>${LOG_FILE} 2>&1
 
 if [[ $# > 1 ]]; then
-  echo "$(date) Failed to start officer-bulk-process-single: Too many parameters, only expects a filename (defaults to officerIDs.xml)"
+  f_logError "Failed to start officer-bulk-process-single: Too many parameters, only expects a filename (defaults to officerIDs.xml)"
   exit 1
 fi
 ## set file of officers - defaults to officerIDs.xml
@@ -74,8 +75,8 @@ else
   FILE=$1
 fi
 
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo $(date) Starting Officer SINGLE
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+f_logInfo "Starting Officer SINGLE"
 
 ## Check if previous run has failed or job already running, exit and alert
 check_error_lock_file
@@ -87,32 +88,29 @@ set_running_lock_file
 ## REAL WORK BEGINS
 
 ## Run FIRST stage of Officer job - EVENT
-echo "Run FIRST stage of Officer job - EVENT  - SINGLE mode using ${FILE}"
+f_logInfo "Run FIRST stage of Officer job - EVENT  - SINGLE mode using ${FILE}"
 /usr/java/jdk-8/bin/java -Din=officer-bulk-process -cp $CLASSPATH -Dlog4j.configurationFile=log4j2.xml \
   uk.gov.companieshouse.officerbulkprocess.OfficerDetailEventPoller normal ${JMS_JNDIPROVIDERURL} bulk-officer.xml ${FILE}
 
 if [ $? -gt 0 ]; then
-  echo "Non-zero exit code for FIRST stage officer SINGLE java execution"
+  f_logError "Non-zero exit code for FIRST stage officer SINGLE java execution"
   remove_running_lock_file
   set_error_lock_file
   email_CHAPS_group_f " $(pwd)/$(basename $0): Non-zero exit code for FIRST stage officer SINGLE java execution."
   exit 1
 fi
 
-echo
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo "Zero return code for EVENT stage of Officer job SINGLE  - EVENT. Exit probably successful"
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+f_logInfo "Zero return code for EVENT stage of Officer job SINGLE  - EVENT. Exit probably successful"
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 ## Remove running lock file
 ##
 remove_running_lock_file
 
-echo $(date) Ending Officer SINGLE
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo
+f_logInfo "Ending Officer SINGLE"
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo "REMEMBER TO RESET TIMESTAMP IN OFFICER_EVENT_MATCH"
-echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+f_logInfo "REMEMBER TO RESET TIMESTAMP IN OFFICER_EVENT_MATCH"
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
