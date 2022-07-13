@@ -1,4 +1,5 @@
 #!/bin/bash
+source /apps/oracle/scripts/logging_functions
 
 EXPECTED_RESULT=$1
 
@@ -16,7 +17,7 @@ EOF`
 RESULT=`echo ${OUTPUT} | sed 's/ $//g'`
 
 if [[ "${RESULT}" != "${EXPECTED_RESULT}" ]]; then
-        echo "DB params order ${RESULT} does not match expected order ${EXPECTED_RESULT}"
+        f_logError "DB params order ${RESULT} does not match expected order ${EXPECTED_RESULT}"
         exit 1
 fi
 

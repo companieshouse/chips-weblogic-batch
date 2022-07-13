@@ -20,28 +20,29 @@ source ../scripts/alert_functions
 LOGS_DIR=../logs/bulk-image-load
 mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-bulk-image-load-$(date +'%Y-%m-%d_%H-%M-%S').log"
+source /apps/oracle/scripts/logging_functions
 
 exec >> ${LOG_FILE} 2>&1
 
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo `date` Starting bulk-image-load
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+f_logInfo "Starting bulk-image-load"
 
-echo Checking that bulk-image-load is not already running
+f_logInfo "Checking that bulk-image-load is not already running"
 ../scripts/check-for-jms-message.sh ${JMS_BULKIMAGELOADQUEUE}
 if [ $? -gt 0 ]; then
-        echo `date`": bulk-image-load may be already running or connection error.  Please investigate."
+        f_logError "bulk-image-load may be already running or connection error.  Please investigate."
         patrol_log_alert_chaps_f " `pwd`/`basename $0`:  bulk-image-load may be already running or connection error.  Please investigate."
         exit 1
 fi
 
-echo Count how many rows are in IMAGE_API_IN before job runs
+f_logInfo "Count how many rows are in IMAGE_API_IN before job runs"
 ./count_image_api_in_table.command
 
 /usr/java/jdk-8/bin/java -Din=bulk-image-load -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.bulkimageload.BulkImageLoadRunner bulk-image-load.properties
 if [ $? -gt 0 ]; then
-        echo "Non-zero exit code for bulk-image-load java execution"
+        f_logError "Non-zero exit code for bulk-image-load java execution"
         exit 1
 fi
 
-echo `date` Ending bulk-image-load
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+f_logInfo "Ending bulk-image-load"
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

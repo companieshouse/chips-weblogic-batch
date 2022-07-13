@@ -48,7 +48,9 @@ do
   if [ -f "$FILE" ] ; then
     #strip off leading path
     FILENAME=`basename "$FILE"`
-    echo "$FILE":`grep -c 107000 $FILE` | tee -a /tmp/letter_tots
+    FILELENGTH=`grep -c 107000 $FILE`
+    f_logInfo "${FILE}:${FILELENGTH}"
+    echo "${FILE}:${FILELENGTH}" >> /tmp/letter_tots
   fi
 done
 

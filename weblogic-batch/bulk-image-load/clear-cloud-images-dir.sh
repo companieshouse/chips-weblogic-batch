@@ -15,24 +15,25 @@ STUCK_FILE_LIST=/tmp/monitor_cloud_images_msg
 LOGS_DIR=../logs/bulk-image-load
 mkdir -p ${LOGS_DIR}
 LOG_FILE="${LOGS_DIR}/${HOSTNAME}-clear-cloud-images-dir-$(date +'%Y-%m-%d_%H-%M-%S').log"
+source /apps/oracle/scripts/logging_functions
 
 exec >> ${LOG_FILE} 2>&1
 
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo `date` Starting clear-cloud-images-dir
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+f_logInfo "Starting clear-cloud-images-dir"
 
 find $CLOUD_IMAGES_DIR/ -type f -mtime +0.5 > $STUCK_FILE_LIST
 
-echo "Deleting the following docs that are stuck in CloudImages on $HOSTNAME `date +%d/%m/%y`" >> $LOG_FILE
+f_logInfo "Deleting the following docs that are stuck in CloudImages on $HOSTNAME `date +%d/%m/%y`"
 
 if [ -s $STUCK_FILE_LIST ]
 then
   for line in `cat $STUCK_FILE_LIST`
   do
-     echo removing file $line >> $LOG_FILE
+     f_logInfo "removing file $line"
      rm $line
   done
 fi
 
-echo `date` Ending clear-cloud-images-dir
-echo  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+f_logInfo "Ending clear-cloud-images-dir"
+f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
