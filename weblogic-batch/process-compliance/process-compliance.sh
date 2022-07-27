@@ -146,9 +146,6 @@ fi
 if [[ -z ${AFP_OUTPUT_LOCATION} ]]; then
   f_logError "AFP_OUTPUT_LOCATION not set - please edit properties"  ; exit 1
 fi
-if [[ -z ${SWIFTSORT_INPUT_LOCATION} ]]; then
-  f_logError "SWIFTSORT_INPUT_LOCATION not set - please edit properties"  ; exit 1
-fi
 if [[ -z ${DOC1FILE_CH_ADDRESS_DIR} ]]; then
   f_logError "DOC1FILE_CH_ADDRESS_DIR not set - please edit properties"  ; exit 1
 fi
@@ -391,30 +388,6 @@ if [ $RUN_DOC1 = "YES" ] ; then
 
      if [ ${ERRORFILEFLAG} = "FALSE" ]; then
     
-        if [ "$OUTPUTFILENAME" = "NewDirCOMPLETT.txt" ] 
-        then
-            f_logInfo "Moving England/Wales New Director files to $SWIFTSORT_INPUT_LOCATION"
-	          f_logInfo "moving $OUTPUTFILE to $SWIFTSORT_INPUT_LOCATION"
-            mv $OUTPUTFILE $SWIFTSORT_INPUT_LOCATION
-            continue
-        fi
-
-        if [ "$OUTPUTFILENAME" = "NewDirSCOTDOC1.txt" ] 
-        then
-            f_logInfo "Moving Scottish New Director files to $SWIFTSORT_INPUT_LOCATION"
-	          f_logInfo "moving $OUTPUTFILE to $SWIFTSORT_INPUT_LOCATION"
-            mv $OUTPUTFILE $SWIFTSORT_INPUT_LOCATION
-            continue
-        fi
-
-        if [ "$OUTPUTFILENAME" = "NewDirNICOMP.txt" ] 
-        then
-            f_logInfo "Moving Irish New Director files to $SWIFTSORT_INPUT_LOCATION"
-	          f_logInfo "moving $OUTPUTFILE to $SWIFTSORT_INPUT_LOCATION"
-            mv $OUTPUTFILE $SWIFTSORT_INPUT_LOCATION
-            continue
-        fi
-
         #Is the output file being sent to DOC1 windows server?
         AFPFILEFLAG="FALSE"
         for AFPFILE in ${AFP_FILES}
