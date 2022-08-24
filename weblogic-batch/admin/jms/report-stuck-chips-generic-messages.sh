@@ -27,7 +27,7 @@ reportStuckTextMessages() {
   if [[ ${EXIT_CODE} -eq 0 ]]
   then
 
-    smallBanner "Stuck ${MESSAGE_TYPE} messages"
+    smallBanner "Stuck ${MESSAGE_TYPE} messages - ($(grep -r ${MESSAGE_TYPE} ${TMP_DIR} | wc -l) of these)"
 
     for FILE in $FILES_WITH_MESSAGES
     do
@@ -70,13 +70,13 @@ mkdir -p ${TMP_DIR}
 awk -v var="${TMP_DIR}/" '/JMS_SERVER/{close(out);out=var "jms" ++i} {print > out}' ${TMP_LIST_FILE}
 
 # Now create a report file
-TMP_REPORT_FILE=report-chips-generic.tmp
-DATE=$(date)
-
 # Check for each message type in turn and add to the report file
+TMP_REPORT_FILE=report-chips-generic.tmp
 
-# EXTENSIONS_CONTACT messages
-reportStuckTextMessages EXTENSIONS_CONTACT "${TMP_DIR}" >> ${TMP_REPORT_FILE}
+for MESSAGE_TYPE in EXTENSIONS_CONTACT HMRC_BULK_OBJECTIONS LFP_APPEAL_CONTACT PSC_DISCREPANCIES WEB_PSC_DISCREPANCIES PROMISE_TO_FILE OCR_RESPONSE OBJECTION_TO_STRIKE_OFF ORDINARY_BULK_OBJECTIONS
+do
+  reportStuckTextMessages ${MESSAGE_TYPE} "${TMP_DIR}" >> ${TMP_REPORT_FILE}
+done
 
 # Count lines in the report file to see if we need to send an alert
 LINE_COUNT=$(wc -l ${TMP_REPORT_FILE} | awk '{print $1}')
@@ -87,7 +87,7 @@ then
 fi
 
 # Now we need to email out the report
-email_report_f ${EMAIL_ADDRESS_CSI} "Following JMS messages are stuck in ChipsGenericErrorQueue ${DATE}" "$(cat ${TMP_REPORT_FILE})"
+email_report_f ${EMAIL_ADDRESS_CSI} "Following JMS messages are stuck in ChipsGenericErrorQueue $(date)" "$(cat ${TMP_REPORT_FILE})"
 
 # Clean up
 rm -f ${TMP_EMAIL_FILE}
