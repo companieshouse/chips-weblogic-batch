@@ -31,6 +31,18 @@ For example:
 The script makes use of list-all-jms.sh and processes the output from that to generate a report that is then emailed to the address 
 held in the environment variable `EMAIL_ADDRESS_CSI`.
 
+
+### report-stuck-chips-generic-messages.sh
+
+This is run in order to email a report of "stuck" JMS messages in the ChipsGenericErrorQueue across all WebLogic servers.
+
+No parameters are required.
+
+For example:
+./report-stuck-chips-generic-messages.sh
+
+The script makes use of list-all-jms.sh and processes the output from that to generate a report that is then emailed to the address 
+held in the environment variable `EMAIL_ADDRESS_CSI`.
     
 ### reprocess-jms.sh
 

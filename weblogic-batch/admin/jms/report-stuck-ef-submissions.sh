@@ -74,7 +74,7 @@ sed -i '/<attachment>/,/<\/attachment>/d' ${TMP_LIST_FILE}
 grep -q xml ${TMP_LIST_FILE}
 if [[ $? -gt 0 ]]
 then
-  echo "No stuck documents"
+  f_logInfo "No stuck documents"
   exit 0
 fi
 
