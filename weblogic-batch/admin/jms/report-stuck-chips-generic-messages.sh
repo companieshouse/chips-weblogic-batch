@@ -82,7 +82,7 @@ done
 LINE_COUNT=$(wc -l ${TMP_REPORT_FILE} | awk '{print $1}')
 if [[ ${LINE_COUNT} -eq 0 ]]
 then
-  echo "No stuck messages"
+  f_logInfo "No stuck messages"
   exit 0
 fi
 
