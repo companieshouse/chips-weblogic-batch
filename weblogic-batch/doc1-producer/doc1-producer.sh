@@ -3,6 +3,9 @@
 
 cd /apps/oracle/doc1-producer
 
+# set umask so that output files can be archived/tidied up by other users
+umask 000
+
 # load variables created from setCron script - being careful not to overwrite HOME as msmtp mail process uses it to find config
 KEEP_HOME=${HOME}
 source /apps/oracle/env.variables
@@ -39,7 +42,7 @@ OUTDIR=$4       # Output directory
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting doc1-producer"
 
-/usr/java/jdk-8/bin/java -Din=doc1-producer -cp $CLASSPATH uk.gov.companieshouse.doc1producer.Doc1Producer $PROPERTIES $CONFIG $INDIR $OUTDIR
+/usr/java/jdk-8/bin/java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xmx1G -Din=doc1-producer -cp $CLASSPATH uk.gov.companieshouse.doc1producer.Doc1Producer $PROPERTIES $CONFIG $INDIR $OUTDIR
 if [ $? -gt 0 ]; then
         f_logError "Non-zero exit code for doc1-producer java execution"
         exit 1
