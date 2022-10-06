@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /apps/oracle/cron
+cd /apps/oracle/scripts
 
 # load variables created from setCron script - being careful not to overwrite HOME as msmtp mail process uses it to find config
 KEEP_HOME=${HOME}
