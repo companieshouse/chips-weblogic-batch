@@ -48,7 +48,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/doc1-producer/1.8.1/doc1-producer-1.8.1.jar -o ../doc1-producer/doc1-producer.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/image-regeneration/1.2.5/image-regeneration-1.2.5.jar -o ../image-regeneration/image-regeneration.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/letter-producer/1.1.1/letter-producer-1.1.1.jar -o ../letter-producer/letter-producer.jar && \
-    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/officer-bulk-process/1.0.6/officer-bulk-process-1.0.6.jar -o ../officer-bulk-process/officer-bulk-process.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/officer-bulk-process/1.0.7/officer-bulk-process-1.0.7.jar -o ../officer-bulk-process/officer-bulk-process.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/psc-pursuit-trigger/1.9.1/psc-pursuit-trigger-1.9.1.jar -o ../psc-pursuit-trigger/psc-pursuit-trigger.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
