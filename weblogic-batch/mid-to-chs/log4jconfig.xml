@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- Auditing configuration -->
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <!-- Console appender -->
+  <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{ISO8601} %-5p %t %X{CurrentUser} [%c] %X{Document} %m%n"/>
+    </layout>
+  </appender>
+
+  <logger name="performanceLogger" additivity="false">
+    <level value="INFO"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="uk.gov.ch.chips.common.util.AopTimer" additivity="false">
+    <level value="INFO"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+ <logger name="uk.gov.ch.chips" additivity="false">
+    <level value="WARN"/>
+    <appender-ref ref="ConsoleAppender"/>
+ </logger>
+
+ <logger name=" uk.gov.ch.imagesender" additivity="false">
+  <level value="DEBUG"/>
+  <appender-ref ref="ConsoleAppender"/>
+ </logger> 
+
+  <logger name="uk.gov.ch.chips.server.imagesender.BulkImageLoadMDB" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+  
+  <logger name="uk.gov.ch.chips.server.compliance.dissolution.hmrcbulkobjection.HmrcBulkObjectionServiceImpl" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="uk.gov.ch.chips.server.compliance.dissolution.hmrcbulkobjection.HmrcBulkObjectionHibernateDao" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+
+  <logger name="uk.gov.ch.chips.server.queryhandling" additivity="false">
+    <level value="WARN"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="restwebservices.rs.EfilingREST" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="uk.gov.ch.chips.server.letterproducer" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="electronic-filing" additivity="false">
+    <level value="INFO"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="TuxLogger" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="cedarMessageService" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="cedarMessageAuditService" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="uk.gov.ch.chips.server.queryhandling.rulesupport.BresRuleset" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="uk.gov.ch.chips.server.queryhandling.PolicyEngineServiceImpl" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="uk.gov.ch.chips.server.director.bulk.OfficerBulkServiceImpl" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+ <logger name="uk.gov.ch.chips.server.tuxedo" additivity="false">
+    <level value="DEBUG"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <logger name="uk.gov.ch.cap.server.image.RemoteElectronicFOPImage" additivity="false">
+    <level value="INFO"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </logger>
+
+  <!-- Root logger -->
+  <root>
+    <priority value="WARN"/>
+    <appender-ref ref="ConsoleAppender"/>
+  </root>
+
+</log4j:configuration>
+
