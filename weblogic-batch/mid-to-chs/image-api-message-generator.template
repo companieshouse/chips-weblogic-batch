@@ -16,14 +16,10 @@ jdbc.test.password=${jdbc.test.password}
 log4j.config=log4jconfig.xml
 
 # network file share
-data_dir=/mnt/nfs/chd_image/15/38/68
-# test path
-#data_dir=/apps/oracle/mid-to-chs/data
+data_dir=/apps/oracle/chd_image/15/38/68
 
 # network image retrieval file share
 cloud_images_dir=/apps/oracle/chipsdomain/CloudImages
-# test path
-#cloud_images_dir=/apps/oracle/mid-to-chs/CloudImages
 
 # These will persist as long as container persists
 done_dir=/apps/oracle/mid-to-chs/done
@@ -31,7 +27,6 @@ error_dir=/apps/oracle/mid-to-chs/error
 temp_dir=/apps/oracle/mid-to-chs
 
 email_sender=${MAIL_DEFAULT_FROM}
-#email_recipients=${EMAIL_ADDRESS_CSI}
-email_recipients=wpletcher@companieshouse.gov.uk
+email_recipients=${EMAIL_ADDRESS_CSI}
 email_prepend_string="This mail has come from the mid_to_chs.sh script"
 email_postpend_string="See WebLogic batch logs for details"
