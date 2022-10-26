@@ -24,7 +24,6 @@ cloud_images_dir=/apps/oracle/chipsdomain/CloudImages
 # These will persist as long as container persists
 done_dir=/apps/oracle/mid-to-chs/done
 error_dir=/apps/oracle/mid-to-chs/error
-temp_dir=/apps/oracle/mid-to-chs
 
 email_sender=${MAIL_DEFAULT_FROM}
 email_recipients=${EMAIL_ADDRESS_CSI}

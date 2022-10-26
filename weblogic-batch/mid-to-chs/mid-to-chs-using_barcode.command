@@ -1,6 +1,6 @@
 #!/bin/bash
 
-barcode=$(cat /apps/oracle/mid-to-chs/barcode)
+barcode=$1
 
 OUTPUT=`sqlplus -s ${CHIPS_SQLPLUS_CONN_STRING} << EOF
 set head off;

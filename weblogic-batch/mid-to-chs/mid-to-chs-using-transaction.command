@@ -1,6 +1,6 @@
 #!/bin/bash
 
-transaction=$(cat /apps/oracle/mid-to-chs/transaction)
+transaction=$1
 
 OUTPUT=`sqlplus -s ${CHIPS_SQLPLUS_CONN_STRING} << EOF
 set head off;

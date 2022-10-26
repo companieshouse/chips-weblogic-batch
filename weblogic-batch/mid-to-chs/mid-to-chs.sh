@@ -179,24 +179,23 @@ do
     fi        
     
     if [ "$reference_type" = barcode ]; then
-        #Only way to pass value to runRemoteCommand_OLTPDB.ksh is to write it to a file
-        echo $barcode>$temp_dir/barcode
+        f_logInfo barcode = ${barcode} now run sqlplus command
+        metadata=$($mid_to_chs_command $barcode)
     elif 
        [ "$reference_type" = transaction ]; then
-        echo $transaction_id>$temp_dir/transaction
         f_logInfo there are this many characters in the trans file
-        cat $temp_dir/transaction| wc -c 
+        f_logInfo $(echo ${transaction_id}| wc -c)
+        f_logInfo transaction_id = ${transaction_id} now run sqlplus command
+        metadata=$($mid_to_chs_command $transaction_id)
     fi
-    
-    f_logInfo run sqlplus command
-    metadata=$($mid_to_chs_command)
-    f_logInfo Retrieved metadata is $metadata
+
+    f_logInfo Retrieved metadata from SQL is $metadata
     metadata=`echo $metadata | awk -F" "  '{print $NF}'`
     f_logInfo metadata now is $metadata
     good_metadata_pattern='????????|*'
     if [[ "$metadata" != $good_metadata_pattern ]]; then
         f_logInfo Bad metadata
-        send_error_mail "runRemoteCommand_OLTPDB.ksh did not return valid metadata" "Metadata error"
+        send_error_mail "mid to chs SQL Command did not return valid metadata" "Metadata error"
         move_to_error_dir 
         continue
     fi
