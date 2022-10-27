@@ -11,6 +11,7 @@ RUN yum -y install gettext && \
     yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum -y install msmtp && \
     yum -y install xmlstarlet && \
+    yum -y install dos2unix && \
     yum clean all && \
     rm -rf /var/cache/yum
 
