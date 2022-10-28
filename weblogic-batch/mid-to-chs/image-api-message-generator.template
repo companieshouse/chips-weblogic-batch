@@ -1,0 +1,31 @@
+java.naming.provider.url=${JMS_JNDIPROVIDERURL}
+java.naming.security.principal=${WEBLOGIC_ADMIN_USERNAME}
+java.naming.security.credentials=${ADMIN_PASSWORD}
+
+#database properties to connect to the CHIPS database
+jdbc.deploy.url=${DB_URL_CHIPSDS}
+jdbc.deploy.username=${DB_USER_CHIPSDS}
+jdbc.deploy.password=${DB_PASSWORD_CHIPSDS}
+
+#database properties used for junit testing
+jdbc.test.url=jdbc:oracle:thin:@${jdbc.test.host}:${jdbc.test.port}:${jdbc.test.SID}
+jdbc.test.username=${jdbc.test.username}
+jdbc.test.password=${jdbc.test.password}
+
+#log4jConfig file location
+log4j.config=log4jconfig.xml
+
+# network file share
+data_dir=/apps/oracle/chd_image/15/38/68
+
+# network image retrieval file share
+cloud_images_dir=/apps/oracle/chipsdomain/CloudImages
+
+# These will persist as long as container persists
+done_dir=/apps/oracle/mid-to-chs/done
+error_dir=/apps/oracle/mid-to-chs/error
+
+email_sender=${MAIL_DEFAULT_FROM}
+email_recipients=${EMAIL_ADDRESS_CSI}
+email_prepend_string="This mail has come from the mid_to_chs.sh script"
+email_postpend_string="See WebLogic batch logs for details"

@@ -11,6 +11,7 @@ RUN yum -y install gettext && \
     yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum -y install msmtp && \
     yum -y install xmlstarlet && \
+    yum -y install dos2unix && \
     yum clean all && \
     rm -rf /var/cache/yum
 
@@ -39,6 +40,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/com/oracle/ojdbc8/12.2.1.4/ojdbc8-12.2.1.4.jar -o ojdbc8.jar && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/com/oracle/weblogic/wlfullclient/12.2.1.4/wlfullclient-12.2.1.4.jar -o wlfullclient.jar && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/org/jdom/jdom/1.1/jdom-1.1.jar -o jdom.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/virtual-release/javax/ws/rs/javax.ws.rs-api/2.1.1/javax.ws.rs-api-2.1.1.jar -o javax.ws.rs-api.jar && \ 
     curl ${ARTIFACTORY_BASE_URL}/libs-release/javax/jms/jms-api/1.1-rev-1/jms-api-1.1-rev-1.jar -o jms-api.jar && \
     curl ${ARTIFACTORY_BASE_URL}/libs-release/jaxen/jaxen/1.1.6/jaxen-1.1.6.jar -o jaxen.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/chaps/jms/jmstool/0.0.3/jmstool-0.0.3.jar -o jmstool.jar && \
@@ -51,6 +53,8 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/letter-producer/1.1.1/letter-producer-1.1.1.jar -o ../letter-producer/letter-producer.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/officer-bulk-process/1.0.7/officer-bulk-process-1.0.7.jar -o ../officer-bulk-process/officer-bulk-process.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/psc-pursuit-trigger/1.9.1/psc-pursuit-trigger-1.9.1.jar -o ../psc-pursuit-trigger/psc-pursuit-trigger.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/image-api-message-generator/1.0/image-api-message-generator-1.0.jar -o ../mid-to-chs/image-api-message-generator.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/image-sender/0.1.32/image-sender-0.1.32.jar -o image-sender.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
 WORKDIR $ORACLE_HOME
