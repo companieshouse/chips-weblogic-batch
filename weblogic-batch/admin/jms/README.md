@@ -43,7 +43,8 @@ For example:
 
 The script makes use of list-all-jms.sh and processes the output from that to generate a report that is then emailed to the address 
 held in the environment variable `EMAIL_ADDRESS_CSI`.
-    
+
+
 ### reprocess-jms.sh
 
 This is run when there is a need to move JMS messages from one queue to another across a range of WebLogic servers.
@@ -64,9 +65,28 @@ For example, if the following environment variables were defined, the script wou
     JMS_SERVER_URL_1=t3s://chips-ef-batch0.heritage.aws.internal:21031|JMSServer1
     JMS_SERVER_URL_2=t3s://chips-ef-batch1.heritage.aws.internal:21031|JMSServer1
 
-    
+
+### resend-response-jms.sh
+
+This is run when there is a need to resend an accept respone to the EWF or XML service.  The script injects a new JMS response message into the EfilingQueue queue, based on a supplied xml file containing the data from the CHIPS TRANSACTION_DOC_XML table.
+
+The following parameter is required:
+
+- The path of the xml file 
+
+For example:
+./resend-response-jms.sh ./a.xml
+
+The script injects the JMS message into the JMS server that is set in the environment variable `JMS_SERVER_URL_1`
+
+
+### inject-jms.sh
+This is intended to be called by other scripts and not run directly.  It is a wrapper around the Java class that is used to inject a JMS message into the EfilingQueue queue.
+
+
 ### list-jms.sh
 This is intended to be called by other scripts and not run directly.  It is a wrapper around the Java class that is used to list JMS messages within a queue.
+
 
 ### move-jms.sh
 This is intended to be called by other scripts and not run directly.  It is a wrapper around the Java class that is used to move JMS messages between queues.
