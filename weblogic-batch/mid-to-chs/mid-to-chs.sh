@@ -58,8 +58,7 @@ send_error_mail()
 {
 #  param1: email body
 #  param2: email subject
-mail_message=$(printf "$email_prepend_string\n\n$1\n\n$email_postpend_string")
-email_report_f ${EMAIL_ADDRESS_CSI} "$2" "$(cat ${$mail_message})"
+email_report_f "${EMAIL_ADDRESS_CSI}" "${ENVIRONMENT_LABEL} $2" "Hi there from WebLogic Batch mid_to_chs.sh job. $1. Have a great day. "
 }
 
 move_to_error_dir()
@@ -67,12 +66,12 @@ move_to_error_dir()
 if mv $header_file $error_dir; then
     f_logInfo $header_file moved to $error_dir
 else
-    email_report_f ${EMAIL_ADDRESS_CSI} "Error moving header_file to $error_dir" "Error moving $header_file to $error_dir"
+    send_error_mail "Error moving $header_file to $error_dir" "mid-to-chs: Error moving header file to error dir"
 fi
 if mv $tiff_file $error_dir; then
     f_logInfo $tiff_file moved to $error_dir
 else
-    email_CHAPS_group_f ${EMAIL_ADDRESS_CSI} "Error moving header_file to $error_dir" "Error moving $header_file to $error_dir"
+    send_error_mail "Error moving $tiff_file to $error_dir" "mid-to-chs: Error moving tiff_file to error dir"
 fi
 }
 
@@ -133,7 +132,7 @@ do
     tiff_file=${header_file%.*}.tif
     if ! test -f "$tiff_file"; then
         f_logInfo No corresponding tiff file for $header_file
-        send_error_mail "No corresponding tiff_file found for $header_file" "No tiff file found"
+        send_error_mail "No corresponding tiff_file found for $header_file" "mid-to-chs: No tiff file found"
         continue
     fi
 
@@ -173,7 +172,7 @@ do
 
     if [ "$invalid_header_file" = true ]; then
         f_logInfo header file contains invalid customer ref
-        send_error_mail "Error parsing header file.\nThe header and associated tiff file will be moved to: $error_dir\n" "Error parsing mid header file"
+        send_error_mail "Error parsing header file. The header and associated tiff file will be moved to: $error_dirn" "mid-to-chs: Error parsing mid header file"
         move_to_error_dir 
         continue
     fi        
@@ -195,7 +194,7 @@ do
     good_metadata_pattern='????????|*'
     if [[ "$metadata" != $good_metadata_pattern ]]; then
         f_logInfo Bad metadata
-        send_error_mail "mid to chs SQL Command did not return valid metadata" "Metadata error"
+        send_error_mail "mid to chs SQL Command did not return valid metadata" "mid-to-chs: Metadata error"
         move_to_error_dir 
         continue
     fi
@@ -213,7 +212,7 @@ do
        f_logInfo move successful
     else
        f_logInfo failed to move $tiff_file to $cloud_images_dir/$transaction_id
-       send_error_mail "Failed to move $tiff_file to $cloud_images_dir/$transaction_id" "Failure to move tiff file"
+       send_error_mail "Failed to move $tiff_file to $cloud_images_dir/$transaction_id" "mid-to-chs: Failure to move tiff file"
        continue
     fi
     f_logInfo changing permissions
@@ -227,7 +226,7 @@ do
     if [ $result_code -ne 0 ]; then
         f_logInfo write-to-image-api.sh returned result code $result_code
         f_logInfo header file $header_file will be moved to $error_dir
-        send_error_mail "write-to-image-api.sh failed with result_code $result_code" "write-to-image-api.sh failed"
+        send_error_mail "write-to-image-api.sh failed with result_code $result_code" "mid-to-chs: write-to-image-api.sh failed"
         mv $header_file $error_dir
     else
         f_logInfo "write complete" 
@@ -237,7 +236,7 @@ do
             f_logInfo $header_file successfully moved to $done_dir
         else
             f_logInfo Failed to move processed file $header_file to $done_dir 
-            send_error_mail "Failed to write $header_file to $done_dir" "Write to $done_dir failed"
+            send_error_mail "Failed to write $header_file to $done_dir" "mid-to-chs: Write to $done_dir failed"
         fi
     fi
 

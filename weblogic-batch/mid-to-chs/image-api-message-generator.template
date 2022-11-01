@@ -27,5 +27,3 @@ error_dir=/apps/oracle/mid-to-chs/error
 
 email_sender=${MAIL_DEFAULT_FROM}
 email_recipients=${EMAIL_ADDRESS_CSI}
-email_prepend_string="This mail has come from the mid_to_chs.sh script"
-email_postpend_string="See WebLogic batch logs for details"
