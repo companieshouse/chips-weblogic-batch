@@ -40,11 +40,11 @@ DAYS=$1
 f_logInfo  "~~~~~~~~ Starting Housekeeping of Log Files $(date) ~~~~~~~~~~~"
 f_logInfo  "Running "$0
 
-f_logInfo  "Use find comand to remove these files"
+f_logInfo  "These files will be removed"
 find ${DIRS} \( -name "*log" \) -mtime +${DAYS} -ls
 
-## f_logInfo  "Now removing these files"
-#find ${DIRS} \( -name "*log" \) -mtime +${DAYS} -exec rm {} \;
+f_logInfo  "Now removing these files"
+find ${DIRS} \( -name "*log" \) -mtime +${DAYS} -exec rm {} \;
 
-#f_logInfo  "~~~~~~~~ Ending Housekeeping of Log Files ~~~~~~~~~~~"
+f_logInfo  "~~~~~~~~ Ending Housekeeping of Log Files ~~~~~~~~~~~"
 
