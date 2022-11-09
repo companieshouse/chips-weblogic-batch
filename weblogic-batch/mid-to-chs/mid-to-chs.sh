@@ -64,12 +64,12 @@ email_report_f "${EMAIL_ADDRESS_CSI}" "${ENVIRONMENT_LABEL} $2" "Hi there from W
 move_to_error_dir()
 {
 if mv $header_file $error_dir; then
-    f_logInfo $header_file moved to $error_dir
+    f_logInfo "$header_file moved to $error_dir"
 else
     send_error_mail "Error moving $header_file to $error_dir" "mid-to-chs: Error moving header file to error dir"
 fi
 if mv $tiff_file $error_dir; then
-    f_logInfo $tiff_file moved to $error_dir
+    f_logInfo "$tiff_file moved to $error_dir"
 else
     send_error_mail "Error moving $tiff_file to $error_dir" "mid-to-chs: Error moving tiff_file to error dir"
 fi
@@ -115,11 +115,11 @@ exec > >(tee "${LOG_FILE}") 2>&1
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting mid-to-chs"
 
-f_logInfo `date`: mid-to-chs.sh starts
+f_logInfo "`date`: mid-to-chs.sh starts"
 
 if [ $(ls $data_dir/*txt 2>/dev/null | wc -w) -eq 0 ]; then
-    f_logInfo No files to process
-    f_logInfo `date`: mid-to-chs.sh ends
+    f_logInfo "No files to process"
+    f_logInfo "`date`: mid-to-chs.sh ends"
     exit 0
 fi
 
@@ -127,11 +127,13 @@ mid_to_chs_command_using_barcode="mid-to-chs-using-barcode.command"
 mid_to_chs_command_using_transaction="mid-to-chs-using-transaction.command"
 for header_file in $data_dir/*txt
 do
+    f_logInfo " "
+    f_logInfo "Start processing new image request "
     dos2unix $header_file $header_file 2>/dev/null
  
     tiff_file=${header_file%.*}.tif
     if ! test -f "$tiff_file"; then
-        f_logInfo No corresponding tiff file for $header_file
+        f_logInfo "No corresponding tiff file for $header_file"
         send_error_mail "No corresponding tiff_file found for $header_file" "mid-to-chs: No tiff file found"
         continue
     fi
@@ -150,12 +152,12 @@ do
     if [[ $trans_or_barcode_indicator == "--" ]]; then
         reference_type="barcode"
         barcode=${cust_ref:41:8}
-        f_logInfo barcode is $barcode
+        f_logInfo "barcode is ${barcode}"
         mid_to_chs_command="./${mid_to_chs_command_using_barcode}"
     else
         reference_type="transaction"
         transaction_id=${cust_ref:39:10}
-        f_logInfo transaction_id is $transaction_id
+        f_logInfo "transaction_id is ${transaction_id}"
         mid_to_chs_command="./${mid_to_chs_command_using_transaction}"
         if ! [ "$transaction_id" -ge 0 ] 2>/dev/null ; then
            f_logInfo "Invalid transaction_id not numeric"
@@ -163,37 +165,35 @@ do
         fi
     fi
     
-    f_logInfo ----------------------------------------
-    f_logInfo Header file is $header_file
-    f_logInfo Tiff file is $tiff_file
-    f_logInfo Reference is \"${cust_ref##*( )}\"
-    f_logInfo ----------------------------------------
-    f_logInfo ""
-
+    f_logInfo "----------------------------------------"
+    f_logInfo "Header file is ${header_file}"
+    f_logInfo "Tiff file is ${tiff_file}"
+    f_logInfo "Reference is ${cust_ref##*( )}"
+    f_logInfo "----------------------------------------"
+    
     if [ "$invalid_header_file" = true ]; then
-        f_logInfo header file contains invalid customer ref
+        f_logInfo "header file contains invalid customer ref"
         send_error_mail "Error parsing header file. The header and associated tiff file will be moved to: $error_dirn" "mid-to-chs: Error parsing mid header file"
         move_to_error_dir 
         continue
     fi        
     
     if [ "$reference_type" = barcode ]; then
-        f_logInfo barcode = ${barcode} now run sqlplus command
+        f_logInfo "barcode = ${barcode} now run sqlplus command"
         metadata=$($mid_to_chs_command $barcode)
     elif 
        [ "$reference_type" = transaction ]; then
-        f_logInfo there are this many characters in the trans file
-        f_logInfo $(echo ${transaction_id}| wc -c)
-        f_logInfo transaction_id = ${transaction_id} now run sqlplus command
+        f_logInfo "there are this many characters in the trans file: $(echo ${transaction_id}| wc -c)"
+        f_logInfo "transaction_id = ${transaction_id} now run sqlplus command"
         metadata=$($mid_to_chs_command $transaction_id)
     fi
 
-    f_logInfo Retrieved metadata from SQL is $metadata
+    f_logInfo "Retrieved metadata from SQL is ${metadata}"
     metadata=`echo $metadata | awk -F" "  '{print $NF}'`
-    f_logInfo metadata now is $metadata
+    f_logInfo "metadata now is ${metadata}"
     good_metadata_pattern='????????|*'
     if [[ "$metadata" != $good_metadata_pattern ]]; then
-        f_logInfo Bad metadata
+        f_logInfo "Bad metadata"
         send_error_mail "mid to chs SQL Command did not return valid metadata" "mid-to-chs: Metadata error"
         move_to_error_dir 
         continue
@@ -201,31 +201,30 @@ do
 #   If we started off with a barcode we can now get the transaction_id out of the metadata
     if [ "$reference_type" = barcode ]; then
        transaction_id=`echo $metadata | awk '{split($0,a,"|");print a[5]}'`
-       f_logInfo length of transaction_id is
-       f_logInfo $transaction_id| awk '{print length}'
+       f_logInfo "length of transaction_id is $(echo ${transaction_id}| awk '{print length}')"
     fi 
     
 #   we must have the transaction_id by now so we can write the file to $cloud_images_dir with the correct name
-    f_logInfo moving $tiff_file to $cloud_images_dir/$transaction_id
+    f_logInfo "moving ${tiff_file} to ${cloud_images_dir}/${transaction_id}"
     transaction_id="${transaction_id%"${transaction_id##*[![:space:]]}"}" 
     if mv $tiff_file $cloud_images_dir/${transaction_id}; then
-       f_logInfo move successful
+       f_logInfo "move successful"
     else
-       f_logInfo failed to move $tiff_file to $cloud_images_dir/$transaction_id
+       f_logInfo "failed to move ${tiff_file} to ${cloud_images_dir}/${transaction_id}"
        send_error_mail "Failed to move $tiff_file to $cloud_images_dir/$transaction_id" "mid-to-chs: Failure to move tiff file"
        continue
     fi
-    f_logInfo changing permissions
+    f_logInfo "changing permissions"
     chmod 664 $cloud_images_dir/${transaction_id}
-    f_logInfo permissions changed 
+    f_logInfo "permissions changed" 
 #   write-to-image-api.sh sends the message to the ImageApiMessageProducer JMS
 #   queue using $metadata as the payload
     f_logInfo "Writing to api..." 
     ./write-to-image-api.sh $metadata
     result_code=$?
     if [ $result_code -ne 0 ]; then
-        f_logInfo write-to-image-api.sh returned result code $result_code
-        f_logInfo header file $header_file will be moved to $error_dir
+        f_logInfo "write-to-image-api.sh returned result code ${result_code}"
+        f_logInfo "header file ${header_file} will be moved to ${error_dir}"
         send_error_mail "write-to-image-api.sh failed with result_code $result_code" "mid-to-chs: write-to-image-api.sh failed"
         mv $header_file $error_dir
     else
@@ -233,9 +232,9 @@ do
 #       if we get this far everything has worked.  The tiff has gone to $cloud_images_dir.  The header
 #       file is still in $data_dir; we will move it to $done_dir to keep a record of successful uploads
         if mv $header_file $done_dir; then
-            f_logInfo $header_file successfully moved to $done_dir
+            f_logInfo "${header_file} successfully moved to ${done_dir}"
         else
-            f_logInfo Failed to move processed file $header_file to $done_dir 
+            f_logInfo "Failed to move processed file ${header_file} to $done_dir" 
             send_error_mail "Failed to write $header_file to $done_dir" "mid-to-chs: Write to $done_dir failed"
         fi
     fi
