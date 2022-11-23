@@ -79,6 +79,9 @@ if [ -d "${DOC1FILE_CH_ADDRESS_DIR}" ]; then
      ls -l ${AFP_OUTPUT_LOCATION} | while IFS= read -r line; do f_logInfo "$line"; done
      if [[ -d ${AFP_OUTPUT_LOCATION} ]] ; then
        rm -rf ${AFP_OUTPUT_LOCATION}/*
+       if [ $? -gt 0 ]; then
+         email_CHAPS_group_f "`basename $0` failed to delete file(s) from ${AFP_OUTPUT_LOCATION} - please investigate"
+       fi
      fi
   fi
 
