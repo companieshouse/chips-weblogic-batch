@@ -20,7 +20,7 @@
 parseXML() {
   BARCODE=$(xmlstarlet sel -t -v "//barcode" $1)
   FORM_TYPE=$(xmlstarlet sel -t -v "//form/@type" $1)
-  CORPORATE_BODY_NAME=$(xmlstarlet sel -t -v "//corporateBodyName" $1)
+  CORPORATE_BODY_NAME=$(xmlstarlet sel -t -v "//corporateBodyName[1]" $1)
   INCORPORATION_NUMBER=$(xmlstarlet sel -t -v "//incorporationNumber" $1)
   METHOD=$(xmlstarlet sel -t -v "//method" $1)
 }
