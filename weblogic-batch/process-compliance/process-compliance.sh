@@ -24,20 +24,20 @@ source /apps/oracle/scripts/logging_functions
 
 exec >> "${LOG_FILE}" 2>&1
 
-GATEWAY_FAILURES=0;
-GATEWAY_RETRY_SECONDS=60;
+COPY_OR_MOVE_FAILURES=0;
+COPY_OR_MOVE_RETRY_SECONDS=60;
 
 ## Retry functions
 f_copyWithRetry() {
   cp $1 $2
   if [ $? -gt 0 ]; then
-    f_logWarn "Failed to copy file to $2 - will retry after ${GATEWAY_RETRY_SECONDS}s"
-    sleep ${GATEWAY_RETRY_SECONDS}
+    f_logWarn "Failed to copy file to $2 - will retry after ${COPY_OR_MOVE_RETRY_SECONDS}s"
+    sleep ${COPY_OR_MOVE_RETRY_SECONDS}
     f_logInfo "(Retry) Writing $2."
     cp $1 $2
     if [ $? -gt 0 ]; then
       f_logError "Failed to copy file to $2 on 2nd attempt - needs manual intervention"
-      GATEWAY_FAILURES=$((GATEWAY_FAILURES+1))
+      COPY_OR_MOVE_FAILURES=$((COPY_OR_MOVE_FAILURES+1))
     fi
   fi
 }
@@ -45,13 +45,13 @@ f_copyWithRetry() {
 f_moveWithRetry() {
   mv $1 $2
   if [ $? -gt 0 ]; then
-    f_logWarn "Failed to move file to $2 - will retry after ${GATEWAY_RETRY_SECONDS}s"
-    sleep ${GATEWAY_RETRY_SECONDS}
+    f_logWarn "Failed to move file to $2 - will retry after ${COPY_OR_MOVE_RETRY_SECONDS}s"
+    sleep ${COPY_OR_MOVE_RETRY_SECONDS}
     f_logInfo "(Retry) Writing $2."
     mv $1 $2
     if [ $? -gt 0 ]; then
       f_logError "Failed to move file to $2 on 2nd attempt - needs manual intervention"
-      GATEWAY_FAILURES=$((GATEWAY_FAILURES+1))
+      COPY_OR_MOVE_FAILURES=$((COPY_OR_MOVE_FAILURES+1))
     fi
   fi
 }
@@ -321,8 +321,8 @@ if [ $RUN_DOC1 = "YES" ] ; then
        mkdir -p "${DIRPATH}"
        # Only create output file if there are letters with the CH default address (ie don't create empty files)
        grep 'Companies House Default' $DOC1FILE >/dev/null && grep 'Companies House Default' $DOC1FILE > ${DOC1FILE_CH_ADDRESS}_CH_ADDRESS
-	   grep -v "Companies House Default" ${DOC1FILE}  > ${DOC1FILE}_temp
-	   mv ${DOC1FILE}_temp  ${DOC1FILE}
+       grep -v "Companies House Default" ${DOC1FILE} > ${DOC1FILE}_temp
+       f_moveWithRetry ${DOC1FILE}_temp ${DOC1FILE}
     done
    # CHG0047313 01/11/2019 ends
 
@@ -480,7 +480,7 @@ if [ $RUN_DOC1 = "YES" ] ; then
 
            f_logInfo "Writing ${AFP_INPUT_LOCATION}/${OUTPUTFILENAME}."  
 
-           cp ${OUTPUTFILE} ${AFP_INPUT_LOCATION}/${OUTPUTFILENAME} 
+           f_copyWithRetry ${OUTPUTFILE} ${AFP_INPUT_LOCATION}/${OUTPUTFILENAME}
         fi
      else 
         #Skipping as the outfile is an error file
@@ -601,8 +601,8 @@ if [ $RUN_AFP = "YES" ] ; then
   fi
 fi
 
-if [[ ${GATEWAY_FAILURES} -gt 0 ]]; then
-  email_CHAPS_group_f "`basename $0` failed to write ${GATEWAY_FAILURES} file(s) to ${DOC1_GATEWAY_LOCATION} - needs manual intervention"
+if [[ ${COPY_OR_MOVE_FAILURES} -gt 0 ]]; then
+  email_CHAPS_group_f "`basename $0` failed to write ${COPY_OR_MOVE_FAILURES} file(s) - check process-compliance log for details - needs manual intervention"
   exit 1
 fi
 
