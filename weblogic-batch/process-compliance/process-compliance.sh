@@ -24,6 +24,9 @@ source /apps/oracle/scripts/logging_functions
 
 exec >> "${LOG_FILE}" 2>&1
 
+# initialise counter vars here to ensure available if running in interactive mode
+AFP_FILE_COUNT=0
+AFP_FILE_COUNT_COPIED=0
 COPY_OR_MOVE_FAILURES=0;
 COPY_OR_MOVE_RETRY_SECONDS=60;
 
@@ -38,6 +41,7 @@ f_copyWithRetry() {
     if [ $? -gt 0 ]; then
       f_logError "Failed to copy file to $2 on 2nd attempt - needs manual intervention"
       COPY_OR_MOVE_FAILURES=$((COPY_OR_MOVE_FAILURES+1))
+      return 1
     fi
   fi
 }
@@ -52,6 +56,7 @@ f_moveWithRetry() {
     if [ $? -gt 0 ]; then
       f_logError "Failed to move file to $2 on 2nd attempt - needs manual intervention"
       COPY_OR_MOVE_FAILURES=$((COPY_OR_MOVE_FAILURES+1))
+      return 1
     fi
   fi
 }
@@ -366,9 +371,6 @@ if [ $RUN_DOC1 = "YES" ] ; then
     exit 1
   fi
 
-  #Counter to count number of AFP files being processed
-  AFP_FILE_COUNT=0
-
   for OUTPUTFILE in ${OUTPUTFILELIST}
   do
      OUTPUTFILENAME=${OUTPUTFILE##*/}
@@ -481,14 +483,35 @@ if [ $RUN_DOC1 = "YES" ] ; then
            f_logInfo "Writing ${AFP_INPUT_LOCATION}/${OUTPUTFILENAME}."  
 
            f_copyWithRetry ${OUTPUTFILE} ${AFP_INPUT_LOCATION}/${OUTPUTFILENAME}
+           if [ $? -eq 0 ]; then
+              #Increment count of AFP files successfully copied
+              ((AFP_FILE_COUNT_COPIED=AFP_FILE_COUNT_COPIED + 1))
+           fi
         fi
      else 
         #Skipping as the outfile is an error file
         f_logInfo "Skipping copy of ${OUTPUTFILE}."
      fi
 
-     f_logInfo "Processed ${AFP_FILE_COUNT} AFP files into input folder"  
+     f_logInfo "Processed ${AFP_FILE_COUNT_COPIED} (of ${AFP_FILE_COUNT} attempted) AFP files into input folder"
   done
+
+  AFP_COPY_FAILURES=$((AFP_FILE_COUNT - AFP_FILE_COUNT_COPIED))
+
+  if [ ${AFP_COPY_FAILURES} -gt 0 ];then
+    # Terminate if no files successfully copied.
+    if [ ${AFP_COPY_FAILURES} -eq ${AFP_FILE_COUNT} ]; then
+      f_logError "Failure copying all ${AFP_FILE_COUNT} files to AFP input folder. Please investigate."
+      patrol_log_alert_chaps_f " `pwd`/`basename $0`: Failure copying all ${AFP_FILE_COUNT} files to AFP input folder. Please investigate."
+      email_CHAPS_group_f "Failure copying files to AFP input folder." "Failure copying all ${AFP_FILE_COUNT} files to AFP input folder. Please investigate."
+      exit 1
+    fi
+    # Alert if any files failed to copy.
+    email_CHAPS_group_f "Failure copying file(s) to AFP input folder. CONTINUE BUT FIX" "Failure copying ${AFP_COPY_FAILURES} file(s) to AFP input folder. We will continue BUT we must fix and resend missing Letters. Please investigate."
+    f_logError "Failure copying ${AFP_COPY_FAILURES} file(s) to AFP input folder. CONTINUE BUT FIX"
+  fi
+  # set expected count of AFP files to the number successfully copied
+  AFP_FILE_COUNT=${AFP_FILE_COUNT_COPIED}
 fi
 
 ###############################################################################
@@ -497,28 +520,31 @@ fi
 if [ $RUN_AFP = "YES" ] ; then
 
   f_logInfo "Copying AFP files, if any, from output folder to gateway nfs share.." 
-  #Get list of output files - reset values for variables as may be running from interactive
-  DOC1OUTPUTLOCATION=`echo ${LATESTLETTEROUTPUTLOCATION} | sed -e 's/letterProducerOutput/doc1ProducerOutput/g'`/
-  OUTPUTFILELIST=`find ${DOC1OUTPUTLOCATION} -type f ! -size 0`
 
-  #Reset AFP File count as we are working out number being processed
-  AFP_FILE_COUNT=0;
-   
+  # Use more accurate values from Doc1 stage if available - only reset values if needed but not yet set
+  if [ $INTERACTIVE = "YES" ] && [ $RUN_DOC1 = "NO" ] && [ $IGNORE_AFP_COUNT = "NO" ]; then
+    DOC1OUTPUTLOCATION=`echo ${LATESTLETTEROUTPUTLOCATION} | sed -e 's/letterProducerOutput/doc1ProducerOutput/g'`/
+    OUTPUTFILELIST=`find ${DOC1OUTPUTLOCATION} -type f ! -size 0`
+
+    #Reset AFP File count as we are working out number being processed
+    AFP_FILE_COUNT=0;
+    f_logInfo "Counting number of AFP files to process ..."
+    #Iterate through counting number of AFP files
+    for OUTPUTFILE in ${OUTPUTFILELIST}
+    do
+      OUTPUTFILENAME=${OUTPUTFILE##*/}
+      for AFPFILE in ${AFP_FILES}
+      do
+        if [ ${OUTPUTFILENAME} = ${AFPFILE} ]; then
+          #Filename in doc1 output is AFP file, therefore increament count
+          f_logInfo "${OUTPUTFILENAME} matches AFP file - adding to AFP_FILE_COUNT"
+          ((AFP_FILE_COUNT=AFP_FILE_COUNT + 1))
+        fi
+      done
+    done
+  fi
+
   if [ $IGNORE_AFP_COUNT = "NO" ] ; then
-     f_logInfo "Counting number of AFP files to process ..."
-     #Iterate through counting number of AFP files
-     for OUTPUTFILE in ${OUTPUTFILELIST}
-     do
-        OUTPUTFILENAME=${OUTPUTFILE##*/}
-        for AFPFILE in ${AFP_FILES}
-        do
-           if [ ${OUTPUTFILENAME} = ${AFPFILE} ]; then
-              #Filename in doc1 output is AFP file, therefore increament count
-              f_logInfo "${OUTPUTFILENAME} matches AFP file - adding to AFP_FILE_COUNT" 
-              ((AFP_FILE_COUNT=AFP_FILE_COUNT + 1))
-           fi
-        done
-     done
      f_logInfo "Expected number of AFP files to process is ${AFP_FILE_COUNT}"
   else 
      f_logInfo "Ignoring count of AFP Files "
@@ -533,31 +559,29 @@ if [ $RUN_AFP = "YES" ] ; then
 
      while [ $AFP_OUT_FOLDER_COUNT -lt $AFP_FILE_COUNT ] && [ $AFP_CHECK_COUNT -lt 10 ] 
      do
-        f_logInfo "AFP File Count is $AFP_OUT_FOLDER_COUNT and expecting $AFP_FILE_COUNT ... sleeping for ${SLEEP_SECS} seconds"
         #Sleep while waiting for doc1
+        f_logInfo "Sleeping for ${SLEEP_SECS} seconds, waiting for DOC1 AFP processing"
         sleep ${SLEEP_SECS}
 
         #Increment count of attempts 
         ((AFP_CHECK_COUNT=AFP_CHECK_COUNT + 1))
 
         AFP_OUT_FOLDER_COUNT=`ls -1 ${AFP_OUTPUT_LOCATION} | wc -l`
+        f_logInfo "AFP File Count is $AFP_OUT_FOLDER_COUNT and expecting $AFP_FILE_COUNT"
      done
-     
-     #If check count is > 10 AND we have a file discrepancy of not 1 - then alert as files have not been produced
-     COUNT_DIFF=$(( $AFP_FILE_COUNT - $AFP_OUT_FOLDER_COUNT )) 
-     f_logInfo "AFP_FILE_COUNT - AFP_OUT_FOLDER_COUNT = ${COUNT_DIFF}"
 
-     if [ $AFP_CHECK_COUNT -ge 10 ] && [ $COUNT_DIFF -ne 1 ]; then
-        f_logError "Incorrect number or no AFP files in AFP Output folder. Are processes running on DOC1 AFP server? Please investigate."
-        patrol_log_alert_chaps_f " `pwd`/`basename $0`: Incorrect number or no AFP files in AFP Output folder. Are processes running on DOC1 AFP server? Please investigate."
-        email_CHAPS_group_f "Incorrect number or no AFP files in AFP Output folder" "Incorrect number or no AFP files in AFP Output folder. Are processes running on DOC1 AFP server? Please investigate."
+     # Terminate if no files have been produced, unless ignoring counts.
+     if [ $IGNORE_AFP_COUNT = "NO" ] && [ $AFP_OUT_FOLDER_COUNT -eq 0 ]; then
+        f_logError "No AFP files in AFP Output folder. Are processes running on DOC1 AFP server? Please investigate."
+        patrol_log_alert_chaps_f " `pwd`/`basename $0`: No AFP files in AFP Output folder. Are processes running on DOC1 AFP server? Please investigate."
+        email_CHAPS_group_f "No AFP files in AFP Output folder." "No AFP files in AFP Output folder. Are processes running on DOC1 AFP server? Please investigate."
         exit 1
      else
-
-        if (( $COUNT_DIFF == 1 ));then
-           email_CHAPS_group_f "One incorrect number in AFP Output folder. CONTINUE BUT FIX" "One incorrect number in AFP Output folder. We will continue BUT we must fix and resend broken Letters. Please investigate."
-           f_logError "One incorrect number in AFP Output folder. CONTINUE BUT FIX"
-        fi 
+        # Alert if expected number of files have not been produced, unless ignoring counts.
+        if [ $IGNORE_AFP_COUNT = "NO" ] && [ $AFP_OUT_FOLDER_COUNT -lt $AFP_FILE_COUNT ]; then
+           email_CHAPS_group_f "Incorrect number of files in AFP Output folder. CONTINUE BUT FIX" "One incorrect number in AFP Output folder. We will continue BUT we must fix and resend broken Letters. Please investigate."
+           f_logError "Incorrect number of files in AFP Output folder. CONTINUE BUT FIX"
+        fi
 
         #Set variable for DOC1 gateway Location
         DOC1_GATEWAY_LOCATION=${DOC1_GATEWAY_LOCATION_EW}
@@ -597,11 +621,16 @@ if [ $RUN_AFP = "YES" ] ; then
 
         done
      fi
-     /apps/oracle/letter-producer/letter-counts.sh
   fi
 fi
 
+# Do not produce letter counts file if no files, or when re-running AFP stage ignoring counts
+if [ $AFP_FILE_COUNT -gt 0 ] && [ $IGNORE_AFP_COUNT = "NO" ]; then
+  /apps/oracle/letter-producer/letter-counts.sh
+fi
+
 if [[ ${COPY_OR_MOVE_FAILURES} -gt 0 ]]; then
+  f_logError "Failed to write ${COPY_OR_MOVE_FAILURES} file(s) - check all ERROR messages above - needs manual intervention"
   email_CHAPS_group_f "`basename $0` failed to write ${COPY_OR_MOVE_FAILURES} file(s) - check process-compliance log for details - needs manual intervention"
   exit 1
 fi
