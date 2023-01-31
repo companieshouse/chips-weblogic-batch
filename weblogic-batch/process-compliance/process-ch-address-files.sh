@@ -74,6 +74,7 @@ if [ -d "${DOC1FILE_CH_ADDRESS_DIR}" ]; then
         NUMBER_OF_FILES_IN_AFP_OUTPUT_FOLDER=`ls -1 ${AFP_OUTPUT_LOCATION}/*CH_ADDRESS* | wc -l`
         f_logInfo "NUMBER_OF_FILES_IN_AFP_OUTPUT_FOLDER is ${NUMBER_OF_FILES_IN_AFP_OUTPUT_FOLDER}"
      done
+     sleep ${SLEEP_SECS}
      f_logInfo "Removing processed afp files - available in SmartView or Doc1 server archives if needed"
      f_logInfo "List of files in ${AFP_OUTPUT_LOCATION} is"
      ls -l ${AFP_OUTPUT_LOCATION} | while IFS= read -r line; do f_logInfo "$line"; done
