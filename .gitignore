@@ -4,10 +4,10 @@ running-servers/
 .project
 .settings
 
-# Block variants of docker-compose file within project
+# Block variants of docker-compose file throughout project
 docker-compose*.yml
 
-# Block any properties file within project (if do need them then use file negation herein to support)
+# Block any proprties file throughout project (if do need them then use file negation herein to support)
 *.properties
 
 
