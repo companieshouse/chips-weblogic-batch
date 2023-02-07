@@ -3,3 +3,11 @@ running-servers/
 # Eclipse files
 .project
 .settings
+
+# Block variants of docker-compose file throughout project
+docker-compose*.yml
+
+# Block any proprties file throughout project (if do need them then use file negation herein to support)
+*.properties
+
+
