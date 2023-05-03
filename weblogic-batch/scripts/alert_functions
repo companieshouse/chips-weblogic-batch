@@ -1,8 +1,10 @@
 #######################################################
-#
-# This file contains only functions for BMC Patrol
-# and email alerts
-#
+# This file contains only functions for alerting through Cloud Watch Log Groups and email alerts
+#  
+# - Values in chips-terrarm.git define the log file: "    "ch_support_alert.log" = { file_path = "NFSPATH/running-servers/ch-support ...
+# - Cloud Watch Log Groups have been created, example:  "chips-ef-batch-ch_support_alert.log"
+# - Log Insight Queries search for strings ALERT_CH_SUPPORT and MAIL_CH_SUPPORT in file ch_support_alert.log
+# - Alarms are triggered by Metric Filters and XMatters alerts or eMails are fired.
 #######################################################
 
 LOCATION_STRING="Sent from: ${ENVIRONMENT_LABEL} - ${T3_HOST_FQDN} - EC2 instance ID ${EC2_INSTANCE_ID} (${APP_INSTANCE_NAME})"
@@ -17,11 +19,8 @@ check_email_address_defined_f ()
   fi
 }
 
-
 ## The function patrol_log_alert_chaps_f is used to write a particular string to a remote
-## log file so that BMC Patrol can immediately alert the Oncall officer.
-##
-## If used, the CHAPLOG variable is set by UNIX_OPS in all servers .profile and loaded by at user level login.
+## log file so that Cloud Watch can immediately alert the Oncall officer.
 ##
 ## The function accepts an enclosed string that MUST contain:
 ## patrol_log_alert_chaps_f " [path] [script_name] [helpful_text] "
@@ -36,7 +35,7 @@ check_email_address_defined_f ()
 patrol_log_alert_chaps_f ()
 {
   if [[ ${LIVE_ENVIRONMENT} == "true" ]]; then
-    echo `date`: alert_chaps \> $1  >> /apps/oracle/alertlog/chapspatrol.log
+    echo `date`: ALERT_CH_SUPPORT : $1  >> $HOME/logs/ch-support/ch_support_alert.log
     if check_email_address_defined_f; then
       echo -e "To:${EMAIL_ADDRESS_CSI}\nFrom:${EMAIL_ADDRESS_CSI}\nSubject:CHAPS Alert: $1\n\n${LOCATION_STRING}\n\n$1\n\n" | msmtp -t
     fi
@@ -51,11 +50,13 @@ patrol_log_testharness_f ()
 {
   echo `date`": Lets write a test string via patrol_log_test_f to chapspatrol.log."
   ## Write a test string that will NOT kick off Patrol alarm.
-  echo `date`: TEST \> $1  >> /apps/oracle/alertlog/chapspatrol.log
+  echo `date`: MAIL_CH_SUPPORT : TESTING $1  >> $HOME/logs/ch-support/ch_support_alert.log
 }
 
 ##
-## This function will send string via email to CHAPS group.
+## This function will send string via email to CSI group.
+## NOTE: This can be replaced by Cloud Watch using MAIL_CH_SUPPORT in ch_support_alert.log if required, 
+#    but we do override email addresses in Dev and Testing so we use msmtp for this
 ## This function accepts accepts two arguments.
 ##
 ## First is subject as an enclosed string .
@@ -73,7 +74,6 @@ email_CHAPS_group_f ()
     fi
   fi
 }
-
 
 email_report_CHAPS_group_f ()
 {
