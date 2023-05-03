@@ -2,7 +2,7 @@
 # This file contains only functions for alerting through Cloud Watch Log Groups and email alerts
 #  
 # - Values in chips-terrarm.git define the log file: "    "ch_support_alert.log" = { file_path = "NFSPATH/running-servers/ch-support ...
-# - Cloud Watch Log Groups have been created, example:  "chips-ef-batch-ch_support_alert.log"
+# - Cloud Watch Log Groups have been created, examples: chips-ef-batch-ch_support_alert.log, staffware-fe-ch_support_alert.log, chips-db-batch-ch_support_alert.log
 # - Log Insight Queries search for strings ALERT_CH_SUPPORT and MAIL_CH_SUPPORT in file ch_support_alert.log
 # - Alarms are triggered by Metric Filters and XMatters alerts or eMails are fired.
 #######################################################
