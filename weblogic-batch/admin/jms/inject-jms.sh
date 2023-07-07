@@ -8,6 +8,7 @@
 #  The expected parameters for chaps.jms.InjectResponseJMSMessages are, in order:
 #
 #  PATH TO XML FILE - the file to create the JMS message from
+#  STATUS - accept or reject
 #  JMS SERVER NAME@$DESTINATION QUEUE - the queue to inject the message into, e.g. JMSServer1@uk.gov.ch.chips.jms.EfilingQueue
 #  JMS SERVER URL - the t3 or t3s URL for the WebLogic server, e.g. t3s://1.2.3.4:1234
 #  USERNAME - e.g. weblogic
