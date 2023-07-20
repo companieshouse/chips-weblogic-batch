@@ -87,7 +87,7 @@ then
 fi
 
 # Now we need to email out the report
-email_report_f ${EMAIL_ADDRESS_CSI} "Following JMS messages are stuck in ChipsGenericErrorQueue $(date)" "$(cat ${TMP_REPORT_FILE})"
+email_CHAPS_group_f "The following JMS messages are stuck in ChipsGenericErrorQueue $(date)" "$(cat ${TMP_REPORT_FILE})"
 
 # Clean up
 rm -f ${TMP_EMAIL_FILE}
