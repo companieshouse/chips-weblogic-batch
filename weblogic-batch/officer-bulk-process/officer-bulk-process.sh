@@ -242,6 +242,8 @@ fi
 
 ## Remove running lock file
 remove_running_lock_file
+## mail CSI on job completion and include what day it processed 
+email_report_f "${EMAIL_ADDRESS_CSI}" "Bulk Officer finished $(date "+%a %b %d %T")" "$(grep BULK_EVENT_TMSP "${LOG_FILE}" |tail -1)"
 
 f_logInfo "Ending officer-bulk-process"
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
