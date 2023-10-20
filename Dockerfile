@@ -43,7 +43,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/javax/ws/rs/javax.ws.rs-api/2.1.1/javax.ws.rs-api-2.1.1.jar -o javax.ws.rs-api.jar && \ 
     curl ${ARTIFACTORY_BASE_URL}/libs-release/javax/jms/jms-api/1.1-rev-1/jms-api-1.1-rev-1.jar -o jms-api.jar && \
     curl ${ARTIFACTORY_BASE_URL}/libs-release/jaxen/jaxen/1.1.6/jaxen-1.1.6.jar -o jaxen.jar && \
-    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/chaps/jms/jmstool/0.0.8/jmstool-0.0.8.jar -o jmstool.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/jmstool/1.0.1/jmstool-1.0.1.jar -o jmstool.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/batch-manager/1.0.1/batch-manager-1.0.1.jar -o ../batchmanager/batch-manager.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/bulk-image-load/1.0.2/bulk-image-load-1.0.2.jar -o ../bulk-image-load/bulk-image-load.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/compliance-trigger/1.1.2/compliance-trigger-1.1.2.jar -o ../compliance-trigger/compliance-trigger.jar && \
@@ -55,6 +55,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/psc-pursuit-trigger/1.9.1/psc-pursuit-trigger-1.9.1.jar -o ../psc-pursuit-trigger/psc-pursuit-trigger.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/image-api-message-generator/1.0/image-api-message-generator-1.0.jar -o ../mid-to-chs/image-api-message-generator.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/image-sender/0.1.32/image-sender-0.1.32.jar -o image-sender.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/chips_common/0.0.0-alpha1/chips_common-0.0.0-alpha1.jar -o chips-common.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
 WORKDIR $ORACLE_HOME
