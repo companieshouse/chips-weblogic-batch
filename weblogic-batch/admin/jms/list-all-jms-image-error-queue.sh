@@ -21,11 +21,6 @@
 #
 #  WEBLOGIC_ADMIN_USERNAME - Weblogic admin user
 #  ADMIN_PASSWORD - Weblogic admin password
-#  EWF_ADMIN_PROXY_HOST - proxy server host to allow https access to ewf admin website
-#  EWF_ADMIN_PROXY_PORT - proxy server port
-#  EWF_ADMIN_HOST - FQDN of the ewf admin website
-#  EWF_ADMIN_USER - username to login with
-#  EWF_ADMIN_PASSWORD - password to login with
 # =============================================================================
 
 cd /apps/oracle/admin/jms
