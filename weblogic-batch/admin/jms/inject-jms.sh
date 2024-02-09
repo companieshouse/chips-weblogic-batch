@@ -20,6 +20,6 @@
 # =============================================================================
 
 LIBS=/apps/oracle/libs
-CLASSPATH=${LIBS}/jmstool.jar:${LIBS}/log4j.jar:${LIBS}/jms-api.jar:${LIBS}/wlfullclient.jar:${LIBS}/jdom.jar:${LIBS}/jaxen.jar:${LIBS}/chips-common.jar
+CLASSPATH=${LIBS}/jmstool.jar:${LIBS}/log4j-1.2-api.jar:${LIBS}/log4j-api.jar:${LIBS}/log4j-core.jar:${LIBS}/jms-api.jar:${LIBS}/wlfullclient.jar:${LIBS}/jdom.jar:${LIBS}/jaxen.jar:${LIBS}/chips-common.jar
 
 /usr/java/jdk-8/bin/java -cp ${CLASSPATH} -Dweblogic.security.SSL.ignoreHostnameVerification=true -Dweblogic.MaxMessageSize=100000000 chaps.jms.InjectResponseJMSMessages $*

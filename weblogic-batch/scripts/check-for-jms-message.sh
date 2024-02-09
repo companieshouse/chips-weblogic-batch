@@ -30,7 +30,7 @@ if [[ $# > 1 ]]; then
 fi
 RESULT=1
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs//wlfullclient.jar:/apps/oracle/libs/log4j.jar:/apps/oracle/libs/jmstool.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs//wlfullclient.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/jmstool.jar
 
 ## Check 1p server
 UNPROCESSEDCOUNT=$(/usr/java/jdk-8/bin/java -cp $CLASSPATH chaps.jms.JMSQueueStats ${JMS_SERVER_NAME}@${QUEUE_NAME} ${JMS_JNDIPROVIDERURL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} | grep UNPROCESSED | awk -F: '{print $2}')

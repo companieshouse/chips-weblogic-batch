@@ -7,7 +7,7 @@ source /apps/oracle/env.variables
 # create properties file and substitutes values
 envsubst < batchmanager.properties.template > chips_batchmanager.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/spring.jar:/apps/oracle/libs/log4j.jar:/apps/oracle/batchmanager/batch-manager.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/spring.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/batchmanager/batch-manager.jar
 # set up logging
 LOGS_DIR=../logs/batchmanager
 mkdir -p ${LOGS_DIR}
