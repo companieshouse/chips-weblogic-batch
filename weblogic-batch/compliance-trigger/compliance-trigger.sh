@@ -10,7 +10,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst < compliance-trigger.properties.template > compliance-trigger.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/log4j.jar:/apps/oracle/libs/ojdbc8.jar:/apps/oracle/compliance-trigger/compliance-trigger.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/ojdbc8.jar:/apps/oracle/compliance-trigger/compliance-trigger.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc

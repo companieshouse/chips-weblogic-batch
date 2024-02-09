@@ -17,7 +17,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst <dissolution-certificate-producer.properties.template >dissolution-certificate-producer.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/log4j.jar:/apps/oracle/libs/jdom.jar:/apps/oracle/dissolution-certificate-producer/dissolution-certificate-producer.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/jdom.jar:/apps/oracle/dissolution-certificate-producer/dissolution-certificate-producer.jar
 
 # set up logging
 LOGS_DIR=../logs/dissolution-certificate-producer

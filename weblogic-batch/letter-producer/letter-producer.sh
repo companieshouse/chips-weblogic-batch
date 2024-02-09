@@ -10,7 +10,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst < letter-producer.properties.template > letter-producer.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/log4j.jar:/apps/oracle/letter-producer/letter-producer.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/letter-producer/letter-producer.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
