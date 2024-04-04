@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Script to transfer the doc1 letters to our third-party printing company, currently APS
+# Script to transfer the  letters to our third-party printing provider
 # Author: ijenkins
 # Date: April 2021
 # If called with no parameters, it will attempt to copy all files as defined in the
-# $letter_types variable in .process-compliance.properties
+# $PRINT_PROVIDER_LETTER_TYPES variable in chips.properties
 # If called with one parameter it will attempt to tranfer specific letter types
 # Examples:
 #    send-letters-to-print-provider.sh
@@ -50,22 +50,22 @@ if [[ -z ${PRINT_PROVIDER_LETTER_TYPES} ]]; then
   f_logError "PRINT_PROVIDER_LETTER_TYPES not set - please edit properties"  ; exit 1
 fi
 
-if [[ -z ${LETTER_OUTPUT_FILES_PREVIOUS_LOCATION} ]]; then
-  f_logError "LETTER_OUTPUT_FILES_PREVIOUS_LOCATION not set - please edit properties"  ; exit 1
+if [[ -z ${LETTER_OUTPUT_FILES_PREVIOUS_PATH} ]]; then
+  f_logError "LETTER_OUTPUT_FILES_PREVIOUS_PATH not set - please edit properties"  ; exit 1
 fi
 
-if [[ -z ${LETTER_OUTPUT_FILES_LOCATION} ]]; then
-  f_logError "LETTER_OUTPUT_FILES_LOCATION not set - please edit properties"  ; exit 1
+if [[ -z ${LETTER_OUTPUT_FILES_PATH} ]]; then
+  f_logError "LETTER_OUTPUT_FILES_PATH not set - please edit properties"  ; exit 1
 fi
 
-if [[ -z ${LETTER_OUTPUT_FILES_LOCATION} ]]; then
-  f_logError "LETTER_OUTPUT_FILES_LOCATION not set - please edit properties"  ; exit 1
+if [[ -z ${LETTER_OUTPUT_FILES_PATH} ]]; then
+  f_logError "LETTER_OUTPUT_FILES_PATH not set - please edit properties"  ; exit 1
 fi
 
-if [ -z "$LETTER_OUTPUT_FILES_ARCHIVE_LOCATION" ]; then
-    f_logInfo "No LETTER_OUTPUT_FILES_ARCHIVE_LOCATION variable defined so skipping the archiving the files"
+if [ -z "$LETTER_OUTPUT_FILES_ARCHIVE_PATH" ]; then
+    f_logInfo "No LETTER_OUTPUT_FILES_ARCHIVE_PATH variable defined so skipping the archiving the files"
 else 
-    archive_dir="$LETTER_OUTPUT_FILES_ARCHIVE_LOCATION"
+    archive_dir="$LETTER_OUTPUT_FILES_ARCHIVE_PATH"
     is_archive="true"
     mkdir -p $archive_dir
 fi
@@ -78,15 +78,15 @@ if [[ $1 != "" ]]; then
     letter_types=$1
 fi
 
-previous_files_dir="$LETTER_OUTPUT_FILES_PREVIOUS_LOCATION"
+previous_files_dir="$LETTER_OUTPUT_FILES_PREVIOUS_PATH"
 
-f_logInfo "LETTER_OUTPUT_FILES_PREVIOUS_LOCATION : $LETTER_OUTPUT_FILES_PREVIOUS_LOCATION"
-f_logInfo "LETTER_OUTPUT_FILES_LOCATION : $LETTER_OUTPUT_FILES_LOCATION"
-f_logInfo "LETTER_OUTPUT_FILES_ARCHIVE_LOCATION : $LETTER_OUTPUT_FILES_ARCHIVE_LOCATION"
+f_logInfo "LETTER_OUTPUT_FILES_PREVIOUS_PATH : $LETTER_OUTPUT_FILES_PREVIOUS_PATH"
+f_logInfo "LETTER_OUTPUT_FILES_PATH : $LETTER_OUTPUT_FILES_PATH"
+f_logInfo "LETTER_OUTPUT_FILES_ARCHIVE_PATH : $LETTER_OUTPUT_FILES_ARCHIVE_PATH"
 f_logInfo "PRINT_PROVIDER_SERVER_FILE_PATH : $PRINT_PROVIDER_SERVER_FILE_PATH"
 
-mkdir -p $LETTER_OUTPUT_FILES_PREVIOUS_LOCATION
-mkdir -p $LETTER_OUTPUT_FILES_LOCATION
+mkdir -p $LETTER_OUTPUT_FILES_PREVIOUS_PATH
+mkdir -p $LETTER_OUTPUT_FILES_PATH
 
 if [ ! -f ${PRINT_PROVIDER_SERVER_KEY_FILE_PATH} ]; then
   cp /apps/oracle/config/$PRINT_PROVIDER_SERVER_KEY_FILE_NAME ${PRINT_PROVIDER_SERVER_KEY_FILE_PATH}
@@ -96,9 +96,9 @@ fi
 for i in $letter_types
 do
     if grep -i -q "count" <<< "$i"; then
-        latest_letter_file=`ls -tr "$LETTER_OUTPUT_FILES_LOCATION$PRINT_PROVIDER_LETTER_COUNT_FILE" 2>/dev/null | tail -1`
+        latest_letter_file=`ls -tr "$LETTER_OUTPUT_FILES_PATH$PRINT_PROVIDER_LETTER_COUNT_FILE" 2>/dev/null | tail -1`
     else
-        latest_letter_file=`ls -tr "$LETTER_OUTPUT_FILES_LOCATION"*-$i.*dat.afp 2>/dev/null | tail -1`
+        latest_letter_file=`ls -tr "$LETTER_OUTPUT_FILES_PATH"*-$i.*dat.afp 2>/dev/null | tail -1`
     fi
 
     if [[ $latest_letter_file == "" ]] ;
@@ -124,7 +124,7 @@ do
     f_logInfo "latest_letter_file is $latest_letter_file"
 
     f_logInfo "calling sftp"
-    printf "%s\n" "lcd $LETTER_OUTPUT_FILES_LOCATION" "put $latest_letter_file" "ls -l" | sftp -o StrictHostKeychecking=no -o UserKnownHostsFile=/dev/null -i $PRINT_PROVIDER_SERVER_KEY_FILE_PATH -b - $PRINT_PROVIDER_SERVER_USER_NAME@$PRINT_PROVIDER_SERVER_NAME:$PRINT_PROVIDER_SERVER_FILE_PATH 
+    printf "%s\n" "lcd $LETTER_OUTPUT_FILES_PATH" "put $latest_letter_file" "ls -l" | sftp -o StrictHostKeychecking=no -o UserKnownHostsFile=/dev/null -i $PRINT_PROVIDER_SERVER_KEY_FILE_PATH -b - $PRINT_PROVIDER_SERVER_USER_NAME@$PRINT_PROVIDER_SERVER_NAME:$PRINT_PROVIDER_SERVER_FILE_PATH 
     rc=$?
     if [[ rc -eq 0 ]] ;
     then
