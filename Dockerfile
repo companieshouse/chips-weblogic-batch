@@ -13,6 +13,8 @@ RUN yum -y install gettext && \
     yum -y install xmlstarlet && \
     yum -y install dos2unix && \
     yum -y install jq && \
+    yum -y install openssh-clients && \
+    yum -y install ftp && \
     yum clean all && \
     rm -rf /var/cache/yum
 
@@ -27,6 +29,7 @@ COPY --chown=weblogic weblogic-batch ${ORACLE_HOME}/
 
 # Download the batch libs and set permission on scripts
 RUN mkdir -p ${ORACLE_HOME}/libs && \
+    mkdir -p ${ORACLE_HOME}/.ssh && \
     cd ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar -o log4j-api.jar && \    
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/org/apache/logging/log4j/log4j-core/2.21.1/log4j-core-2.21.1.jar -o log4j-core.jar && \        
