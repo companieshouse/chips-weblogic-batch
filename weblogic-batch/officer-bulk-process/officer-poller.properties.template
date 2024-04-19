@@ -13,3 +13,6 @@ officer.contextProxyEnabled=false
 
 -- database jndi name
 db.datasource=chipsBulkDS
+
+-- jdbc fetch size to set for spring jdbc template in spring xml
+jdbc.fetchSize=${OFFICER_BULK_PROCESS_JDBC_FETCH_SIZE}
