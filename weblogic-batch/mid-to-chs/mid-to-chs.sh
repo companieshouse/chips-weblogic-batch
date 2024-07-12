@@ -189,7 +189,7 @@ do
     fi
 
     f_logInfo "Retrieved metadata from SQL is ${metadata}"
-    metadata=`echo $metadata | awk -F" "  '{print $NF}'`
+    metadata=`echo $metadata`
     f_logInfo "metadata now is ${metadata}"
     good_metadata_pattern='????????|*'
     if [[ "$metadata" != $good_metadata_pattern ]]; then
