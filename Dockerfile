@@ -8,7 +8,7 @@ RUN yum -y install gettext && \
     yum -y install oracle-instantclient-release-el7 && \
     yum -y install oracle-instantclient-basic && \
     yum -y install oracle-instantclient-sqlplus && \
-    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum -y install https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm && \
     yum -y install msmtp && \
     yum -y install xmlstarlet && \
     yum -y install dos2unix && \
