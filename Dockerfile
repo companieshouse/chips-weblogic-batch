@@ -45,6 +45,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/org/jdom/jdom/1.1/jdom-1.1.jar -o jdom.jar && \
     curl ${ARTIFACTORY_BASE_URL}/virtual-release/javax/ws/rs/javax.ws.rs-api/2.1.1/javax.ws.rs-api-2.1.1.jar -o javax.ws.rs-api.jar && \ 
     curl ${ARTIFACTORY_BASE_URL}/libs-release/javax/jms/jms-api/1.1-rev-1/jms-api-1.1-rev-1.jar -o jms-api.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/libs-release/javax/jms/jms/1.1/jms-1.1.jar -o jms.jar && \
     curl ${ARTIFACTORY_BASE_URL}/libs-release/jaxen/jaxen/1.1.6/jaxen-1.1.6.jar -o jaxen.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/jmstool/1.2.0/jmstool-1.2.0.jar -o jmstool.jar && \
     curl ${ARTIFACTORY_BASE_URL}/local-ch-release/uk/gov/companieshouse/batch-manager/1.0.1/batch-manager-1.0.1.jar -o ../batchmanager/batch-manager.jar && \
