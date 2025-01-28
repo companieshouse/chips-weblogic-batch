@@ -52,7 +52,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/compliance-trigger/1.1.3/compliance-trigger-1.1.3.jar -o ../compliance-trigger/compliance-trigger.jar && \
     curl ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/dissolution-certificate-producer/0.1.1/dissolution-certificate-producer-0.1.1.jar -o ../dissolution-certificate-producer/dissolution-certificate-producer.jar && \
     curl ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/doc1-producer/1.8.1/doc1-producer-1.8.1.jar -o ../doc1-producer/doc1-producer.jar && \
-    curl ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/image-regeneration/1.2.5/image-regeneration-1.2.5.jar -o ../image-regeneration/image-regeneration.jar && \
+    curl ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/image-regeneration/1.2.6/image-regeneration-1.2.6.jar -o ../image-regeneration/image-regeneration.jar && \
     curl ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/letter-producer/1.1.2/letter-producer-1.1.2.jar -o ../letter-producer/letter-producer.jar && \
     curl ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/officer-bulk-process/1.0.7/officer-bulk-process-1.0.7.jar -o ../officer-bulk-process/officer-bulk-process.jar && \
     curl ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/psc-pursuit-trigger/1.9.1/psc-pursuit-trigger-1.9.1.jar -o ../psc-pursuit-trigger/psc-pursuit-trigger.jar && \
