@@ -94,7 +94,7 @@ then
   # Now we need to email out the report
   STUCK_DOCS_REPORT_EMAIL_ADDRESSES=${1:-${STUCK_DOCS_REPORT_EMAIL_ADDRESSES}}
   EMAIL_ADDRESSES=${STUCK_DOCS_REPORT_EMAIL_ADDRESSES:-${EMAIL_ADDRESS_CSI}}
-  email_report_f "${EMAIL_ADDRESSES}" "Following ACSP docs currently stuck ${DATE}" "$(cat ${TMP_REPORT_FILE})"
+  email_report_f "${EMAIL_ADDRESSES}" "CHAPS Alert: Following ACSP docs currently stuck $(date)" "$(cat ${TMP_REPORT_FILE})"
 
   # Clean up
   rm -f ${TMP_REPORT_FILE}
