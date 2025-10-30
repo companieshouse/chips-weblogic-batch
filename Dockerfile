@@ -8,21 +8,6 @@ ARG ARTIFACTORY_PASSWORD
 ENV ORACLE_HOME=/apps/oracle \
     ARTIFACTORY_BASE_URL=${ARTIFACTORY_URL}/virtual-release
 
-RUN yum -y install gettext && \
-    yum -y install cronie && \
-    yum -y install oracle-instantclient-release-el7 && \
-    yum -y install oracle-instantclient-basic && \
-    yum -y install oracle-instantclient-sqlplus && \
-    yum -y install https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm && \
-    yum -y install msmtp && \
-    yum -y install xmlstarlet && \
-    yum -y install dos2unix && \
-    yum -y install jq && \
-    yum -y install openssh-clients && \
-    yum -y install ftp && \
-    yum clean all && \
-    rm -rf /var/cache/yum
-
 RUN mkdir -p /apps && \
     chmod a+xr /apps && \
     useradd -d ${ORACLE_HOME} -m -s /bin/bash weblogic
@@ -70,9 +55,20 @@ FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre:1.2.5
 
 ENV ORACLE_HOME=/apps/oracle
 
-RUN yum -y install oracle-instantclient-release-el7 \
-    oracle-instantclient-basic oracle-instantclient-sqlplus && \
-    yum clean all && rm -rf /var/cache/yum
+RUN yum -y install gettext && \
+    yum -y install cronie && \
+    yum -y install oracle-instantclient-release-el7 && \
+    yum -y install oracle-instantclient-basic && \
+    yum -y install oracle-instantclient-sqlplus && \
+    yum -y install https://archives.fedoraproject.org/pub/archive/epel/7/x86_64/Packages/e/epel-release-7-14.noarch.rpm && \
+    yum -y install msmtp && \
+    yum -y install xmlstarlet && \
+    yum -y install dos2unix && \
+    yum -y install jq && \
+    yum -y install openssh-clients && \
+    yum -y install ftp && \
+    yum clean all && \
+    rm -rf /var/cache/yum
 
 RUN mkdir -p /apps && chmod a+xr /apps && useradd -d ${ORACLE_HOME} -m -s /bin/bash weblogic
 USER weblogic
