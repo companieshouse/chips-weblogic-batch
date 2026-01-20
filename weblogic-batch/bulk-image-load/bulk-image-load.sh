@@ -10,7 +10,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst < bulk-image-load.properties.template > bulk-image-load.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/bulk-image-load/bulk-image-load.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/wlthint3client.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/bulk-image-load/bulk-image-load.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < ../.msmtprc.template > ../.msmtprc
@@ -38,7 +38,7 @@ fi
 f_logInfo "Count how many rows are in IMAGE_API_IN before job runs"
 ./count_image_api_in_table.command
 
-/usr/java/jdk-8/bin/java -Din=bulk-image-load -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.bulkimageload.BulkImageLoadRunner bulk-image-load.properties
+/usr/java/jdk/bin/java -Din=bulk-image-load -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.bulkimageload.BulkImageLoadRunner bulk-image-load.properties
 if [ $? -gt 0 ]; then
         f_logError "Non-zero exit code for bulk-image-load java execution"
         exit 1

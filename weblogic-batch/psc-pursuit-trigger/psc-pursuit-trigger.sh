@@ -6,7 +6,7 @@ source /apps/oracle/env.variables
 HOME=${KEEP_HOME}
 
 LIBS_DIR=/apps/oracle/libs
-CLASSPATH=${CLASSPATH}:.:${LIBS_DIR}/log4j-api.jar:${LIBS_DIR}/log4j-core.jar:${LIBS_DIR}/ojdbc8.jar:/apps/oracle/psc-pursuit-trigger/psc-pursuit-trigger.jar
+CLASSPATH=${CLASSPATH}:.:${LIBS_DIR}/log4j-api.jar:${LIBS_DIR}/log4j-core.jar:${LIBS_DIR}/ojdbc11.jar:/apps/oracle/psc-pursuit-trigger/psc-pursuit-trigger.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
@@ -28,7 +28,7 @@ envsubst < psc-pursuit-trigger.properties.template > psc-pursuit-trigger.propert
 f_logInfo  "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting psc-pursuit-trigger"
 
-/usr/java/jdk-8/bin/java -Din=psc-pursuit-trigger -cp "${CLASSPATH}" -Dlog4j.configurationFile=log4j2.xml uk.gov.companieshouse.psc.pursuit.trigger.PscPursuitTrigger psc-pursuit-trigger.properties
+/usr/java/jdk/bin/java -Din=psc-pursuit-trigger -cp "${CLASSPATH}" -Dlog4j.configurationFile=log4j2.xml uk.gov.companieshouse.psc.pursuit.trigger.PscPursuitTrigger psc-pursuit-trigger.properties
 
 exit_code=$?
 if [ $exit_code -gt 0 ]

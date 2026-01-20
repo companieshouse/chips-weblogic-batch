@@ -25,7 +25,7 @@ source /apps/oracle/env.variables
 source /apps/oracle/scripts/logging_functions
 
 LIBS_DIR=/apps/oracle/libs
-CLASSPATH=${CLASSPATH}:.:${LIBS_DIR}/log4j-api.jar:${LIBS_DIR}/log4j-core.jar:${LIBS_DIR}/wlfullclient.jar:/apps/oracle/image-regeneration/image-regeneration.jar
+CLASSPATH=${CLASSPATH}:.:${LIBS_DIR}/log4j-api.jar:${LIBS_DIR}/log4j-core.jar:${LIBS_DIR}/wlthint3client.jar:${LIBS_DIR}/commons-lang.jar:/apps/oracle/image-regeneration/image-regeneration.jar
 
 # set up logging
 LOGS_DIR=../logs/image-regeneration
@@ -89,7 +89,7 @@ if ! [ -s "$transactionIdsFile" ]; then
   exit 2
 fi
 
-/usr/java/jdk-8/bin/java -Din=image-regeneration -cp "${CLASSPATH}" -Dlog4j.configurationFile=log4j2.xml ${IMAGE_REGENERATE_CLIENT_NAME} "${JMS_JNDIPROVIDERURL}" "$transactionIdsFile" "${WEBLOGIC_ADMIN_USERNAME}" "${ADMIN_PASSWORD}"
+/usr/java/jdk/bin/java -Din=image-regeneration -cp "${CLASSPATH}" -Dlog4j.configurationFile=log4j2.xml ${IMAGE_REGENERATE_CLIENT_NAME} "${JMS_JNDIPROVIDERURL}" "$transactionIdsFile" "${WEBLOGIC_ADMIN_USERNAME}" "${ADMIN_PASSWORD}"
 
 exit_code=$?
 if [ $exit_code -gt 0 ]
