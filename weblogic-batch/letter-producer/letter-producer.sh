@@ -41,7 +41,7 @@ if [ $? -gt 0 ]; then
         exit 1
 fi
 
-/usr/java/jdk/bin/java --add-opens=java.base/java.io=ALL-UNNAMED -Din=letter-producer -cp $CLASSPATH uk.gov.companieshouse.letterproducer.LetterProducerRunner letter-producer.properties
+/usr/java/jdk/bin/java --add-opens=java.base/java.io=ALL-UNNAMED -Din=letter-producer -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.letterproducer.LetterProducerRunner letter-producer.properties
 if [ $? -gt 0 ]; then
         f_logError "Non-zero exit code for letter-producer java execution"
         exit 1
