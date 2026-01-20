@@ -92,7 +92,7 @@ source image-api-message-generator.properties
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
 source /apps/oracle/scripts/alert_functions
 
-export CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/javax.ws.rs-api.jar:/apps/oracle/libs/image-sender.jar:/apps/oracle/mid-to-chs/image-api-message-generator.jar
+export CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlthint3client.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/javax.ws.rs-api.jar:/apps/oracle/libs/image-sender.jar:/apps/oracle/mid-to-chs/image-api-message-generator.jar
 
 # set up logging
 LOGS_DIR=../logs/mid-to-chs
