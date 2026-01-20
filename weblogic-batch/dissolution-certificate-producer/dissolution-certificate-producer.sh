@@ -17,7 +17,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst <dissolution-certificate-producer.properties.template >dissolution-certificate-producer.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/jdom.jar:/apps/oracle/dissolution-certificate-producer/dissolution-certificate-producer.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlthint3client.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/jdom.jar:/apps/oracle/dissolution-certificate-producer/dissolution-certificate-producer.jar
 
 # set up logging
 LOGS_DIR=../logs/dissolution-certificate-producer
@@ -55,7 +55,7 @@ f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting dissolution-certificate-producer"
 f_logInfo "Input directory path: $INDIR (filename, if given: $INFILE)"
 
-/usr/java/jdk-8/bin/java -Din=dissolution-certificate-producer -cp $CLASSPATH uk.gov.companieshouse.dissolutioncerts.DissolutionCertsProducerRunner dissolution-certificate-producer.properties $INDIR $INFILE
+/usr/java/jdk/bin/java -Din=dissolution-certificate-producer -cp $CLASSPATH uk.gov.companieshouse.dissolutioncerts.DissolutionCertsProducerRunner dissolution-certificate-producer.properties $INDIR $INFILE
 
 if [ $? -gt 0 ]; then
     f_logError "Non-zero exit code for dissolution-certificate-producer java execution"

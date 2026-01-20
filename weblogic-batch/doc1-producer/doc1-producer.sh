@@ -14,7 +14,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst < doc1-producer.properties.template > doc1-producer.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-lang.jar:/apps/oracle/libs/ojdbc8.jar:/apps/oracle/libs/jdom.jar:/apps/oracle/doc1-producer/doc1-producer.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-lang.jar:/apps/oracle/libs/ojdbc11.jar:/apps/oracle/libs/jdom.jar:/apps/oracle/doc1-producer/doc1-producer.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
@@ -42,7 +42,7 @@ OUTDIR=$4       # Output directory
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting doc1-producer"
 
-/usr/java/jdk-8/bin/java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xmx1G -Din=doc1-producer -cp $CLASSPATH uk.gov.companieshouse.doc1producer.Doc1Producer $PROPERTIES $CONFIG $INDIR $OUTDIR
+/usr/java/jdk/bin/java -Xlog:gc* -Xmx1G -Din=doc1-producer -cp $CLASSPATH uk.gov.companieshouse.doc1producer.Doc1Producer $PROPERTIES $CONFIG $INDIR $OUTDIR
 if [ $? -gt 0 ]; then
         f_logError "Non-zero exit code for doc1-producer java execution"
         exit 1

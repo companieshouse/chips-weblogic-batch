@@ -30,10 +30,10 @@ if [[ $# > 1 ]]; then
 fi
 RESULT=1
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs//wlfullclient.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/jmstool.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs//wlthint3client.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/jmstool.jar:/apps/oracle/libs/com.oracle.weblogic.jms.jar:/apps/oracle/libs/com.oracle.weblogic.management.mbeanservers.jar:/apps/oracle/libs/com.oracle.weblogic.management.base.jar:/apps/oracle/libs/com.bea.core.management.core.jar:/apps/oracle/libs/com.bea.core.management.jmx.jar:/apps/oracle/libs/com.bea.core.utils.jar:/apps/oracle/libs/com.oracle.weblogic.management.core.api.jar:/apps/oracle/libs/com.bea.core.weblogic.lifecycle.jar:/apps/oracle/libs/com.oracle.weblogic.security.jar:/apps/oracle/libs/com.oracle.weblogic.management.config.api.jar
 
 ## Check 1p server
-UNPROCESSEDCOUNT=$(/usr/java/jdk-8/bin/java -cp $CLASSPATH chaps.jms.JMSQueueStats ${JMS_SERVER_NAME}@${QUEUE_NAME} ${JMS_JNDIPROVIDERURL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} | grep UNPROCESSED | awk -F: '{print $2}')
+UNPROCESSEDCOUNT=$(/usr/java/jdk/bin/java -cp $CLASSPATH chaps.jms.JMSQueueStats ${JMS_SERVER_NAME}@${QUEUE_NAME} ${JMS_JNDIPROVIDERURL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} | grep UNPROCESSED | awk -F: '{print $2}')
 
 if [ -z "$UNPROCESSEDCOUNT" ]; then
   f_logError "Unable to confirm if process is already running - possible issue with connection to Weblogic or other problem."

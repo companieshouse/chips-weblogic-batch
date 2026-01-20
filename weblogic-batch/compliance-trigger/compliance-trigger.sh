@@ -10,7 +10,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst < compliance-trigger.properties.template > compliance-trigger.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/ojdbc8.jar:/apps/oracle/compliance-trigger/compliance-trigger.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/ojdbc11.jar:/apps/oracle/compliance-trigger/compliance-trigger.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
@@ -33,7 +33,7 @@ exec > >(tee "${LOG_FILE}") 2>&1
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting compliance-trigger"
 
-/usr/java/jdk-8/bin/java -Din=compliance-trigger -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.compliance.trigger.ComplianceTrigger compliance-trigger.properties
+/usr/java/jdk/bin/java -Din=compliance-trigger -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.compliance.trigger.ComplianceTrigger compliance-trigger.properties
 if [ $? -gt 0 ]; then
         f_logError "Non-zero exit code for compliance-trigger java execution"
         exit 1

@@ -13,3 +13,7 @@ officer.contextProxyEnabled=false
 
 -- database jndi name
 db.datasource=chipsBulkDS
+
+-- credentials for JNDI access
+jndi.principal=${WEBLOGIC_ADMIN_USERNAME}
+jndi.credentials=${ADMIN_PASSWORD}
