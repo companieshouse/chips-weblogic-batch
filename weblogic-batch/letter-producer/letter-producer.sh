@@ -10,7 +10,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst < letter-producer.properties.template > letter-producer.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlfullclient.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/letter-producer/letter-producer.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/wlthint3client.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/letter-producer/letter-producer.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
@@ -41,7 +41,7 @@ if [ $? -gt 0 ]; then
         exit 1
 fi
 
-/usr/java/jdk/bin/java --add-opens=java.base/java.io=ALL-UNNAMED -Din=letter-producer -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.letterproducer.LetterProducerRunner letter-producer.properties
+/usr/java/jdk/bin/java --add-opens=java.base/java.io=ALL-UNNAMED -Din=letter-producer -cp $CLASSPATH uk.gov.companieshouse.letterproducer.LetterProducerRunner letter-producer.properties
 if [ $? -gt 0 ]; then
         f_logError "Non-zero exit code for letter-producer java execution"
         exit 1
