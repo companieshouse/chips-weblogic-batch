@@ -23,11 +23,13 @@ parseXML() {
   CORPORATE_BODY_NAME=$(xmlstarlet sel -t -v "//corporateBodyName[1]" $1)
   INCORPORATION_NUMBER=$(xmlstarlet sel -t -v "//incorporationNumber" $1)
   METHOD=$(xmlstarlet sel -t -v "//method" $1)
+  RECEIPT_DATE=$(xmlstarlet sel -t -v "//receiptDate" $1)
+  FESS_REF=$(xmlstarlet sel -t -v "(//presenterDocumentReference | //submissionReference)[1]" $1)
 }
 
 parseAndWriteMetaData () {
   parseXML $1
-  echo "${FORM_TYPE}|${BARCODE}|${INCORPORATION_NUMBER}|${METHOD}|${CORPORATE_BODY_NAME}" >> $2
+  echo "${FORM_TYPE}|${BARCODE}|${INCORPORATION_NUMBER}|${METHOD}|${CORPORATE_BODY_NAME}|${FESS_REF}|${RECEIPT_DATE}" >> $2
   rm -f $1
 }
 
@@ -116,7 +118,7 @@ then
   for DOC_TYPE in $(grep -v scan ${TMP_METADATA_FILE} | sort | awk -F\| '{print $1}' | uniq)
   do
     echo "  ${DOC_TYPE}:"
-    grep -v scan ${TMP_METADATA_FILE} | grep -E "^${DOC_TYPE}" | sed 's/[^|]*|\(.*\)/  \1/' | sed 's/|/    /g'
+    sort -t'|' -k7 ${TMP_METADATA_FILE} | grep -v scan | grep -E "^${DOC_TYPE}" | sed 's/[^|]*|\(.*\)/  \1/' | sed 's/|/    /g'
     echo
   done
   } >> ${TMP_REPORT_FILE}
