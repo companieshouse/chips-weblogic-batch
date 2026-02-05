@@ -326,7 +326,7 @@ if [ $RUN_DOC1 = "YES" ] ; then
        mkdir -p "${DIRPATH}"
        # Only create output file if there are letters with the CH default address (ie don't create empty files)
        grep 'Companies House Default' $DOC1FILE >/dev/null && grep 'Companies House Default' $DOC1FILE > ${DOC1FILE_CH_ADDRESS}_CH_ADDRESS
-       grep -v "Companies House Default" ${DOC1FILE} > ${DOC1FILE}_temp
+       grep -v --text "Companies House Default" ${DOC1FILE} > ${DOC1FILE}_temp
        f_moveWithRetry ${DOC1FILE}_temp ${DOC1FILE}
     done
    # CHG0047313 01/11/2019 ends
