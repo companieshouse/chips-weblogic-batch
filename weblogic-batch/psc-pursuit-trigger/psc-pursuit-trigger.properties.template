@@ -9,5 +9,5 @@ jdbc.staffware.username=${DB_USER_STAFFDS}
 jdbc.staffware.password=${DB_PASSWORD_STAFFDS}
 
 #psc pursuit configuration
-psc.pursuit.ipDetect=false
-psc.pursuit.ipOverride=
+psc.pursuit.ipDetect=${PSC_PURSUIT_IP_DETECT}
+psc.pursuit.ipOverride=${PSC_PURSUIT_IP_OVERRIDE}
