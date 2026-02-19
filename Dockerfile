@@ -73,6 +73,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/apache/logging/log4j/log4j-api/2.25.3/log4j-api-2.25.3.jar -o log4j-api-2.25.3.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/apache/logging/log4j/log4j-core/2.25.3/log4j-core-2.25.3.jar -o log4j-core-2.25.3.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/apache/logging/log4j/log4j-jcl/2.25.3/log4j-jcl-2.25.3.jar -o log4j-jcl-2.25.3.jar && \
+    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-tx/4.3.30.RELEASE/spring-tx-4.3.30.RELEASE.jar -o spring-tx-4.3.30.RELEASE.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
 FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre:2.0.3
