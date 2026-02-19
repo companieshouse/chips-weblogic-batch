@@ -51,7 +51,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/javax/jms/jms-api/1.1-rev-1/jms-api-1.1-rev-1.jar -o jms-api.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/jaxen/jaxen/1.1.6/jaxen-1.1.6.jar -o jaxen.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/jmstool/1.5.0/jmstool-1.5.0.jar -o jmstool.jar && \
-    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/batch-manager/2.0.3/batch-manager-2.0.3.jar -o ../batchmanager/batch-manager.jar && \
+    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/batch-manager/2.0.4/batch-manager-2.0.4.jar -o ../batchmanager/batch-manager.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/bulk-image-load/1.0.2/bulk-image-load-1.0.2.jar -o ../bulk-image-load/bulk-image-load.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/compliance-trigger/1.1.4/compliance-trigger-1.1.4.jar -o ../compliance-trigger/compliance-trigger.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/dissolution-certificate-producer/0.1.1/dissolution-certificate-producer-0.1.1.jar -o ../dissolution-certificate-producer/dissolution-certificate-producer.jar && \
@@ -73,6 +73,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/apache/logging/log4j/log4j-api/2.25.3/log4j-api-2.25.3.jar -o log4j-api-2.25.3.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/apache/logging/log4j/log4j-core/2.25.3/log4j-core-2.25.3.jar -o log4j-core-2.25.3.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/apache/logging/log4j/log4j-jcl/2.25.3/log4j-jcl-2.25.3.jar -o log4j-jcl-2.25.3.jar && \
+    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-tx/4.3.30.RELEASE/spring-tx-4.3.30.RELEASE.jar -o spring-tx-4.3.30.RELEASE.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
 FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre:2.0.3
