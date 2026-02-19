@@ -8,8 +8,8 @@ source /apps/oracle/env.variables
 # create properties file and substitutes values
 envsubst < batchmanager.properties.template > chips_batchmanager.properties
 
-# Updated CLASSPATH - only batch-manager.jar (fat jar)
-CLASSPATH=$CLASSPATH:.:/apps/oracle/batchmanager/batch-manager.jar
+# Updated CLASSPATH - batch-manager.jar and under /libs
+CLASSPATH=".:/apps/oracle/batchmanager/libs/*:/apps/oracle/batchmanager/batch-manager.jar"
 
 # set up logging
 LOGS_DIR=../logs/batchmanager
@@ -22,8 +22,7 @@ exec >> ${LOG_FILE} 2>&1
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting BatchManager"
 
-/usr/java/jdk/bin/java -Din=Batchmanager -cp $CLASSPATH \
-    uk.gov.companieshouse.chips.standalone.batch.SpringBatchManager
+/usr/java/jdk/bin/java -Din=Batchmanager -cp $CLASSPATH uk.gov.companieshouse.chips.standalone.batch.SpringBatchManager
 
 if [ $? -gt 0 ]; then
     f_logError "Non-zero exit code for batchmanager java execution"
