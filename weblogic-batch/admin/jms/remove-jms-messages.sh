@@ -7,12 +7,12 @@
 # 
 #  This script expects three parameters:
 #
-#  SOURCE QUEUE - the name of the queue to move messages from, e.g. uk.gov.ch.chips.jms.EfilingRequestErrorQueue
-#  NUMBER OF MESSAGES - the number of messages to move, e.g. 500 
+#  SOURCE QUEUE - the name of the queue to remove messages from, e.g. uk.gov.ch.chips.jms.EfilingRequestErrorQueue
+#  NUMBER OF MESSAGES - the number of messages to scan to move, e.g. 500 
 #  Identifiers - the JMS Message Id of the messages to be removed, e.g. ID:61398.1770829232697.0
 #  In addition to the parameters, it also expects one or more environment
 #  variables that list the connection details for the JMS Servers on which to 
-#  perform the move operation. These variables must be called JMS_SERVER_URL_#
+#  perform the remove operation. These variables must be called JMS_SERVER_URL_#
 #  (where # is a unique identifier such as a number).  E.g.
 #
 #  JMS_SERVER_URL_1=t3s://chips-ef-batch0.heritage.aws.internal:21031|JMSServer1
@@ -39,7 +39,7 @@ exec > >(tee "${LOG_FILE}") 2>&1
 if [ "$#" -ne 3 ]
 then
   f_logError "Invalid number of arguments - expected 3"
-  f_logInfo "Usage: ./remove-jms-messages.sh.sh <source queue jndi name> <he JMS Message Id of the messages to be removed> <number of messages>"
+  f_logInfo "Usage: ./remove-jms-messages.sh.sh <source queue jndi name> <JMS Message Id of the messages to be removed> <number of messages>"
   f_logInfo "Example: ./remove-jms-messages.sh.sh uk.gov.ch.chips.jms.EfilingRequestErrorQueue 61398.1770829232697.0|61398.1770829232697.2 500"
   exit 1
 fi
@@ -58,7 +58,6 @@ do
   while IFS='|' read -r JMS_SERVER_URL JMS_SERVER_NAME;
   do
     f_logInfo "Processing ${JMS_SERVER} remove messages from ${SOURCE_QUEUE} with JMS Message Id ${IDENTIFIERS}"
-    #./remove-jms.sh ${JMS_SERVER_NAME}@${SOURCE_QUEUE} ${JMS_SERVER_URL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} "${IDENTIFIERS}" ${NUMBER_OF_MESSAGES}
     /usr/java/jdk/bin/java -cp ${CLASSPATH} -Dweblogic.security.SSL.ignoreHostnameVerification=true -Dweblogic.MaxMessageSize=100000000 chaps.jms.RemoveJMSMessages ${JMS_SERVER_NAME}@${SOURCE_QUEUE} ${JMS_SERVER_URL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} "${IDENTIFIERS}" ${NUMBER_OF_MESSAGES}
 
   done < <(echo ${JMS_SERVER##*=})
