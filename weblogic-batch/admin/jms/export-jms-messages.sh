@@ -36,17 +36,18 @@ source /apps/oracle/scripts/logging_functions
 
 exec > >(tee "${LOG_FILE}") 2>&1
 f_logInfo "Starting export-jms-messages.sh with parameters: $*"
-if [ "$#" -ne 3 ]
+if [ "$#" -ne 4 ]
 then
   f_logError "Invalid number of arguments - expected 3"
-  f_logInfo "Usage: ./export-jms-messages.sh.sh <source queue jndi name> <export path> <number of messages>"
-  f_logInfo "Example: ./export-jms-messages.sh.sh uk.gov.ch.chips.jms.EfilingRequestErrorQueue /tmp/ 500"
+  f_logInfo "Usage: ./export-jms-messages.sh.sh <source queue jndi name> <export path> <number of messages> <jms message ids or all-messages>"
+  f_logInfo "Example: ./export-jms-messages.sh.sh uk.gov.ch.chips.jms.EfilingRequestErrorQueue /tmp/ 500 196474.1772200804039.0,196474.1772200804039.0"
   exit 1
 fi
 
 SOURCE_QUEUE=$1
 EXPORT_PATH="$2"
 NUMBER_OF_MESSAGES=$3
+IDENTIFIERS="$4"
 EXPORT_DATA_FILE="exported-messages-$(date +'%Y-%m-%d_%H-%M-%S').csv"
 LIBS=/apps/oracle/libs
 CLASSPATH=${LIBS}/jmstool.jar:${LIBS}/log4j-1.2-api.jar:${LIBS}/log4j-api.jar:${LIBS}/log4j-core.jar:${LIBS}/jms-api.jar:${LIBS}/wlthint3client.jar:${LIBS}/jdom.jar:${LIBS}/chips-common.jar:${LIBS}/com.bea.core.jatmi.jar:${LIBS}/image-sender.jar
@@ -57,6 +58,6 @@ do
   while IFS='|' read -r JMS_SERVER_URL JMS_SERVER_NAME;
   do
     f_logInfo "Processing ${JMS_SERVER} export messages from ${SOURCE_QUEUE} onto ${EXPORT_PATH}"
-    /usr/java/jdk/bin/java -cp ${CLASSPATH} -Dweblogic.security.SSL.ignoreHostnameVerification=true -Dweblogic.MaxMessageSize=100000000 chaps.jms.ExportJMSMessages ${JMS_SERVER_NAME}@${SOURCE_QUEUE} ${JMS_SERVER_URL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} "${EXPORT_PATH}" ${NUMBER_OF_MESSAGES} ${EXPORT_DATA_FILE}
+    /usr/java/jdk/bin/java -cp ${CLASSPATH} -Dweblogic.security.SSL.ignoreHostnameVerification=true -Dweblogic.MaxMessageSize=100000000 chaps.jms.ExportJMSMessages ${JMS_SERVER_NAME}@${SOURCE_QUEUE} ${JMS_SERVER_URL} ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} "${EXPORT_PATH}" ${NUMBER_OF_MESSAGES} ${EXPORT_DATA_FILE} "${IDENTIFIERS}"
   done < <(echo ${JMS_SERVER##*=})
 done
