@@ -10,7 +10,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst < bulk-image-load.properties.template > bulk-image-load.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/wlthint3client.jar:/apps/oracle/libs/log4j-1.2-api.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/bulk-image-load/bulk-image-load.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/log4j-api-2.25.3.jar:/apps/oracle/libs/log4j-core-2.25.3.jar:/apps/oracle/libs/log4j-jcl-2.25.3.jar:/apps/oracle/libs/jakarta.jms-api-3.1.0.jar:/apps/oracle/bulk-image-load/bulk-image-load.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < ../.msmtprc.template > ../.msmtprc
