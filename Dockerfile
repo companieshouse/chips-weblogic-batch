@@ -52,7 +52,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/jaxen/jaxen/1.1.6/jaxen-1.1.6.jar -o jaxen.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/jmstool/1.7.0/jmstool-1.7.0.jar -o jmstool.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/batch-manager/2.0.4/batch-manager-2.0.4.jar -o ../batchmanager/batch-manager.jar && \
-    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/bulk-image-load/2.0.0/bulk-image-load-2.0.0.jar -o ../bulk-image-load/bulk-image-load.jar && \
+    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/bulk-image-load/2.0.1/bulk-image-load-2.0.1.jar -o ../bulk-image-load/bulk-image-load.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/compliance-trigger/1.1.4/compliance-trigger-1.1.4.jar -o ../compliance-trigger/compliance-trigger.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/dissolution-certificate-producer/0.1.1/dissolution-certificate-producer-0.1.1.jar -o ../dissolution-certificate-producer/dissolution-certificate-producer.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/doc1-producer/1.8.1/doc1-producer-1.8.1.jar -o ../doc1-producer/doc1-producer.jar && \
