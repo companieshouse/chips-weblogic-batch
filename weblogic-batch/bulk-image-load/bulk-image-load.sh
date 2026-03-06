@@ -38,7 +38,7 @@ fi
 f_logInfo "Count how many rows are in IMAGE_API_IN before job runs"
 ./count_image_api_in_table.command
 
-/usr/java/jdk/bin/java -Din=bulk-image-load -cp $CLASSPATH -Dlog4j.configuration=log4j.xml uk.gov.companieshouse.bulkimageload.BulkImageLoadRunner bulk-image-load.properties
+/usr/java/jdk/bin/java -Din=bulk-image-load -cp $CLASSPATH uk.gov.companieshouse.bulkimageload.BulkImageLoadRunner bulk-image-load.properties
 if [ $? -gt 0 ]; then
         f_logError "Non-zero exit code for bulk-image-load java execution"
         exit 1
