@@ -388,6 +388,7 @@ doc1-producer-config.xml - This is the configuration file used by the Doc1Produc
             <map srcElement="STMT_5_EXISTS" start="1072" length="1"/>
             <map srcElement="STMT_6_EXISTS" start="1073" length="1"/>
             <map srcElement="STMT_7_EXISTS" start="1074" length="1"/>
+			<map srcElement="STMT_28_EXISTS" start="1075" length="1"/>
         </fieldMaps>
     </letter>
 
