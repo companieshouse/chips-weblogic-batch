@@ -71,6 +71,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-context/7.0.7/spring-context-7.0.7.jar -o spring-context-7.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-beans/7.0.7/spring-beans-7.0.7.jar -o spring-beans-7.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-aop/7.0.7/spring-aop-7.0.7.jar -o spring-aop-7.jar && \
+    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-expression/7.0.7/spring-expression-7.0.7.jar -o spring-expression-7.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-tx/7.0.7/spring-tx-7.0.7.jar -o spring-tx-7.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/io/micrometer/micrometer-observation/1.16.4/micrometer-observation-1.16.4.jar -o micrometer-observation.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/jakarta/jms/jakarta.jms-api/3.1.0/jakarta.jms-api-3.1.0.jar -o jakarta.jms-api-3.1.0.jar && \
