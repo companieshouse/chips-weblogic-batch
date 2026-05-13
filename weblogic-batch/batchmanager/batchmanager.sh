@@ -9,7 +9,7 @@ source /apps/oracle/env.variables
 envsubst < batchmanager.properties.template > chips_batchmanager.properties
 
 # Updated CLASSPATH - batch-manager.jar and other dependencies
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/spring-core-4.3.30.RELEASE.jar:/apps/oracle/libs/spring-tx-4.3.30.RELEASE.jar:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/spring-beans-4.3.30.RELEASE.jar:/apps/oracle/libs/spring-context-4.3.30.RELEASE.jar:/apps/oracle/libs/spring-jms-4.3.30.RELEASE.jar:/apps/oracle/libs/spring-aop-4.3.30.RELEASE.jar:/apps/oracle/libs/spring-expression-4.3.30.RELEASE.jar:/apps/oracle/libs/javax.jms-api-2.0.1.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/log4j-jcl.jar:/apps/oracle/libs/wlthint3client.jar:/apps/oracle/batchmanager/batch-manager.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/spring-core-7.jar:/apps/oracle/libs/spring-tx-7.jar:/apps/oracle/libs/commons-logging.jar:/apps/oracle/libs/spring-beans-7.jar:/apps/oracle/libs/spring-context-7.jar:/apps/oracle/libs/spring-jms-7.jar:/apps/oracle/libs/spring-expression-7.jar:/apps/oracle/libs/jakarta.jms-api-3.1.0.jar:/apps/oracle/libs/log4j-api.jar:/apps/oracle/libs/log4j-core.jar:/apps/oracle/libs/log4j-jcl.jar:/apps/oracle/libs/wlthint3client.jakarta.jar:/apps/oracle/libs/micrometer-observation.jar:/apps/oracle/batchmanager/batch-manager.jar
 
 # set up logging
 LOGS_DIR=../logs/batchmanager
