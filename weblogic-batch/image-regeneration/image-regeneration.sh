@@ -25,7 +25,7 @@ source /apps/oracle/env.variables
 source /apps/oracle/scripts/logging_functions
 
 LIBS_DIR=/apps/oracle/libs
-CLASSPATH=${CLASSPATH}:.:${LIBS_DIR}/log4j-api.jar:${LIBS_DIR}/log4j-core.jar:${LIBS_DIR}/wlthint3client.jar:${LIBS_DIR}/commons-lang.jar:/apps/oracle/image-regeneration/image-regeneration.jar
+CLASSPATH=${CLASSPATH}:.:${LIBS_DIR}/log4j-api.jar:${LIBS_DIR}/log4j-core.jar:${LIBS_DIR}/wlthint3client.jar:/apps/oracle/image-regeneration/image-regeneration.jar
 
 # set up logging
 LOGS_DIR=../logs/image-regeneration
