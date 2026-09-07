@@ -14,7 +14,7 @@ HOME=${KEEP_HOME}
 # create properties file and substitutes values
 envsubst < doc1-producer.properties.template > doc1-producer.properties
 
-CLASSPATH=$CLASSPATH:.:/apps/oracle/libs/commons-lang.jar:/apps/oracle/libs/ojdbc11.jar:/apps/oracle/libs/jdom.jar:/apps/oracle/doc1-producer/doc1-producer.jar
+CLASSPATH=$CLASSPATH:.:/apps/oracle/doc1-producer/doc1-producer.jar
 
 # Set up mail config for msmtp & load alerting functions
 envsubst < /apps/oracle/.msmtprc.template > /apps/oracle/.msmtprc
