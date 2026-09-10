@@ -33,7 +33,7 @@ exec > >(tee "${LOG_FILE}") 2>&1
 f_logInfo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 f_logInfo "Starting compliance-trigger"
 
-/usr/java/jdk/bin/java -Din=compliance-trigger -cp $CLASSPATH uk.gov.companieshouse.compliance.trigger.ComplianceTrigger compliance-trigger.properties
+/usr/java/jdk/bin/java -Djava.locale.providers=COMPAT -Din=compliance-trigger -cp $CLASSPATH uk.gov.companieshouse.compliance.trigger.ComplianceTrigger compliance-trigger.properties
 if [ $? -gt 0 ]; then
         f_logError "Non-zero exit code for compliance-trigger java execution"
         exit 1
