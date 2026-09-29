@@ -39,7 +39,7 @@ EXPORT_PATH="$1"
 NUMBER_OF_MESSAGES=$2
 EXPORT_DATA_FILE=$3
 LIBS=/apps/oracle/libs
-CLASSPATH=${LIBS}/jmstool.jar:${LIBS}/log4j-1.2-api.jar:${LIBS}/log4j-api.jar:${LIBS}/log4j-core.jar:${LIBS}/jms-api.jar:${LIBS}/wlthint3client.jar:${LIBS}/jdom.jar:${LIBS}/chips-common.jar:${LIBS}/com.bea.core.jatmi.jar:${LIBS}/image-sender.jar
+CLASSPATH=${LIBS}/chips-jms-tool.jar:${LIBS}/log4j-1.2-api.jar:${LIBS}/log4j-api.jar:${LIBS}/log4j-core.jar:${LIBS}/jms-api.jar:${LIBS}/wlthint3client.jar:${LIBS}/jdom.jar:${LIBS}/chips-common.jar:${LIBS}/com.bea.core.jatmi.jar:${LIBS}/image-sender.jar
 
 f_logInfo "Processing ${EXPORT_DATA_FILE} "
 /usr/java/jdk/bin/java -cp ${CLASSPATH} -Dweblogic.security.SSL.ignoreHostnameVerification=true -Dweblogic.MaxMessageSize=100000000 chaps.jms.ImportJMSMessages  ${WEBLOGIC_ADMIN_USERNAME} ${ADMIN_PASSWORD} "${EXPORT_PATH}" ${NUMBER_OF_MESSAGES} ${EXPORT_DATA_FILE}
