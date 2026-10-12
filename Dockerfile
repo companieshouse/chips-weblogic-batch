@@ -1,3 +1,4 @@
+# Pipeline validation change
 FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre:2.0.3 AS builder
 
 # The ARGS are not retained in the final image, due to using a multi-stage build.
