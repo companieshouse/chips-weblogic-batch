@@ -1,4 +1,3 @@
-# Pipeline validation change
 FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/chips-openjdk:1.0.0 AS builder
 
 # The ARGS are not retained in the final image, due to using a multi-stage build.
