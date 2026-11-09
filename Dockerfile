@@ -1,5 +1,5 @@
 # Pipeline validation change
-FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre:2.0.3 AS builder
+FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/chips-openjdk:1.0.0 AS builder
 
 # The ARGS are not retained in the final image, due to using a multi-stage build.
 ARG ARTIFACTORY_URL
@@ -79,7 +79,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/javax/jms/javax.jms-api/2.0.1/javax.jms-api-2.0.1.jar -o javax.jms-api-2.0.1.jar && \
     chmod -R 750 ${ORACLE_HOME}/*
 
-FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre:2.0.3
+FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/chips-openjdk:1.0.0
 
 ENV ORACLE_HOME=/apps/oracle
 
