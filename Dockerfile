@@ -65,7 +65,7 @@ RUN mkdir -p ${ORACLE_HOME}/libs && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/psc-pursuit-trigger/2.1.3/psc-pursuit-trigger-2.1.3.jar -o ../psc-pursuit-trigger/psc-pursuit-trigger.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/image-api-message-generator/1.0/image-api-message-generator-1.0.jar -o ../mid-to-chs/image-api-message-generator.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/image-sender/0.1.32/image-sender-0.1.32.jar -o image-sender.jar && \
-    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/chips_common/2.3.0-2026-10-28.13-09-01/chips_common-2.3.0-2026-10-28.13-09-01.jar -o chips-common.jar && \
+    curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/uk/gov/companieshouse/chips-common/2.3.0-2026-10-28.13-09-01/chips-common-2.3.0-2026-10-28.13-09-01.jar -o chips-common.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-core/7.0.10/spring-core-7.0.10.jar -o spring-core-7.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-jms/7.0.10/spring-jms-7.0.10.jar -o spring-jms-7.jar && \
     curl -L -u "${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}" ${ARTIFACTORY_BASE_URL}/org/springframework/spring-jdbc/7.0.10/spring-jdbc-7.0.10.jar -o spring-jdbc-7.jar && \
